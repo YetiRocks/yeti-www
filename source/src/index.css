@@ -513,34 +513,107 @@ code {
 .demo-card-name { font-size: var(--font-size-base); font-weight: 600; margin-bottom: var(--space-2); }
 .demo-card-desc { font-size: var(--font-size-sm); color: var(--color-grey); line-height: 1.5; }
 
-/* ===== Benchmark Cards (read-only grid) ===== */
+/* ===== Benchmark Sections ===== */
 
-.bench-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-4);
-  margin: var(--space-8) 0;
+.bench-section {
+  margin-bottom: var(--space-8);
 }
 
-.bench-card {
-  background: var(--color-white-overlay);
-  border: 1px solid var(--color-border-primary);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+.bench-section-header {
+  margin-bottom: var(--space-4);
+}
+
+.bench-section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  color: var(--color-white);
+  margin-bottom: var(--space-2);
+}
+
+.bench-section-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-grey);
+  line-height: 1.5;
+}
+
+.bench-perf-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.bench-perf-table thead th {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  color: var(--color-grey);
+  font-weight: 500;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-border-primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bench-perf-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: var(--font-size-sm);
+  color: var(--color-white);
+}
+
+.bench-perf-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.bench-perf-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.bench-perf-table th:first-child,
+.bench-perf-table td:first-child {
+  width: auto;
+}
+
+.bench-col-num {
+  width: 120px;
+  text-align: right !important;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}
+
+.bench-highlight {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.bench-error-rate {
+  color: var(--color-error);
+}
+
+.bench-env-table td:first-child {
+  color: var(--color-grey);
+  font-weight: 500;
+  width: 200px;
+  white-space: nowrap;
+}
+
+.bench-capacity {
+  border: 1px solid rgba(255, 0, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  background: rgba(255, 0, 255, 0.04);
   text-align: center;
 }
 
-.bench-card-name {
-  font-size: var(--font-size-sm);
+.bench-capacity-text {
+  font-size: var(--font-size-lg);
   color: var(--color-white);
-  font-weight: 600;
-  margin-bottom: var(--space-3);
+  font-weight: 400;
+  line-height: 1.5;
 }
-
-.bench-card-stats { display: flex; justify-content: center; gap: var(--space-6); }
-.bench-stat { display: flex; flex-direction: column; align-items: center; }
-.bench-stat-value { font-size: 2rem; font-weight: 700; color: var(--color-white); }
-.bench-stat-label { font-size: var(--font-size-xs); color: var(--color-grey); }
 
 .bench-loading {
   color: var(--color-grey);
@@ -552,6 +625,73 @@ code {
   color: var(--color-error);
   text-align: center;
   padding: var(--space-8);
+}
+
+/* ===== Benchmark Charts ===== */
+
+.bench-chart-container {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.bench-chart-title {
+  font-size: var(--font-size-sm);
+  color: var(--color-grey);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bench-cv-badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.bench-cv-badge.good {
+  background: rgba(0, 255, 100, 0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(0, 255, 100, 0.2);
+}
+
+.bench-cv-badge.warn {
+  background: rgba(255, 200, 0, 0.1);
+  color: #ffc800;
+  border: 1px solid rgba(255, 200, 0, 0.2);
+}
+
+.bench-tier-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.bench-tier-tab {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-grey);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.bench-tier-tab:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+}
+
+.bench-tier-tab.active {
+  background: rgba(255, 0, 255, 0.1);
+  border-color: rgba(255, 0, 255, 0.3);
+  color: var(--color-white);
 }
 
 /* ===== Responsive ===== */
