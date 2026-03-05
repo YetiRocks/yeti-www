@@ -1,4 +1,4 @@
-type BetaSignup @table(database: "www") @export {
+type BetaSignup @table(database: "www") @export(public: [create]) {
     id: ID! @primaryKey
     name: String!
     email: String!

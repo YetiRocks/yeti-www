@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import seoPlugin from './vite-plugin-seo'
 import { readFileSync } from 'fs'
 import { resolve } from 'path' // used by readYetiBasePath
 
@@ -35,7 +36,7 @@ export default defineConfig({
   define: {
     __BASENAME__: JSON.stringify(basePath.replace(/\/$/, '') || '/'),
   },
-  plugins: [react()],
+  plugins: [react(), seoPlugin()],
   build: {
     outDir: '../web',
     emptyOutDir: true,
