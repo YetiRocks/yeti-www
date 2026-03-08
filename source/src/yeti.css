@@ -292,13 +292,13 @@ body {
 }
 
 .btn-primary {
-  background: rgba(34, 187, 51, 0.15);
-  border-color: rgba(34, 187, 51, 0.25);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: rgba(34, 187, 51, 0.25);
-  border-color: rgba(34, 187, 51, 0.4);
+  background: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
 
 .btn-danger {
@@ -477,7 +477,7 @@ body {
 }
 
 .search-input:focus {
-  border-color: rgba(34, 187, 51, 0.4);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
 
 .search-input::placeholder {
