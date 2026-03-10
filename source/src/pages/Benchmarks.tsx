@@ -158,14 +158,6 @@ export default function Benchmarks() {
   const hasRampData = RAMP_TESTS.some(t => results[t.id])
   const hasSustainedData = SUSTAINED_TESTS.some(t => results[t.id])
 
-  // Build sustained capacity callout
-  const sustainedRead = results['rest-read-sustained']
-  const sustainedCapacity = sustainedRead ? {
-    throughput: sustainedRead.throughput,
-    p999: sustainedRead.results?.p999,
-    cv: sustainedRead.results?.cv,
-  } : null
-
   return (
     <div className="container">
       <div className="page-header">
@@ -347,26 +339,10 @@ export default function Benchmarks() {
               })}
             </section>
           )}
-
-          <section className="bench-section bench-capacity">
-            <div className="bench-capacity-text">
-              {sustainedCapacity ? (
-                <>
-                  Sustained {formatNumber(sustainedCapacity.throughput)} REST reads/sec for 5 minutes
-                  {sustainedCapacity.p999 != null && <>, p99.9 &lt; {sustainedCapacity.p999.toFixed(1)}ms</>}
-                  {sustainedCapacity.cv != null && <>, CV = {sustainedCapacity.cv.toFixed(1)}%</>}
-                  {' '}— zero-GC, predictable performance.
-                </>
-              ) : (
-                <>
-                  Sustained {formatNumber(results['rest-read']?.throughput ?? 0)} REST reads/sec for 30 seconds with p95 &lt; 4 ms and error rate &lt; 0.1%.
-                </>
-              )}
-            </div>
-          </section>
         </>
       )}
 
+      <br /><br/>
       <section className="bench-section">
         <div className="bench-section-header">
           <h2 className="bench-section-title">Environment &amp; Methodology</h2>
