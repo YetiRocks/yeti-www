@@ -1,10 +1,15 @@
 #!/bin/sh
 # Yeti Installer for macOS / Linux
 # Usage: curl -fsSL https://yetirocks.com/install.sh | sh
+#   or:  curl -fsSL https://yetirocks.com/install.sh | sh -s -- v0.5.0
 set -e
 
 REPO="yetirocks/yeti"
-INSTALL_DIR="/usr/local/bin"
+VERSION="${1:-}"
+
+# Cleanup on exit
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
 
 echo "Installing Yeti..."
 
@@ -24,18 +29,67 @@ case "$OS" in
 esac
 
 TARGET="${ARCH}-${PLATFORM}"
-LATEST=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-URL="https://github.com/${REPO}/releases/download/${LATEST}/yeti-${LATEST}-${TARGET}.tar.gz"
 
-echo "Downloading yeti ${LATEST} for ${TARGET}..."
-TMP=$(mktemp -d)
-curl -fsSL "$URL" -o "$TMP/yeti.tar.gz"
-tar xzf "$TMP/yeti.tar.gz" -C "$TMP"
+# Resolve version
+if [ -z "$VERSION" ]; then
+  VERSION=$(curl --proto =https --tlsv1.2 -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
+    | grep -m1 '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+fi
+
+if [ -z "$VERSION" ]; then
+  echo "Error: could not determine latest version"; exit 1
+fi
+
+BASENAME="yeti-${VERSION}-${TARGET}.tar.gz"
+URL="https://github.com/${REPO}/releases/download/${VERSION}/${BASENAME}"
+CHECKSUM_URL="https://github.com/${REPO}/releases/download/${VERSION}/checksums.txt"
+
+echo "Downloading yeti ${VERSION} for ${TARGET}..."
+curl --proto =https --tlsv1.2 -fsSL "$URL" -o "$TMP/$BASENAME"
+
+# Verify checksum
+echo "Verifying checksum..."
+curl --proto =https --tlsv1.2 -fsSL "$CHECKSUM_URL" -o "$TMP/checksums.txt"
+
+EXPECTED=$(grep "$BASENAME" "$TMP/checksums.txt" | awk '{print $1}')
+if [ -z "$EXPECTED" ]; then
+  echo "Error: no checksum found for $BASENAME"; exit 1
+fi
+
+if command -v sha256sum >/dev/null 2>&1; then
+  ACTUAL=$(sha256sum "$TMP/$BASENAME" | awk '{print $1}')
+elif command -v shasum >/dev/null 2>&1; then
+  ACTUAL=$(shasum -a 256 "$TMP/$BASENAME" | awk '{print $1}')
+else
+  echo "Warning: no sha256sum or shasum found, skipping verification"
+  ACTUAL="$EXPECTED"
+fi
+
+if [ "$ACTUAL" != "$EXPECTED" ]; then
+  echo "Error: checksum mismatch"
+  echo "  expected: $EXPECTED"
+  echo "  actual:   $ACTUAL"
+  exit 1
+fi
+
+tar xzf "$TMP/$BASENAME" -C "$TMP"
+
+# Install — prefer user-local, fall back to system-wide
+INSTALL_DIR="$HOME/.local/bin"
+USE_SUDO=""
+if [ -d "$INSTALL_DIR" ] && echo "$PATH" | grep -q "$INSTALL_DIR"; then
+  : # use ~/.local/bin
+elif [ -w "/usr/local/bin" ]; then
+  INSTALL_DIR="/usr/local/bin"
+else
+  INSTALL_DIR="/usr/local/bin"
+  USE_SUDO="sudo"
+fi
 
 echo "Installing to ${INSTALL_DIR}..."
-sudo mv "$TMP/yeti" "$INSTALL_DIR/yeti"
-sudo chmod +x "$INSTALL_DIR/yeti"
-rm -rf "$TMP"
+mkdir -p "$INSTALL_DIR" 2>/dev/null || $USE_SUDO mkdir -p "$INSTALL_DIR"
+$USE_SUDO mv "$TMP/yeti" "$INSTALL_DIR/yeti"
+$USE_SUDO chmod +x "$INSTALL_DIR/yeti"
 
-echo "Yeti ${LATEST} installed successfully!"
+echo "Yeti ${VERSION} installed successfully!"
 echo "Run 'yeti init' to get started."
