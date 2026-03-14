@@ -2,7 +2,10 @@
 
 /* ── CSS Variables ── */
 :root {
-  --color-black: #1A1714;
+  --color-black: #0e0e0e;
+  --color-black-blue: #0a0e14;
+  --color-black-green: #0a120a;
+  --color-black-brown: #120e0a;
   --color-white: #dddddd;
   --color-grey: #666666;
   --color-black-overlay: rgba(0, 0, 0, 0.2);
@@ -576,7 +579,7 @@ body {
 
 /* ── JSON syntax highlighting ── */
 .json-key { color: #9cdcfe; }
-.json-string { color: #a8785a; }
+.json-string { color: #5a8a7a; }
 .json-number { color: #b5cea8; }
 .json-boolean { color: #5bc0de; }
 .json-null { color: #5bc0de; }

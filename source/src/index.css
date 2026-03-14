@@ -2,8 +2,8 @@
 
 /* Additional variables for www */
 :root {
-  --color-accent: rgba(206, 66, 43, 0.8);
-  --color-accent-hover: rgba(206, 66, 43, 1);
+  --color-accent: rgba(58, 90, 138, 0.8);
+  --color-accent-hover: rgba(58, 90, 138, 1);
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
@@ -94,6 +94,18 @@ a:hover {
 
 .nav-mobile {
   display: none;
+}
+
+/* ===== Theme Toggle ===== */
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ===== Buttons (www overrides: wider padding) ===== */
@@ -326,7 +338,7 @@ code {
 
 .code-keyword { color: #5bc0de; }
 .code-type { color: #22bb33; }
-.code-string { color: #a8785a; }
+.code-string { color: #5a8a7a; }
 .code-comment { color: #6a9955; }
 .code-directive { color: #c586c0; }
 .code-number { color: #b5cea8; }
