@@ -190,12 +190,12 @@ export default function Benchmarks() {
                       {isRealtime(group.tests[0].id) ? (
                         <th className="bench-col-num">Subscribers</th>
                       ) : (
-                        <th className="bench-col-num">p95 Latency</th>
+                        <th className="bench-col-num">P95</th>
                       )}
-                      <th className="bench-col-num">p50</th>
-                      <th className="bench-col-num">p99</th>
-                      <th className="bench-col-num">p99.9</th>
-                      <th className="bench-col-num">Error Rate</th>
+                      <th className="bench-col-num">P50</th>
+                      <th className="bench-col-num">P99</th>
+                      <th className="bench-col-num">P99.9</th>
+                      <th className="bench-col-num">Error</th>
                     </tr>
                   </thead>
                   <tbody>

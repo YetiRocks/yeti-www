@@ -225,16 +225,10 @@ a:hover {
 }
 
 .feature-card {
-  background: var(--color-white-overlay);
-  border: 1px solid var(--color-border-primary);
+  background: var(--color-black-overlay);
+  border: none;
   border-radius: var(--radius-lg);
   padding: var(--space-8);
-  transition: all var(--transition-base);
-}
-
-.feature-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.04);
 }
 
 .feature-icon {
@@ -272,8 +266,8 @@ a:hover {
 }
 
 .stat-card {
-  background: var(--color-white-overlay);
-  border: 1px solid var(--color-border-primary);
+  background: var(--color-black-overlay);
+  border: none;
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   text-align: center;
@@ -308,8 +302,8 @@ code {
 /* ===== Code Blocks ===== */
 
 .code-block {
-  background: #1e1e1e;
-  border: 1px solid var(--color-border-primary);
+  background: var(--color-black-overlay);
+  border: none;
   border-radius: var(--radius-md);
   padding: var(--space-6);
   overflow-x: auto;
@@ -360,7 +354,7 @@ code {
   width: 100%;
   border-collapse: collapse;
   margin: var(--space-6) 0;
-  background: #0b0b0b;
+  background: var(--color-black-overlay);
 }
 
 .bench-table th {
@@ -369,8 +363,9 @@ code {
   color: var(--color-white);
   font-weight: 600;
   font-size: var(--font-size-sm);
-  border-bottom: 2px solid var(--color-border-primary);
-  background: none;
+  border-bottom: 1px solid var(--color-border-primary);
+  background: var(--color-black-overlay);
+  text-transform: uppercase;
 }
 
 .bench-table td {
@@ -401,8 +396,8 @@ code {
 }
 
 .modal {
-  background: #1a1a1a;
-  border: 1px solid var(--color-border-primary);
+  background: var(--color-black-overlay);
+  border: none;
   border-radius: var(--radius-lg);
   padding: var(--space-8);
   width: 100%;
@@ -484,26 +479,18 @@ code {
 .demo-card {
   display: flex;
   flex-direction: column;
-  background: var(--color-white-overlay);
-  border: 1px solid var(--color-border-primary);
+  background: var(--color-black-overlay);
+  border: none;
   border-radius: var(--radius-lg);
   text-decoration: none;
   color: var(--color-white);
-  transition: all var(--transition-base);
   overflow: hidden;
-}
-
-.demo-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .demo-card-img {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #000;
-  border-bottom: 1px solid var(--color-border-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -513,15 +500,10 @@ code {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.5;
-  transition: opacity var(--transition-base);
+  opacity: 0.3;
 }
 
-.demo-card:hover .demo-card-img img {
-  opacity: 0.8;
-}
-
-.demo-card-body { padding: var(--space-4) var(--space-6); }
+.demo-card-body { padding: var(--space-4) var(--space-6); background: var(--color-black-overlay); }
 .demo-card-name { font-size: var(--font-size-base); font-weight: 600; margin-bottom: var(--space-2); }
 .demo-card-desc { font-size: var(--font-size-sm); color: var(--color-grey); line-height: 1.5; }
 
@@ -552,7 +534,7 @@ code {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-black-overlay);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -560,13 +542,13 @@ code {
 .bench-perf-table thead th {
   padding: var(--space-3) var(--space-4);
   text-align: left;
-  color: var(--color-grey);
-  font-weight: 500;
-  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-bottom: 1px solid var(--color-border-primary);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--color-black-overlay);
 }
 
 .bench-perf-table td {
@@ -581,7 +563,7 @@ code {
 }
 
 .bench-perf-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: none;
 }
 
 .bench-perf-table th:first-child,
@@ -642,7 +624,7 @@ code {
 /* ===== Benchmark Charts ===== */
 
 .bench-chart-container {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-black-overlay);
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-md);
   padding: var(--space-4);
