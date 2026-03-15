@@ -10,7 +10,7 @@ const schemaExample = `type Product @table @export {
 
 const resourceExample = `use yeti_sdk::prelude::*;
 
-/// Simple greeting resource using Harper-like concise syntax
+/// Simple greeting resource using concise syntax
 resource!(Greeting {
     get => json!({"greeting": "Hello, World!"})
 });`
@@ -42,8 +42,8 @@ export default function Applications() {
       <div className="page-header">
         <h1 className="page-title">Composable Performance</h1>
         <p className="page-subtitle">
-          Yeti applications run as native libraries- no serialization
-          boundaries, no interpreter tax. You get resource-stability, and maximum performance.
+          Yeti applications run as native libraries - no serialization
+          boundaries, no interpreter tax. You get resource-stability and maximum performance.
         </p>
       </div>
 
@@ -53,7 +53,7 @@ export default function Applications() {
         <p className="section-desc">
           Write a GraphQL schema with table directives. Yeti generates REST CRUD, GraphQL queries
           and mutations, real-time subscriptions, FIQL filtering, pagination, field selection,
-          and relationship joins- automatically.
+          and relationship joins - automatically.
         </p>
 
         <Code label="schema.graphql">{schemaExample}</Code>
@@ -78,9 +78,7 @@ export default function Applications() {
         <div className="section-label">Custom Resources</div>
         <h2 className="section-title">Rust That Looks Like Javascript</h2>
         <p className="section-desc">
-          Yeti&rsquo;s intelligent abstractions deliver compiled, zero-overhead Rust without the
-          complexity. Define and deploy complex business logic with elegant code that's easy to
-          write and maintain.
+          Yeti's abstractions give you compiled, zero-overhead Rust without the pain. Write clean business logic that's easy to read and maintain.
         </p>
 
         <Code label="greeting.rs">{resourceExample}</Code>
@@ -105,16 +103,15 @@ export default function Applications() {
         <div className="section-label">Authentication</div>
         <h2 className="section-title">Auth in Five Lines of Config</h2>
         <p className="section-desc">
-          The yeti-auth extension provides Basic, JWT, and OAuth authentication with role-based
-          access control. Declare it in your config.yaml with provider credentials and role
-          mapping rules. No auth code to write.
+          yeti-auth gives you Basic, JWT, and OAuth with role-based access control. Drop provider
+          credentials and role mapping rules into config.yaml. No auth code to write. Ever.
         </p>
 
         <Code label="config.yaml">{authExample}</Code>
 
         <p className="section-desc">
-          JWT tokens are issued with configurable TTLs. Role permissions control read, write,
-          and delete access per table, with optional attribute-level field filtering. Argon2id
+          JWT tokens ship with configurable TTLs. Role permissions control read, write,
+          and delete access per table, with optional field-level filtering. Argon2id
           password hashing meets OWASP minimum parameters out of the box.
         </p>
 
@@ -138,10 +135,9 @@ export default function Applications() {
         <div className="section-label">Vector Search</div>
         <h2 className="section-title">Semantic Search in 3ms</h2>
         <p className="section-desc">
-          Add a vector index to any float array field. The yeti-vectors extension automatically
-          embeds text on every insert and update using your choice of five models. A persistent
-          embedding cache eliminates redundant computation. Search by natural language with
-          sub-5ms response times.
+          Add a vector index to any float array field. yeti-vectors automatically embeds text on
+          every insert and update using your choice of five models. A persistent embedding cache
+          skips redundant computation. Natural language search comes back in under 5ms.
         </p>
 
         <Code label="schema.graphql">{vectorSchema}</Code>
