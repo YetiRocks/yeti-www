@@ -80,11 +80,11 @@ resource!(Greeting {
   path: web
   route: /
   index: index.html
-  notFound:
+  not_found:
     file: index.html
-    statusCode: 200
+    status_code: 200
   build:
-    sourceDir: source
+    source_dir: source
     command: npm run build`}</Code>
           </div>
           <div className="feature-card">
@@ -110,23 +110,23 @@ applications:
 
       <section className="section">
         <div className="section-label">Data</div>
-        <h2 className="section-title">Two Storage Engines. One API.</h2>
+        <h2 className="section-title">Storage That Scales With You</h2>
         <p className="section-desc">
-          An ACID database with NoSQL and FIQL query capabilities, plus a streaming message queue that scales past 200M writes/sec for high-throughput event pipelines. Same schema, same API surface. Pick the backend that fits the access pattern.
+          Every table is backed by RocksDB with ACID compliance at the node and eventual consistency across the cluster. Define your schema, pick your consistency level, and Yeti handles replication, conflict resolution, and failover. One storage engine that works from a single laptop to a global fleet.
         </p>
         <div className="features-grid">
           <div className="feature-card">
             <Icon name="database" />
-            <div className="feature-title">ACID Database</div>
+            <div className="feature-title">Embedded and Distributed</div>
             <div className="feature-text">
-              Globally replicated, eventually consistent, ACID compliant at the node. Built on RocksDB, scales horizontally across regions with configurable replication and conflict resolution.
+              Starts as a single-node embedded database. Add nodes and it replicates automatically via WAL shipping with hybrid logical clocks. No external database to manage. No connection strings. No migration ceremony. Your data just shows up on every node.
             </div>
           </div>
           <div className="feature-card">
             <Icon name="trending-up" />
-            <div className="feature-title">Streaming Message Queue</div>
+            <div className="feature-title">Conflict Resolution Built In</div>
             <div className="feature-text">
-              Append-only streaming for event sourcing, CDC, and high-throughput pipelines. Kafka-compatible protocol in pure Rust with zero-copy overhead. Built for audit logs, telemetry, and event-driven architectures.
+              Last-writer-wins by default with HLC timestamps. CRDTs for counters and sets when you need convergent math. Strong consistency mode for financial data. Pick per-table in your schema. The replication layer handles the rest.
             </div>
           </div>
         </div>

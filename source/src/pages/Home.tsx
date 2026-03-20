@@ -15,9 +15,9 @@ export default function Home({ onGetStarted }: HomeProps) {
             alt="Yeti Platform Architecture"
             className="hero-logo"
           />
-          <h1 className="hero-title">Distributed Rust + Data<br />For Agentic Development</h1>
+          <h1 className="hero-title">Ship Production APIs in Minutes.<br />Scale Without Rewriting.</h1>
           <p className="hero-subtitle">
-            Ship production APIs in minutes. Scale without rewriting.
+            Define a schema. Write business logic. Yeti compiles it to a distributed Rust backend with auth, real-time streaming, vector search, and monitoring built in. One binary. One codebase. Local to global.
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary btn-lg" onClick={onGetStarted}>
@@ -42,7 +42,7 @@ export default function Home({ onGetStarted }: HomeProps) {
               <Icon name="bolt" />
               <div className="feature-title">Same Runtime, Every Stage</div>
               <div className="feature-text">
-                Your prototype runs on the same compiled Rust, zero-copy HTTP, and RocksDB storage as your production deployment. 187K req/s and sub-millisecond p95 on day one. No "it was fast in dev" surprises.
+                Your prototype runs on the same compiled Rust and RocksDB storage as your production deployment. Sub-millisecond p95 latency on day one. No "it was fast in dev" surprises.
               </div>
             </div>
             <div className="feature-card">
@@ -61,7 +61,7 @@ export default function Home({ onGetStarted }: HomeProps) {
           <div className="section-label">FASTER</div>
           <h2 className="section-title">Build At The Speed of Thought</h2>
           <p className="section-desc">
-            Yeti is built for agentic development. Connect Claude, Cursor, or Copilot through the built-in MCP server and your AI agent introspects schemas, queries data, and builds entire applications through a standardized protocol. Under the hood, compiled Rust delivers 50-100x the throughput of Node.js or Python. You never write a line of systems code.
+            Connect Claude, Cursor, or Copilot through the built-in MCP server. Your AI agent introspects schemas, queries live data, and builds entire applications through a standardized protocol. You describe what you want. The agent writes it. Yeti compiles it to native Rust. You never write a line of systems code.
           </p>
           <div className="features-grid">
             <div className="feature-card">
@@ -75,7 +75,7 @@ export default function Home({ onGetStarted }: HomeProps) {
               <Icon name="bolt" />
               <div className="feature-title">Rust Performance, Zero Effort</div>
               <div className="feature-text">
-                187K req/s with sub-millisecond latency. Not because you tuned anything, but because Yeti compiles to native Rust. One Yeti instance handles traffic that would need a fleet of Node.js servers. The gap between prototype and production performance? Gone.
+                One Yeti instance handles traffic that would need a fleet of Node.js servers. Not because you tuned anything, but because Yeti compiles to native Rust with RocksDB storage and parallel query execution. Check the benchmarks page for real numbers from a real server.
               </div>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function Home({ onGetStarted }: HomeProps) {
               <Icon name="trending-up" />
               <div className="feature-title">One Server, Not Ten</div>
               <div className="feature-text">
-                A typical Node.js stack needs separate processes for the API, database, cache, message broker, and background workers. Yeti is a single binary that handles all of it. One process to deploy, monitor, and scale. 50-100x better resource utilization per dollar.
+                A typical Node.js stack needs separate processes for the API, database, cache, message broker, and background workers. Yeti is a single binary that handles all of it. One process to deploy, monitor, and scale. Your infrastructure bill drops by an order of magnitude.
               </div>
             </div>
             <div className="feature-card">

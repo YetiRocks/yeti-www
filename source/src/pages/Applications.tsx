@@ -15,19 +15,19 @@ resource!(Greeting {
     get => json!({"greeting": "Hello, World!"})
 });`
 
-const authExample = `extensions:
-  - yeti-auth:
-      oauth:
-        rules:
-          - strategy: provider
-            pattern: "google"
-            role: admin
-          - strategy: email
-            pattern: "*@mycompany.com"
-            role: standard
-          - strategy: provider
-            pattern: "github"
-            role: standard`
+const authExample = `auth:
+  methods: [oauth, basic]
+  oauth:
+    google:
+      clientId: "\${GOOGLE_CLIENT_ID}"
+      clientSecret: "\${GOOGLE_CLIENT_SECRET}"
+    rules:
+      - strategy: email
+        pattern: "*@mycompany.com"
+        role: admin
+      - strategy: email
+        pattern: "*"
+        role: standard`
 
 const vectorSchema = `type Article @table @export {
     id: ID! @primaryKey
