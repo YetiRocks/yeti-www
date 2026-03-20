@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import BenchmarkChart from '../components/BenchmarkChart'
 
 interface BestResult {
+  id: string
   name: string
-  throughput: number
-  run?: {
-    snapshots?: string
-  }
-  results: {
+  binary: string
+  duration: number
+  vus: number
+  category: string
+  order: number
+  best?: {
     throughput?: number
     p50?: number
     p95?: number
@@ -17,6 +19,7 @@ interface BestResult {
     errors?: number
     cv?: number
     peakConnections?: number
+    snapshots?: string
   }
 }
 
@@ -51,7 +54,7 @@ function formatThroughput(n: number | undefined): string {
 
 function parseSnapshots(result: BestResult): Snapshot[] {
   try {
-    const raw = result.run?.snapshots
+    const raw = result.best?.snapshots
     if (!raw) return []
     return JSON.parse(raw)
   } catch {
@@ -85,16 +88,19 @@ const WORKLOADS: WorkloadGroup[] = [
     tests: [
       { id: 'graphql-read', name: 'GraphQL Reads' },
       { id: 'graphql-mutation', name: 'GraphQL Mutations' },
+      { id: 'graphql-update', name: 'GraphQL Updates' },
       { id: 'graphql-join', name: 'GraphQL Join' },
     ],
   },
   {
     label: 'Realtime & Streaming',
     id: 'realtime',
-    description: 'Persistent connections — WebSocket and Server-Sent Events fan-out throughput.',
+    description: 'Persistent connections — fan-out (many subscribers), fan-in (many publishers), and MQTT broker throughput.',
     tests: [
-      { id: 'ws', name: 'WebSocket' },
-      { id: 'sse', name: 'SSE Streaming' },
+      { id: 'ws-publish', name: 'WS Fan-In' },
+      { id: 'ws', name: 'WS Fan-Out' },
+      { id: 'sse', name: 'SSE Fan-Out' },
+      { id: 'mqtt', name: 'MQTT Fan-Out' },
     ],
   },
   {
@@ -135,15 +141,17 @@ export default function Benchmarks() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('/yeti-benchmarks/bestresults')
+    fetch('/app-benchmarks/bestresults')
       .then(res => {
         if (!res.ok) throw new Error(`${res.status}`)
         return res.json()
       })
       .then(data => {
+        // API returns tests as keyed object { "rest-read": {...}, ... }
+        const tests = data.tests || {}
         const map: Record<string, BestResult> = {}
-        for (const test of data.tests || []) {
-          map[test.name] = test
+        for (const [id, test] of Object.entries(tests)) {
+          map[id] = test as BestResult
         }
         setResults(map)
       })
@@ -151,8 +159,8 @@ export default function Benchmarks() {
       .finally(() => setLoading(false))
   }, [])
 
-  const hasResults = Object.keys(results).length > 0
-  const isRealtime = (id: string) => id === 'ws' || id === 'sse'
+  const hasResults = Object.values(results).some(r => r.best)
+  const isRealtime = (id: string) => id === 'ws' || id === 'sse' || id === 'mqtt'
 
   // Check for ramp/sustained data
   const hasRampData = RAMP_TESTS.some(t => results[t.id])
@@ -173,7 +181,7 @@ export default function Benchmarks() {
       {hasResults && (
         <>
           {WORKLOADS.map(group => {
-            const groupHasData = group.tests.some(t => results[t.id])
+            const groupHasData = group.tests.some(t => results[t.id]?.best)
             if (!groupHasData) return null
 
             return (
@@ -187,47 +195,44 @@ export default function Benchmarks() {
                     <tr>
                       <th>Operation</th>
                       <th className="bench-col-num">Throughput</th>
-                      {isRealtime(group.tests[0].id) ? (
-                        <th className="bench-col-num">Subscribers</th>
-                      ) : (
-                        <th className="bench-col-num">P95</th>
+                      {group.tests.some(t => isRealtime(t.id)) && (
+                        <th className="bench-col-num">Clients</th>
                       )}
+                      <th className="bench-col-num">P95</th>
                       <th className="bench-col-num">P50</th>
                       <th className="bench-col-num">P99</th>
-                      <th className="bench-col-num">P99.9</th>
                       <th className="bench-col-num">Error</th>
                     </tr>
                   </thead>
                   <tbody>
                     {group.tests.map(test => {
                       const r = results[test.id]
-                      const res = r?.results
-                      const total = res?.total ?? 0
-                      const errors = res?.errors ?? 0
+                      const best = r?.best
+                      const total = best?.total ?? 0
+                      const errors = best?.errors ?? 0
                       const errorPct = total > 0 ? ((errors / total) * 100) : 0
+                      const groupHasRealtime = group.tests.some(t => isRealtime(t.id))
 
                       return (
                         <tr key={test.id}>
                           <td>{test.name}</td>
                           <td className="bench-col-num">
                             <span className="bench-highlight">
-                              {r ? formatThroughput(r.throughput) : '—'}
+                              {best ? formatThroughput(best.throughput) : '—'}
                             </span>
                           </td>
-                          {isRealtime(test.id) ? (
+                          {groupHasRealtime && (
                             <td className="bench-col-num">
-                              {res?.peakConnections != null ? formatNumber(res.peakConnections) : '—'}
-                            </td>
-                          ) : (
-                            <td className="bench-col-num">
-                              <span className="bench-highlight">
-                                {formatLatency(res?.p95)}
-                              </span>
+                              {best?.peakConnections != null ? formatNumber(best.peakConnections) : '—'}
                             </td>
                           )}
-                          <td className="bench-col-num">{formatLatency(res?.p50)}</td>
-                          <td className="bench-col-num">{formatLatency(res?.p99)}</td>
-                          <td className="bench-col-num">{formatLatency(res?.p999)}</td>
+                          <td className="bench-col-num">
+                            <span className="bench-highlight">
+                              {formatLatency(best?.p95)}
+                            </span>
+                          </td>
+                          <td className="bench-col-num">{formatLatency(best?.p50)}</td>
+                          <td className="bench-col-num">{formatLatency(best?.p99)}</td>
                           <td className="bench-col-num">
                             {total > 0 ? (
                               <span className={errorPct > 1 ? 'bench-error-rate' : ''}>
@@ -274,9 +279,9 @@ export default function Benchmarks() {
                         <tbody>
                           <tr>
                             <td>{test.name}</td>
-                            <td className="bench-col-num"><span className="bench-highlight">{formatThroughput(r.throughput)}</span></td>
-                            <td className="bench-col-num">{formatLatency(r.results?.p95)}</td>
-                            <td className="bench-col-num">{formatLatency(r.results?.p999)}</td>
+                            <td className="bench-col-num"><span className="bench-highlight">{formatThroughput(r.best?.throughput)}</span></td>
+                            <td className="bench-col-num">{formatLatency(r.best?.p95)}</td>
+                            <td className="bench-col-num">{formatLatency(r.best?.p999)}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -299,7 +304,7 @@ export default function Benchmarks() {
                 const r = results[test.id]
                 if (!r) return null
                 const snaps = parseSnapshots(r)
-                const cv = r.results?.cv
+                const cv = r.best?.cv
                 return (
                   <div key={test.id} style={{ marginBottom: '2rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
@@ -326,9 +331,9 @@ export default function Benchmarks() {
                         <tbody>
                           <tr>
                             <td>{test.name}</td>
-                            <td className="bench-col-num"><span className="bench-highlight">{formatThroughput(r.throughput)}</span></td>
-                            <td className="bench-col-num">{formatLatency(r.results?.p95)}</td>
-                            <td className="bench-col-num">{formatLatency(r.results?.p999)}</td>
+                            <td className="bench-col-num"><span className="bench-highlight">{formatThroughput(r.best?.throughput)}</span></td>
+                            <td className="bench-col-num">{formatLatency(r.best?.p95)}</td>
+                            <td className="bench-col-num">{formatLatency(r.best?.p999)}</td>
                             <td className="bench-col-num">{cv != null ? cv.toFixed(1) + '%' : '—'}</td>
                           </tr>
                         </tbody>
@@ -358,20 +363,12 @@ export default function Benchmarks() {
               <td>8 Cores / 16 GB RAM / 320 GB NVMe</td>
             </tr>
             <tr>
-              <td>Quick Tests</td>
+              <td>Duration</td>
               <td>30 seconds per test (5s warmup excluded from results)</td>
             </tr>
             <tr>
-              <td>Ramp Tests</td>
-              <td>120 seconds, 10→200 VUs (step +10 every 5s)</td>
-            </tr>
-            <tr>
-              <td>Sustained Tests</td>
-              <td>300 seconds at 50 VUs (proves throughput stability)</td>
-            </tr>
-            <tr>
               <td>Concurrency</td>
-              <td>50 virtual users (quick/sustained), progressive ramp (ramp tests)</td>
+              <td>100 virtual users (API tests), up to 15,000 subscribers (realtime tests)</td>
             </tr>
             <tr>
               <td>Transport</td>
