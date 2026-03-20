@@ -169,15 +169,25 @@ cd source && npm install && npm run build
 This is a static-only application with no tables, resources, or extensions:
 
 ```yaml
-name: "Yeti"
+name: "Website"
 app_id: "www"
 version: "1.0.0"
-description: "yetirocks.com marketing site"
-enabled: true
+description: "yetirocks.com marketing site + demos"
+route_prefix: "/"
+
+schemas:
+  - schemas/schema.graphql
+
 static_files:
   path: web
   route: /
   index: index.html
+  notFound:
+    file: index.html
+    statusCode: 200
+  build:
+    sourceDir: source
+    command: npm run build
 ```
 
 ## Learn More

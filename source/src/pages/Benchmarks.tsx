@@ -35,8 +35,9 @@ interface Snapshot {
 }
 
 function formatNumber(n: number): string {
-  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M'
-  if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k'
+  if (n >= 1000000) { const v = n / 1000000; return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)) + 'M' }
+  if (n >= 10000) return Math.round(n / 1000) + 'k'
+  if (n >= 1000) { const v = n / 1000; const s = v.toFixed(1); return (s.endsWith('.0') ? s.slice(0, -2) : s) + 'k' }
   return n.toFixed(0)
 }
 
@@ -44,6 +45,8 @@ function formatLatency(ms: number | undefined): string {
   if (ms == null) return '—'
   if (ms === 0) return '<1 ms'
   if (ms < 0.01) return '<1 ms'
+  if (ms >= 100) return ms.toFixed(0) + ' ms'
+  if (ms >= 10) return ms.toFixed(1) + ' ms'
   return ms.toFixed(2) + ' ms'
 }
 
@@ -75,8 +78,9 @@ const WORKLOADS: WorkloadGroup[] = [
     id: 'rest',
     description: 'Core platform workload — REST CRUD operations over HTTPS with JSON payloads.',
     tests: [
-      { id: 'rest-read', name: 'REST Reads' },
-      { id: 'rest-write', name: 'REST Writes' },
+      { id: 'rest-read', name: 'REST Read' },
+      { id: 'rest-write', name: 'REST Write' },
+      { id: 'rest-batch-write', name: 'REST Batch Write' },
       { id: 'rest-update', name: 'REST Update' },
       { id: 'rest-join', name: 'REST Join' },
     ],
@@ -86,9 +90,10 @@ const WORKLOADS: WorkloadGroup[] = [
     id: 'graphql',
     description: 'GraphQL query planner and execution engine — reads, mutations, and relationship joins.',
     tests: [
-      { id: 'graphql-read', name: 'GraphQL Reads' },
-      { id: 'graphql-mutation', name: 'GraphQL Mutations' },
-      { id: 'graphql-update', name: 'GraphQL Updates' },
+      { id: 'graphql-read', name: 'GraphQL Read' },
+      { id: 'graphql-mutation', name: 'GraphQL Write' },
+      { id: 'graphql-batch-write', name: 'GraphQL Batch Write' },
+      { id: 'graphql-update', name: 'GraphQL Update' },
       { id: 'graphql-join', name: 'GraphQL Join' },
     ],
   },

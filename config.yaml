@@ -2,11 +2,6 @@ name: "Website"
 app_id: "www"
 version: "1.0.0"
 description: "yetirocks.com marketing site + demos"
-enabled: true
-rest: true
-graphql: true
-ws: true
-sse: true
 route_prefix: "/"
 
 schemas:
