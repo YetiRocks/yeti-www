@@ -294,7 +294,7 @@ body {
   background: rgba(211, 69, 22, 0.06);
   border-left: 3px solid var(--color-primary);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-base);
   color: var(--color-grey);
   line-height: 1.6;
 }
