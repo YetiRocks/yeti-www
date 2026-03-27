@@ -9,8 +9,8 @@ export default function SoftwareLicense() {
       </div>
       <div className="legal-content">
         <p>
-          This Software License Agreement ("Agreement") is a legal agreement between YetiRocks S. de R.L. de C.V.,
-          a company organized under the laws of Mexico with offices in El Pescadero, Baja California Sur, Mexico
+          This Software License Agreement ("Agreement") is a legal agreement between YetiRocks, LLC,
+          a Wyoming limited liability company
           ("Yeti", "we", "us", or "our"), and the entity or individual ("Customer", "you", or "your") who
           downloads, installs, or uses the Yeti software platform. By installing or using the Software, you agree
           to be bound by this Agreement. If you do not agree, do not install or use the Software.
@@ -221,10 +221,10 @@ export default function SoftwareLicense() {
 
         <h3>10.1 Governing Law</h3>
         <p>
-          This Agreement shall be governed by and construed in accordance with the laws of Mexico,
+          This Agreement shall be governed by and construed in accordance with the laws of the State of Wyoming,
           without regard to its conflict of laws provisions. Any disputes arising under this Agreement
           shall be subject to the exclusive jurisdiction of the competent courts located in
-          Baja California Sur, Mexico.
+          Wyoming.
         </p>
 
         <h3>10.2 Entire Agreement</h3>
@@ -257,8 +257,8 @@ export default function SoftwareLicense() {
         <h3>10.6 Notices</h3>
         <p>
           All notices under this Agreement shall be in writing and sent to the addresses specified in
-          the applicable Order. Notices to Yeti shall be sent to: YetiRocks S. de R.L. de C.V.,
-          El Pescadero, Baja California Sur, Mexico;
+          the applicable Order. Notices to Yeti shall be sent to: YetiRocks, LLC,
+          ;
           email: <a href="mailto:legal@yetirocks.com">legal@yetirocks.com</a>.
         </p>
 

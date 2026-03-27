@@ -9,16 +9,16 @@ export default function PrivacyPolicy() {
         <p>
           This Privacy Policy explains how we collect, use, share, and protect your personal data when you
           use the Yeti Cloud platform, visit our website at yetirocks.com, or interact with our services.
-          We comply with Mexico's Federal Law on Protection of Personal Data Held by Private Parties
+          We comply with applicable U.S. privacy laws
           (LFPDPPP) and, for users in the European Economic Area (EEA), the General Data Protection
           Regulation (GDPR).
         </p>
 
         <h2>1. Who We Are</h2>
         <p>
-          <strong>YetiRocks S. de R.L. de C.V.</strong> ("Yeti", "we", "us", or "our") is the data
-          controller responsible for your personal data. We are incorporated in Mexico and based in
-          El Pescadero, Baja California Sur, Mexico.
+          <strong>YetiRocks, LLC</strong> ("Yeti", "we", "us", or "our") is the data
+          controller responsible for your personal data. We are incorporated in Wyoming
+          .
         </p>
         <p>
           Data Protection Contact:{' '}
@@ -140,8 +140,8 @@ export default function PrivacyPolicy() {
 
         <h2>6. International Transfers</h2>
         <p>
-          Yeti is based in Mexico. Your data may be processed in Mexico and other countries where our
-          infrastructure providers operate. When we transfer personal data outside of Mexico or the EEA,
+          Yeti is based in the United States. Your data may be processed in the United States and other countries where our
+          infrastructure providers operate. When we transfer personal data outside of the United States or the EEA,
           we ensure appropriate safeguards are in place:
         </p>
         <ul>
@@ -275,7 +275,7 @@ export default function PrivacyPolicy() {
         </p>
         <ul>
           <li>Email: <a href="mailto:privacy@yetirocks.com">privacy@yetirocks.com</a></li>
-          <li>YetiRocks S. de R.L. de C.V., El Pescadero, Baja California Sur, Mexico</li>
+          <li>YetiRocks, LLC</li>
         </ul>
         <p className="legal-tip">
           <strong>What this means:</strong> We are real people, not a faceless inbox. Write to us and

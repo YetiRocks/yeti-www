@@ -9,8 +9,8 @@ export default function CookiePolicy() {
       </div>
       <div className="legal-content">
         <p>
-          YetiRocks S. de R.L. de C.V. ("Yeti", "we", "us", or "our"), located in El Pescadero,
-          Baja California Sur, Mexico, uses cookies and similar technologies on our website and
+          YetiRocks, LLC ("Yeti", "we", "us", or "our")
+          uses cookies and similar technologies on our website and
           platform. This Cookie Policy explains what cookies are, how we use them, and how you can
           manage your preferences.
         </p>
@@ -106,7 +106,7 @@ export default function CookiePolicy() {
         </p>
         <ul>
           <li>Email: <a href="mailto:privacy@yetirocks.com">privacy@yetirocks.com</a></li>
-          <li>YetiRocks S. de R.L. de C.V., El Pescadero, Baja California Sur, Mexico</li>
+          <li>YetiRocks, LLC</li>
         </ul>
         <p>
           For more information about how we handle your data, see our{' '}

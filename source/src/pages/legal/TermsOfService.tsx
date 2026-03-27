@@ -11,9 +11,9 @@ export default function TermsOfService() {
 
         <h2>1. Introduction</h2>
         <p>
-          These Terms of Service ("Agreement") are entered into by and between YetiRocks S. de R.L.
-          de C.V. ("Yeti", "we", "us", or "our"), a company organized under the laws of Mexico with
-          offices in El Pescadero, Baja California Sur, Mexico, and the entity or individual
+          These Terms of Service ("Agreement") are entered into by and between YetiRocks, LLC
+          ("Yeti", "we", "us", or "our"), a Wyoming limited liability company
+          offices in , and the entity or individual
           ("Customer", "you", or "your") who accesses or uses the Yeti platform or Yeti Cloud
           services. By accessing or using the Services, you agree to be bound by this Agreement. If
           you do not agree, do not use the Services.
@@ -289,12 +289,12 @@ export default function TermsOfService() {
         <h3>11.1 Governing Law</h3>
         <p>
           This Agreement shall be governed by and construed in accordance with the federal laws of
-          Mexico. Any disputes arising under this Agreement shall be subject to the exclusive
-          jurisdiction of the courts located in La Paz, Baja California Sur, Mexico.
+          Wyoming. Any disputes arising under this Agreement shall be subject to the exclusive
+          jurisdiction of the state and federal courts located in Wyoming.
         </p>
         <blockquote>
-          <strong>What this means:</strong> Mexican law applies. Disputes are resolved in La Paz,
-          Baja California Sur.
+          <strong>What this means:</strong> Wyoming law applies. Disputes are resolved in
+          Wyoming.
         </blockquote>
 
         <h3>11.2 Independent Contractor</h3>
@@ -342,10 +342,7 @@ export default function TermsOfService() {
           Questions about these terms should be directed to:{' '}
           <a href="mailto:legal@yetirocks.com">legal@yetirocks.com</a>
         </p>
-        <p>
-          YetiRocks S. de R.L. de C.V.<br />
-          El Pescadero, Baja California Sur, Mexico
-        </p>
+        <p>YetiRocks, LLC</p>
 
       </div>
     </div>

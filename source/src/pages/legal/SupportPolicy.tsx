@@ -9,9 +9,9 @@ export default function SupportPolicy() {
       </div>
       <div className="legal-content">
         <p>
-          This Support Policy describes the support services provided by YetiRocks S. de R.L. de
-          C.V. ("Yeti", "we", "us", or "our"), located in El Pescadero, Baja California Sur,
-          Mexico, to customers of the Yeti Cloud platform. This policy is incorporated into and
+          This Support Policy describes the support services provided by YetiRocks, LLC, a Wyoming limited liability company,
+          C.V. ("Yeti", "we", "us", or "our"), located ,
+          to customers of the Yeti Cloud platform. This policy is incorporated into and
           forms part of our <Link to="/legal/terms-of-service">Terms of Service</Link>.
         </p>
 
@@ -155,7 +155,7 @@ export default function SupportPolicy() {
         <ul>
           <li>Email: <a href="mailto:support@yetirocks.com">support@yetirocks.com</a></li>
           <li>Documentation: <a href="https://docs.yetirocks.com" target="_blank" rel="noopener noreferrer">docs.yetirocks.com</a></li>
-          <li>YetiRocks S. de R.L. de C.V., El Pescadero, Baja California Sur, Mexico</li>
+          <li>YetiRocks, LLC</li>
         </ul>
       </div>
     </div>

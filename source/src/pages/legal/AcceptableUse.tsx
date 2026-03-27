@@ -10,8 +10,8 @@ export default function AcceptableUse() {
       <div className="legal-content">
         <p>
           This Acceptable Use Policy ("AUP") governs your use of the Yeti Cloud platform and
-          related services provided by YetiRocks S. de R.L. de C.V. ("Yeti", "we", "us", or
-          "our"), located in El Pescadero, Baja California Sur, Mexico. This AUP is incorporated
+          related services provided by YetiRocks, LLC ("Yeti", "we", "us", or
+          "our"), located in . This AUP is incorporated
           into and forms part of our <Link to="/legal/terms-of-service">Terms of Service</Link>.
         </p>
 
@@ -134,7 +134,7 @@ export default function AcceptableUse() {
         </p>
         <ul>
           <li>Email: <a href="mailto:abuse@yetirocks.com">abuse@yetirocks.com</a></li>
-          <li>YetiRocks S. de R.L. de C.V., El Pescadero, Baja California Sur, Mexico</li>
+          <li>YetiRocks, LLC</li>
         </ul>
         <p>
           We take all reports seriously and will investigate promptly. Please include as much detail
