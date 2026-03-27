@@ -221,8 +221,8 @@ body {
 
 /* ── Legal Content Pages ── */
 .legal-content {
-  max-width: 800px;
-  font-size: var(--font-size-sm);
+  width: 100%;
+  font-size: var(--font-size-base);
   line-height: 1.7;
   color: var(--color-grey);
 }
