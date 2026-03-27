@@ -7,163 +7,280 @@ export default function PrivacyPolicy() {
       </div>
       <div className="legal-content">
         <p>
-          YetiRocks, LLC ("Yeti", "we", "us", or "our"), a Colorado limited liability company located in
-          Denver, CO, is committed to protecting your privacy. This Privacy Policy explains how we collect,
-          use, disclose, and safeguard your information when you visit our website at yetirocks.com, use the
-          Yeti Cloud platform, or interact with our services.
+          This Privacy Policy explains how we collect, use, share, and protect your personal data when you
+          use the Yeti Cloud platform, visit our website at yetirocks.com, or interact with our services.
+          We comply with Mexico's Federal Law on Protection of Personal Data Held by Private Parties
+          (LFPDPPP) and, for users in the European Economic Area (EEA), the General Data Protection
+          Regulation (GDPR).
         </p>
 
-        <h2>1. Information We Collect</h2>
-
-        <h3>1.1 Account Information</h3>
+        <h2>1. Who We Are</h2>
         <p>
-          When you create an account, we collect information such as your name, email address, organization
-          name, billing address, and payment information. If you sign in using an OAuth provider (such as
-          Google or GitHub), we receive your name, email address, and profile picture from that provider.
+          <strong>YetiRocks S. de R.L. de C.V.</strong> ("Yeti", "we", "us", or "our") is the data
+          controller responsible for your personal data. We are incorporated in Mexico and based in
+          El Pescadero, Baja California Sur, Mexico.
+        </p>
+        <p>
+          Data Protection Contact:{' '}
+          <a href="mailto:privacy@yetirocks.com">privacy@yetirocks.com</a>
+        </p>
+        <p className="legal-tip">
+          <strong>What this means:</strong> We decide how and why your data is processed. If you have
+          questions, the email above goes directly to our data protection team.
         </p>
 
-        <h3>1.2 Usage Data</h3>
+        <h2>2. What We Collect</h2>
+
+        <h3>2.1 Account Information</h3>
         <p>
-          We automatically collect information about how you interact with our Services, including:
+          When you create an account, we collect your name, email address, organization name, billing
+          address, and payment details. If you sign in via an OAuth provider (such as Google or GitHub),
+          we receive your name, email, and profile picture from that provider.
         </p>
+
+        <h3>2.2 Usage Data</h3>
+        <p>We automatically collect information about how you use the Services, including:</p>
         <ul>
-          <li>Pages visited and features used</li>
-          <li>Timestamps and duration of sessions</li>
+          <li>Pages visited, features used, timestamps, and session duration</li>
           <li>Browser type, operating system, and device information</li>
           <li>IP address and approximate geographic location</li>
-          <li>Referring URLs and search terms</li>
           <li>Platform resource utilization and performance metrics</li>
         </ul>
 
-        <h3>1.3 Cookies and Similar Technologies</h3>
+        <h3>2.3 Cookies and Similar Technologies</h3>
         <p>
-          We use cookies and similar technologies to operate our Services and collect usage data. For details,
-          see our <a href="/legal/cookie-policy">Cookie Policy</a>.
+          We use cookies to operate our Services and gather usage data. See Section 9 and
+          our <a href="/legal/cookie-policy">Cookie Policy</a> for details.
         </p>
 
-        <h3>1.4 Customer Data</h3>
+        <h3>2.4 Support and Communications</h3>
         <p>
-          Customer Data stored on the Yeti Cloud platform is controlled by you. We process Customer Data
-          solely to provide the Services and do not access it except as necessary for service delivery,
-          troubleshooting, or as required by law.
+          When you contact us for support or send feedback, we collect the content of your messages,
+          your email address, and any attachments you provide.
         </p>
 
-        <h2>2. How We Use Your Information</h2>
+        <h3>2.5 Customer Data</h3>
+        <p>
+          Data you store on Yeti Cloud is controlled by you. We process it only to deliver the Services
+          and never access it except for service delivery, troubleshooting, or as required by law.
+        </p>
+        <p className="legal-tip">
+          <strong>What this means:</strong> Your application data is yours. We do not read, sell, or
+          mine it for any purpose beyond keeping the platform running for you.
+        </p>
+
+        <h2>3. How We Use It</h2>
         <p>We use the information we collect to:</p>
         <ul>
-          <li>Provide, operate, and maintain the Services</li>
-          <li>Process transactions and send related communications</li>
-          <li>Respond to support requests and communicate with you</li>
-          <li>Monitor and analyze usage trends to improve the Services</li>
-          <li>Detect, prevent, and address technical issues and security threats</li>
-          <li>Comply with legal obligations</li>
+          <li>Provide, operate, and maintain Yeti Cloud and related services</li>
+          <li>Process transactions and send billing communications</li>
+          <li>Respond to support requests and communicate with you about your account</li>
+          <li>Monitor and analyze usage trends to improve the platform</li>
+          <li>Detect, prevent, and address security threats and technical issues</li>
+          <li>Comply with legal obligations under Mexican and applicable international law</li>
           <li>Send product updates and announcements (you may opt out at any time)</li>
         </ul>
+        <p className="legal-tip">
+          <strong>What this means:</strong> We use your data to run the service, make it better, keep
+          it secure, and stay in touch. We never use it for advertising or selling to third parties.
+        </p>
 
-        <h2>3. Third-Party Services</h2>
+        <h2>4. Legal Basis for Processing</h2>
         <p>
-          We use a limited number of third-party services to operate our website and platform:
+          We process personal data under the following legal bases, applicable under both the LFPDPPP
+          and the GDPR:
         </p>
         <ul>
           <li>
-            <strong>Google Analytics 4</strong> — We use Google Analytics to understand how visitors interact
-            with our website. Google Analytics collects information such as pages visited, session duration,
-            and general location. This data is aggregated and anonymized. You can opt out of Google Analytics
-            by installing the{' '}
-            <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">
-              Google Analytics Opt-out Browser Add-on
-            </a>.
+            <strong>Consent</strong> — Where you have given explicit consent, such as for marketing
+            communications. Under the LFPDPPP, you provide consent through our privacy notice
+            (aviso de privacidad) at the time of data collection.
           </li>
           <li>
-            <strong>Cloudflare</strong> — We use Cloudflare for content delivery, DDoS protection, and DNS
-            services. Cloudflare may process certain request data (IP addresses, request headers) as part of
-            providing these security and performance services.
+            <strong>Contract performance</strong> — Processing necessary to deliver the Services you
+            have requested or to take steps before entering into a contract.
+          </li>
+          <li>
+            <strong>Legitimate interests</strong> — Processing for our legitimate business interests,
+            such as improving the platform, ensuring security, and communicating with you, where those
+            interests are not overridden by your rights.
+          </li>
+          <li>
+            <strong>Legal obligation</strong> — Processing necessary to comply with applicable Mexican
+            or international law.
+          </li>
+        </ul>
+
+        <h2>5. Sharing Your Data</h2>
+        <p>We may share your personal data with:</p>
+        <ul>
+          <li>
+            <strong>Sub-processors</strong> — Trusted service providers who help us operate the
+            platform (such as Cloudflare for CDN and security, and payment processors for billing).
+            Each sub-processor is contractually bound to protect your data.
+          </li>
+          <li>
+            <strong>Legal requirements</strong> — Law enforcement, regulators, or courts when required
+            by law or to protect our legal rights.
+          </li>
+          <li>
+            <strong>Business transfers</strong> — In connection with a merger, acquisition, or sale of
+            assets, your data may be transferred to the successor entity under equivalent protections.
           </li>
         </ul>
         <p>
-          We do not sell your personal information. We do not use any third-party advertising trackers,
+          <strong>We never sell your personal data.</strong> We do not use advertising trackers,
           remarketing pixels, or data enrichment services.
         </p>
+        <p className="legal-tip">
+          <strong>What this means:</strong> A small number of infrastructure partners help us run the
+          service. We hold them to the same standards we hold ourselves, and we will never sell your
+          information to anyone.
+        </p>
 
-        <h2>4. Legal Basis for Processing (GDPR)</h2>
-        <p>If you are located in the European Economic Area (EEA), we process your personal data under the following legal bases:</p>
+        <h2>6. International Transfers</h2>
+        <p>
+          Yeti is based in Mexico. Your data may be processed in Mexico and other countries where our
+          infrastructure providers operate. When we transfer personal data outside of Mexico or the EEA,
+          we ensure appropriate safeguards are in place:
+        </p>
         <ul>
-          <li><strong>Contract performance</strong> — Processing necessary to provide the Services you have requested.</li>
-          <li><strong>Legitimate interests</strong> — Processing for our legitimate business interests, such as improving the Services, ensuring security, and communicating with you, where those interests are not overridden by your rights.</li>
-          <li><strong>Consent</strong> — Where you have given explicit consent, such as for marketing communications.</li>
-          <li><strong>Legal obligation</strong> — Processing necessary to comply with applicable law.</li>
+          <li>
+            For EEA users: Standard Contractual Clauses (SCCs) approved by the European Commission, or
+            transfers to countries with an adequate level of data protection.
+          </li>
+          <li>
+            For Mexican users: Transfers comply with Articles 36 and 37 of the LFPDPPP, ensuring the
+            recipient provides comparable data protection standards.
+          </li>
         </ul>
-
-        <h2>5. Data Retention</h2>
-        <p>
-          We retain your account information for as long as your account is active or as needed to provide
-          Services. After account termination, we retain data for up to thirty (30) days to allow for data
-          export, after which it is deleted. We may retain certain information longer as required by law or
-          for legitimate business purposes such as resolving disputes and enforcing agreements.
-        </p>
-        <p>
-          Usage data and analytics are retained in aggregated, anonymized form and are not associated with
-          individual accounts after the retention period.
+        <p className="legal-tip">
+          <strong>What this means:</strong> Wherever your data goes, it travels with the same level of
+          protection it has at home.
         </p>
 
-        <h2>6. Your Rights</h2>
-        <p>Depending on your jurisdiction, you may have the following rights regarding your personal data:</p>
+        <h2>7. Data Retention</h2>
+        <p>
+          We retain your account information for as long as your account is active or as needed to
+          provide the Services. After account termination, we retain data for up to thirty (30) days
+          to allow for export, after which it is securely deleted.
+        </p>
+        <p>
+          We may retain certain information longer where required by law (for example, tax and billing
+          records under Mexican fiscal law) or for legitimate purposes such as resolving disputes.
+          Usage data is retained in aggregated, anonymized form after the retention period.
+        </p>
+
+        <h2>8. Your Rights</h2>
+        <p>
+          Depending on your jurisdiction, you have the following rights over your personal data. These
+          rights are recognized under both the LFPDPPP (known as ARCO rights) and the GDPR:
+        </p>
         <ul>
-          <li><strong>Access</strong> — Request a copy of the personal data we hold about you.</li>
-          <li><strong>Correction</strong> — Request that we correct inaccurate or incomplete personal data.</li>
-          <li><strong>Deletion</strong> — Request that we delete your personal data, subject to legal retention requirements.</li>
-          <li><strong>Portability</strong> — Request a copy of your data in a structured, machine-readable format.</li>
-          <li><strong>Restriction</strong> — Request that we restrict processing of your personal data in certain circumstances.</li>
-          <li><strong>Objection</strong> — Object to processing of your personal data based on legitimate interests.</li>
-          <li><strong>Withdraw consent</strong> — Where processing is based on consent, you may withdraw consent at any time.</li>
+          <li>
+            <strong>Access</strong> — Request a copy of the personal data we hold about you.
+          </li>
+          <li>
+            <strong>Rectification (Correction)</strong> — Request that we correct inaccurate or
+            incomplete personal data.
+          </li>
+          <li>
+            <strong>Cancellation (Deletion)</strong> — Request that we delete your personal data,
+            subject to legal retention requirements.
+          </li>
+          <li>
+            <strong>Opposition (Objection)</strong> — Object to processing of your personal data for
+            specific purposes, including direct marketing.
+          </li>
+          <li>
+            <strong>Portability</strong> (GDPR) — Request a copy of your data in a structured,
+            machine-readable format.
+          </li>
+          <li>
+            <strong>Restriction</strong> (GDPR) — Request that we limit how we process your data in
+            certain circumstances.
+          </li>
+          <li>
+            <strong>Withdraw consent</strong> — Where processing is based on consent, you may withdraw
+            it at any time without affecting prior processing.
+          </li>
         </ul>
         <p>
           To exercise any of these rights, contact us at{' '}
-          <a href="mailto:support@yetirocks.com">support@yetirocks.com</a>.
-          We will respond to your request within thirty (30) days.
+          <a href="mailto:privacy@yetirocks.com">privacy@yetirocks.com</a>. We will respond within
+          twenty (20) business days for LFPDPPP requests or thirty (30) days for GDPR requests.
+        </p>
+        <p>
+          EEA users also have the right to lodge a complaint with their local data protection
+          supervisory authority.
+        </p>
+        <p className="legal-tip">
+          <strong>What this means:</strong> You are in control of your data. Send us an email and we
+          will help you access, correct, or delete it. No hoops to jump through.
         </p>
 
-        <h2>7. Data Security</h2>
+        <h2>9. Cookies</h2>
         <p>
-          We implement reasonable administrative, technical, and physical safeguards to protect your
-          information against unauthorized access, alteration, disclosure, or destruction. These measures
-          include encryption in transit and at rest, access controls, and regular security assessments.
-          However, no method of transmission over the Internet is 100% secure, and we cannot guarantee
-          absolute security.
+          We use strictly necessary cookies to operate the platform (such as session and authentication
+          cookies) and optional analytics cookies to understand how visitors use our website. You can
+          manage your cookie preferences at any time through your browser settings.
+        </p>
+        <p>
+          For full details on the cookies we use, their purposes, and how to control them, please
+          see our <a href="/legal/cookie-policy">Cookie Policy</a>.
         </p>
 
-        <h2>8. International Data Transfers</h2>
+        <h2>10. Children</h2>
         <p>
-          Your information may be transferred to and processed in countries other than your country of
-          residence. When we transfer data outside the EEA, we ensure appropriate safeguards are in place,
-          such as standard contractual clauses approved by the European Commission.
+          Yeti Cloud is not directed to individuals under the age of 16. We do not knowingly collect
+          personal data from children under 16. If we become aware that we have collected data from a
+          child under 16, we will delete it promptly. If you believe we have inadvertently collected
+          such data, please contact us at{' '}
+          <a href="mailto:privacy@yetirocks.com">privacy@yetirocks.com</a>.
         </p>
 
-        <h2>9. Children's Privacy</h2>
+        <h2>11. Security</h2>
         <p>
-          The Services are not directed to individuals under the age of 16. We do not knowingly collect
-          personal information from children under 16. If we become aware that we have collected personal
-          data from a child under 16, we will take steps to delete that information promptly. If you
-          believe we have inadvertently collected such data, please contact us at{' '}
-          <a href="mailto:support@yetirocks.com">support@yetirocks.com</a>.
-        </p>
-
-        <h2>10. Changes to This Policy</h2>
-        <p>
-          We may update this Privacy Policy from time to time. When we make material changes, we will
-          notify you by updating the "Last Updated" date at the top of this page and, where appropriate,
-          by providing additional notice (such as an email notification). Your continued use of the
-          Services after any changes constitutes acceptance of the updated policy.
-        </p>
-
-        <h2>11. Contact Us</h2>
-        <p>
-          If you have any questions about this Privacy Policy or our data practices, please contact us:
+          We implement administrative, technical, and physical safeguards to protect your data,
+          including:
         </p>
         <ul>
-          <li>Email: <a href="mailto:support@yetirocks.com">support@yetirocks.com</a></li>
-          <li>YetiRocks, LLC, Denver, CO</li>
+          <li>Encryption in transit (TLS) and at rest</li>
+          <li>Role-based access controls and least-privilege policies</li>
+          <li>Regular security assessments and vulnerability scanning</li>
+          <li>An incident response plan with notification procedures compliant with the LFPDPPP and GDPR breach notification requirements</li>
         </ul>
+        <p>
+          No system is perfectly secure. While we work hard to protect your data, we cannot guarantee
+          absolute security.
+        </p>
+        <p className="legal-tip">
+          <strong>What this means:</strong> We encrypt your data, lock down access, and have a plan
+          ready in case something goes wrong. If there is ever a breach that affects you, we will
+          notify you promptly.
+        </p>
+
+        <h2>12. Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. When we make material changes, we will
+          provide at least thirty (30) days' notice by updating the "Last Updated" date at the top of
+          this page and notifying you by email or through the platform. Your continued use of the
+          Services after the notice period constitutes acceptance of the updated policy.
+        </p>
+
+        <h2>13. Contact</h2>
+        <p>
+          If you have questions about this Privacy Policy, want to exercise your data rights, or need
+          to report a concern, please contact us:
+        </p>
+        <ul>
+          <li>Email: <a href="mailto:privacy@yetirocks.com">privacy@yetirocks.com</a></li>
+          <li>YetiRocks S. de R.L. de C.V., El Pescadero, Baja California Sur, Mexico</li>
+        </ul>
+        <p className="legal-tip">
+          <strong>What this means:</strong> We are real people, not a faceless inbox. Write to us and
+          a human will respond.
+        </p>
       </div>
     </div>
   )

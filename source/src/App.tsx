@@ -11,6 +11,12 @@ import Hosting from './pages/Hosting'
 import UseCases from './pages/UseCases'
 import Benchmarks from './pages/Benchmarks'
 import Legal from './pages/Legal'
+import TermsOfService from './pages/legal/TermsOfService'
+import PrivacyPolicy from './pages/legal/PrivacyPolicy'
+import SoftwareLicense from './pages/legal/SoftwareLicense'
+import CookiePolicy from './pages/legal/CookiePolicy'
+import AcceptableUse from './pages/legal/AcceptableUse'
+import SupportPolicy from './pages/legal/SupportPolicy'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -39,6 +45,12 @@ export default function App() {
             <Route path="/demos" element={<Demos />} />
             <Route path="/benchmarks" element={<Benchmarks />} />
             <Route path="/legal" element={<Legal />} />
+            <Route path="/legal/terms-of-service" element={<TermsOfService />} />
+            <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/legal/software-license" element={<SoftwareLicense />} />
+            <Route path="/legal/cookie-policy" element={<CookiePolicy />} />
+            <Route path="/legal/acceptable-use" element={<AcceptableUse />} />
+            <Route path="/legal/support-policy" element={<SupportPolicy />} />
           </Routes>
           <Footer />
         </main>
