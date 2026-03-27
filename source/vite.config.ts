@@ -40,6 +40,14 @@ export default defineConfig({
   build: {
     outDir: '../web',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'highlight': ['highlight.js', 'prism-react-renderer'],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
   },
   server: {
     fs: { allow: ['..'] },

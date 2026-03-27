@@ -14,6 +14,7 @@ export default function Home({ onGetStarted }: HomeProps) {
             src={`${import.meta.env.BASE_URL}logo_white.svg`}
             alt="Yeti Platform Architecture"
             className="hero-logo"
+            fetchPriority="high"
           />
           <h1 className="hero-title">Faster Applications, Faster.</h1>
           <p className="hero-subtitle">
