@@ -14,7 +14,7 @@ interface RouteMeta {
 const routes: RouteMeta[] = [
   {
     path: '/',
-    title: 'Yeti | One Server Where Ten Used To Be',
+    title: 'Yeti | Faster Applications, Faster',
     description: 'API server, message broker, vector database, auth service, monitoring stack - Yeti replaces all of them with a single binary.',
   },
   {

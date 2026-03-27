@@ -17,7 +17,7 @@ export default function Home({ onGetStarted }: HomeProps) {
           />
           <h1 className="hero-title">Faster Applications, Faster.</h1>
           <p className="hero-subtitle">
-            Yeti gives developers (and their agents) the building blocks to create high-performance, globally-distributed Rust apps in minutes, not months. <span className="nowrap">Move faster with Yeti.</span>
+            Create high-performance, globally-distributed applications with Yeti's composable, agent-friendly building blocks: database, interfaces, streaming, integrations, security, and telemetry. <span className="nowrap">Move faster with Yeti.</span>
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary btn-lg" onClick={onGetStarted}>

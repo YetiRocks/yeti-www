@@ -1,5 +1,6 @@
 name: "Website"
-app_id: "www"
+app_id: "yeti-www"
+customer_id: "yeti"
 version: "1.0.0"
 description: "yetirocks.com marketing site + demos"
 route_prefix: "/"
