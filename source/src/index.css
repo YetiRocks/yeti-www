@@ -398,6 +398,8 @@ code {
 .modal-overlay {
   z-index: 200;
   padding: var(--space-4);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
 }
 
 .modal {
