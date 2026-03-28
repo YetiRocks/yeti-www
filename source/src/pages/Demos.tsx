@@ -6,7 +6,6 @@ const DEMOS = [
   { path: '/demo-authentication/', name: 'Authentication', img: 'screenshots/auth.png', desc: 'Role-based access control demo with Basic, JWT, and OAuth login. Admin and reader roles see different fields.' },
   { path: '/demo-basic/', name: 'Basic', img: 'screenshots/basic.png', desc: 'Simple counter with persistent state and a custom Rust greeting endpoint. Shows how tables and resources work together.' },
   { path: '/demo-graphql/', name: 'GraphQL', img: 'screenshots/graph.png', desc: 'Interactive GraphQL explorer with editable queries, mutations, and live SSE subscriptions on a book catalog.' },
-  { path: '/demo-mcp/', name: 'MCP', img: 'screenshots/mcp.png', desc: 'Interactive Model Context Protocol (MCP) client — search tables via JSON-RPC 2.0 with tool discovery and invocation.' },
   { path: '/demo-fiql/', name: 'Query Language', img: 'screenshots/fiql.png', desc: '50+ query examples covering equality, ranges, full-text search, joins, sorting, pagination, and query introspection.' },
   { path: '/demo-realtime/', name: 'Realtime', img: 'screenshots/realtime.png', desc: 'Side-by-side comparison of WebSocket, Server-Sent Events, and REST polling updating in real time.' },
   { path: '/demo-vector/', name: 'Vector Search', img: 'screenshots/vector.png', desc: 'Automatic text-to-vector embedding with HNSW nearest-neighbor semantic search on article content.' },
