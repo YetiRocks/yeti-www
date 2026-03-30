@@ -18,13 +18,13 @@ export default function Home({ onGetStarted }: HomeProps) {
           />
           <h1 className="hero-title">Faster Applications, Faster.</h1>
           <p className="hero-subtitle">
-            Create high-performance, globally-distributed applications with Yeti's composable, agent-friendly building blocks: database, interfaces, streaming, integrations, security, and telemetry. <span className="nowrap">Move faster with Yeti.</span>
+            Create and scale high-performance Rust applications with Yeti's composable, agent-friendly building blocks: database, interfaces, streaming, integrations, security, and telemetry. <span className="nowrap">Move faster with Yeti.</span>
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary btn-lg" onClick={onGetStarted}>
               Request Early Access
             </button>
-            <Link className="btn btn-lg" to="/demos">
+            <Link className="btn btn-lg" to="/developers/demos">
               See Demos
             </Link>
           </div>

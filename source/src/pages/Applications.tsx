@@ -112,7 +112,7 @@ resource!(Featured {
 
       <div className="section" style={{ textAlign: 'center', paddingBottom: '4rem' }}>
         <p className="section-desc">
-          See the full list of platform capabilities on the <Link to="/platform">platform page</Link>, or try the <Link to="/demos">interactive demos</Link>.
+          See the full list of platform capabilities on the <Link to="/platform">platform page</Link>, or try the <Link to="/developers/demos">interactive demos</Link>.
         </p>
       </div>
     </div>

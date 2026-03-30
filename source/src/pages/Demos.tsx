@@ -17,7 +17,7 @@ export default function Demos() {
       <div className="page-header">
         <h1 className="page-title">Sit. Speak. Roll Over. Good Boy.</h1>
         <p className="page-subtitle">
-          Interactive examples showing what you can build with Yeti.<br />Each demo runs as a standalone application. See how these building blocks come together in <Link to="/use-cases">real-world scenarios</Link>.
+          Interactive examples showing what you can build with Yeti.<br />Each demo runs as a standalone application. See how these building blocks come together in <Link to="/solutions/use-cases">real-world scenarios</Link>.
         </p>
       </div>
 

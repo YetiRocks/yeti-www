@@ -127,7 +127,7 @@ export default function UseCases() {
 
       <div className="section" style={{ textAlign: 'center', paddingBottom: '4rem' }}>
         <p className="section-desc">
-          These building blocks work the same way regardless of your use case. See them in action on the <Link to="/demos">demos page</Link>, or dig into the technical details on the <Link to="/platform">platform page</Link>.
+          These building blocks work the same way regardless of your use case. See them in action on the <Link to="/developers/demos">demos page</Link>, or dig into the technical details on the <Link to="/platform">platform page</Link>.
         </p>
       </div>
     </div>

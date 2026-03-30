@@ -1,6 +1,6 @@
 import { Plugin } from 'vite'
 import { readFileSync, writeFileSync, mkdirSync } from 'fs'
-import { resolve, dirname } from 'path'
+import { resolve } from 'path'
 
 const SITE_URL = 'https://yetirocks.com'
 const OG_IMAGE = `${SITE_URL}/og-image.png`
@@ -23,29 +23,39 @@ const routes: RouteMeta[] = [
     description: 'Stack in a box. REST, GraphQL, WebSocket, SSE, MQTT, MCP, gRPC, embedded storage, auth, vector search, and observability in one runtime.',
   },
   {
-    path: '/applications',
-    title: 'Applications | Yeti',
+    path: '/developers/getting-started',
+    title: 'Getting Started | Yeti',
     description: 'Zero to production in four steps. Define a schema, configure extensions, add custom logic, and deploy. No boilerplate.',
   },
   {
-    path: '/cloud',
+    path: '/solutions/cloud',
     title: 'Cloud | Yeti',
     description: 'Push to main. Deploy globally. Multi-region hosting across Linode, GCP, AWS, and Azure with automatic scaling and replication.',
   },
   {
-    path: '/use-cases',
+    path: '/solutions/use-cases',
     title: 'Use Cases | Yeti',
     description: 'High-throughput workloads: media security, ad networks, and industrial IoT. One server where ten used to be.',
   },
   {
-    path: '/demos',
+    path: '/pricing',
+    title: 'Pricing | Yeti',
+    description: 'Simple, honest pricing. Start free with the full platform. Scale to global multi-cloud with Yeti Cloud. Enterprise options for private and hybrid deployments.',
+  },
+  {
+    path: '/developers/demos',
     title: 'Demos | Yeti',
     description: 'Interactive examples: REST APIs, GraphQL, real-time streaming, vector search, and authentication — all powered by Yeti.',
   },
   {
-    path: '/benchmarks',
+    path: '/developers/benchmarks',
     title: 'Benchmarks | Yeti',
     description: 'Performance benchmarks: 77K req/s REST, sub-millisecond p50 latency, 3ms vector search across Yeti\'s API surface.',
+  },
+  {
+    path: '/company',
+    title: 'Company | Yeti',
+    description: 'About Yeti — our mission, what we build, and how to reach us.',
   },
   {
     path: '/legal',

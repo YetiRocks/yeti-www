@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import BenchmarkChart from '../components/BenchmarkChart'
+import benchmarkData from '../data/bestresults.json'
 
 interface BestResult {
   id: string
@@ -43,16 +44,16 @@ function formatNumber(n: number): string {
 
 function formatLatency(ms: number | undefined): string {
   if (ms == null) return '—'
-  if (ms === 0) return '<1 ms'
-  if (ms < 0.01) return '<1 ms'
-  if (ms >= 100) return ms.toFixed(0) + ' ms'
-  if (ms >= 10) return ms.toFixed(1) + ' ms'
-  return ms.toFixed(2) + ' ms'
+  if (ms === 0) return '<1'
+  if (ms < 0.01) return '<1'
+  if (ms >= 100) return ms.toFixed(0)
+  if (ms >= 10) return ms.toFixed(1)
+  return ms.toFixed(2)
 }
 
 function formatThroughput(n: number | undefined): string {
   if (n == null) return '—'
-  return formatNumber(n) + ' req/s'
+  return formatNumber(n)
 }
 
 function parseSnapshots(result: BestResult): Snapshot[] {
@@ -141,47 +142,26 @@ const SUSTAINED_TESTS = [
 ]
 
 export default function Benchmarks() {
-  const [results, setResults] = useState<Record<string, BestResult>>({})
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    fetch('/app-benchmarks/bestresults')
-      .then(res => {
-        if (!res.ok) throw new Error(`${res.status}`)
-        return res.json()
-      })
-      .then(data => {
-        // API returns tests as keyed object { "rest-read": {...}, ... }
-        const tests = data.tests || {}
-        const map: Record<string, BestResult> = {}
-        for (const [id, test] of Object.entries(tests)) {
-          map[id] = test as BestResult
-        }
-        setResults(map)
-      })
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false))
-  }, [])
+  // Load results from static JSON (no API call)
+  const [results] = useState<Record<string, BestResult>>(() => {
+    const tests = benchmarkData.tests || {}
+    const map: Record<string, BestResult> = {}
+    for (const [id, test] of Object.entries(tests)) {
+      map[id] = test as BestResult
+    }
+    return map
+  })
 
   const hasResults = Object.values(results).some(r => r.best)
-  const isRealtime = (id: string) => id === 'ws' || id === 'sse' || id === 'mqtt'
-
   // Check for ramp/sustained data
   const hasRampData = RAMP_TESTS.some(t => results[t.id])
   const hasSustainedData = SUSTAINED_TESTS.some(t => results[t.id])
 
   return (
-    <div className="container">
+    <div className="container" style={{ padding: 0 }}>
       <div className="page-header">
         <h1 className="page-title">Benchmarks, not Bullshit</h1>
-        <p className="page-subtitle">
-          Real-time results from a single Yeti node. No caching layer, no read replicas, no load balancer.
-        </p>
       </div>
-
-      {loading && <p className="bench-loading">Loading benchmark results...</p>}
-      {error && <p className="bench-error">Could not load results</p>}
 
       {hasResults && (
         <>
@@ -191,60 +171,33 @@ export default function Benchmarks() {
 
             return (
               <section className="bench-section" key={group.id}>
-                <div className="bench-section-header">
-                  <h2 className="bench-section-title">{group.label}</h2>
-                  <p className="bench-section-desc">{group.description}</p>
-                </div>
                 <table className="bench-perf-table">
                   <thead>
                     <tr>
-                      <th>Operation</th>
-                      <th className="bench-col-num">Throughput</th>
-                      {group.tests.some(t => isRealtime(t.id)) && (
-                        <th className="bench-col-num">Clients</th>
-                      )}
-                      <th className="bench-col-num">P95</th>
-                      <th className="bench-col-num">P50</th>
-                      <th className="bench-col-num">P99</th>
-                      <th className="bench-col-num">Error</th>
+                      <th style={{ color: 'var(--color-primary)' }}>{group.label}</th>
+                      <th className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>RPS</th>
+                      <th className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>ms P95</th>
+                      <th className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>ms P99</th>
                     </tr>
                   </thead>
                   <tbody>
                     {group.tests.map(test => {
                       const r = results[test.id]
                       const best = r?.best
-                      const total = best?.total ?? 0
-                      const errors = best?.errors ?? 0
-                      const errorPct = total > 0 ? ((errors / total) * 100) : 0
-                      const groupHasRealtime = group.tests.some(t => isRealtime(t.id))
-
                       return (
                         <tr key={test.id}>
                           <td>{test.name}</td>
-                          <td className="bench-col-num">
+                          <td className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>
                             <span className="bench-highlight">
                               {best ? formatThroughput(best.throughput) : '—'}
                             </span>
                           </td>
-                          {groupHasRealtime && (
-                            <td className="bench-col-num">
-                              {best?.peakConnections != null ? formatNumber(best.peakConnections) : '—'}
-                            </td>
-                          )}
-                          <td className="bench-col-num">
+                          <td className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>
                             <span className="bench-highlight">
                               {formatLatency(best?.p95)}
                             </span>
                           </td>
-                          <td className="bench-col-num">{formatLatency(best?.p50)}</td>
-                          <td className="bench-col-num">{formatLatency(best?.p99)}</td>
-                          <td className="bench-col-num">
-                            {total > 0 ? (
-                              <span className={errorPct > 1 ? 'bench-error-rate' : ''}>
-                                {errorPct < 0.01 ? '< 0.01%' : errorPct.toFixed(2) + '%'}
-                              </span>
-                            ) : '—'}
-                          </td>
+                          <td className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>{formatLatency(best?.p99)}</td>
                         </tr>
                       )
                     })}
@@ -352,44 +305,30 @@ export default function Benchmarks() {
         </>
       )}
 
-      <br /><br/>
       <section className="bench-section">
-        <div className="bench-section-header">
-          <h2 className="bench-section-title">Environment &amp; Methodology</h2>
-          <p className="bench-section-desc">
-            All tests run on a single node with benchmark client co-located on the same machine.
-            Results reflect end-to-end request latency including TLS handshake and JSON serialization.
-          </p>
-        </div>
-        <table className="bench-perf-table bench-env-table">
+        <table className="bench-perf-table">
+          <thead>
+            <tr>
+              <th style={{ color: 'var(--color-primary)' }}>Methodology</th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
             <tr>
               <td>Hardware</td>
-              <td>8 Cores / 16 GB RAM / 320 GB NVMe</td>
-            </tr>
-            <tr>
-              <td>Duration</td>
-              <td>30 seconds per test (5s warmup excluded from results)</td>
-            </tr>
-            <tr>
-              <td>Concurrency</td>
-              <td>100 virtual users (API tests), up to 15,000 subscribers (realtime tests)</td>
-            </tr>
-            <tr>
-              <td>Transport</td>
-              <td>HTTPS / TLS 1.3, HTTP/1.1 with connection reuse</td>
+              <td style={{ textAlign: 'right' }}>Single Node / 8 Cores / 16 GB RAM / 320 GB NVMe</td>
             </tr>
             <tr>
               <td>Storage</td>
-              <td>Embedded RocksDB (single node, no replication)</td>
+              <td style={{ textAlign: 'right' }}>Embedded RocksDB (no replication)</td>
             </tr>
             <tr>
-              <td>Dataset</td>
-              <td>1,000 records for reads/joins, 5,000 records for updates</td>
+              <td>Transport</td>
+              <td style={{ textAlign: 'right' }}>HTTPS / TLS 1.3, HTTP/1.1 with connection reuse</td>
             </tr>
             <tr>
-              <td>Warmup</td>
-              <td>5 seconds — metrics discarded, connections pre-established</td>
+              <td>Duration</td>
+              <td style={{ textAlign: 'right' }}>30 seconds per test (5s warmup)</td>
             </tr>
           </tbody>
         </table>

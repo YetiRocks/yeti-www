@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useState, useCallback } from 'react'
 
 const THEME_KEY = 'yeti-theme'
@@ -28,6 +28,9 @@ function applyTheme(index: number) {
 // Apply saved theme immediately to avoid flash
 applyTheme(getSavedTheme())
 
+const solutionsPrefix = '/solutions'
+const developersPrefix = '/developers'
+
 interface NavProps {
   onGetStarted: () => void
 }
@@ -35,6 +38,11 @@ interface NavProps {
 export default function Nav({ onGetStarted }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [themeIndex, setThemeIndex] = useState(getSavedTheme)
+  const location = useLocation()
+
+  const isSolutionsActive = location.pathname.startsWith(solutionsPrefix)
+  const isDevelopersActive = location.pathname.startsWith(developersPrefix)
+  const hasSubnav = isSolutionsActive || isDevelopersActive
 
   const cycleTheme = useCallback(() => {
     const next = (themeIndex + 1) % themes.length
@@ -42,6 +50,8 @@ export default function Nav({ onGetStarted }: NavProps) {
     applyTheme(next)
     try { localStorage.setItem(THEME_KEY, String(next)) } catch {}
   }, [themeIndex])
+
+  const closeMobile = () => setMobileOpen(false)
 
   return (
     <>
@@ -52,28 +62,21 @@ export default function Nav({ onGetStarted }: NavProps) {
           </NavLink>
         </div>
         <div className="nav-center">
-          <NavLink to="/" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} end>
-            Home
-          </NavLink>
           <NavLink to="/platform" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            Platform
+            Product
           </NavLink>
-          <NavLink to="/applications" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            Applications
+          <NavLink to="/solutions/use-cases" className={() => `nav-link${isSolutionsActive ? ' active' : ''}`}>
+            Solutions
           </NavLink>
-          <NavLink to="/cloud" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            Cloud
-          </NavLink>
-          <NavLink to="/use-cases" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            Use Cases
-          </NavLink>
-          <NavLink to="/demos" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            Demos
-          </NavLink>
-          {/*<NavLink to="/benchmarks" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-            Benchmarks
+          {/*<NavLink to="/pricing" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+            Pricing
           </NavLink>*/}
-          <a href="/documentation/" target="_blank" rel="noopener noreferrer" className="nav-link">Docs</a>
+          <NavLink to="/developers/getting-started" className={() => `nav-link${isDevelopersActive ? ' active' : ''}`}>
+            Developers
+          </NavLink>
+          <NavLink to="/company" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+            Company
+          </NavLink>
         </div>
         <div className="nav-right">
           <button
@@ -102,32 +105,65 @@ export default function Nav({ onGetStarted }: NavProps) {
           </button>
         </div>
       </nav>
+
+      {hasSubnav && (
+        <div className="www-subnav">
+          {isSolutionsActive && <>
+            <NavLink to="/solutions/use-cases" className={({ isActive }) => `subnav-link${isActive ? ' active' : ''}`}>
+              Use Cases
+            </NavLink>
+            <NavLink to="/solutions/cloud" className={({ isActive }) => `subnav-link${isActive ? ' active' : ''}`}>
+              Cloud
+            </NavLink>
+          </>}
+          {isDevelopersActive && <>
+            <NavLink to="/developers/getting-started" className={({ isActive }) => `subnav-link${isActive ? ' active' : ''}`}>
+              Getting Started
+            </NavLink>
+            <NavLink to="/developers/demos" className={({ isActive }) => `subnav-link${isActive ? ' active' : ''}`}>
+              Demos
+            </NavLink>
+            <NavLink to="/developers/benchmarks" className={({ isActive }) => `subnav-link${isActive ? ' active' : ''}`}>
+              Benchmarks
+            </NavLink>
+            <a href="/documentation/" target="_blank" rel="noopener noreferrer" className="subnav-link">
+              Docs
+            </a>
+          </>}
+        </div>
+      )}
+
       <div className={`nav-mobile${mobileOpen ? ' open' : ''}`}>
-        <NavLink to="/" className="nav-link" onClick={() => setMobileOpen(false)} end>
-          Home
+        <NavLink to="/platform" className="nav-link" onClick={closeMobile}>
+          Product
         </NavLink>
-        <NavLink to="/platform" className="nav-link" onClick={() => setMobileOpen(false)}>
-          Platform
-        </NavLink>
-        <NavLink to="/applications" className="nav-link" onClick={() => setMobileOpen(false)}>
-          Applications
-        </NavLink>
-        <NavLink to="/cloud" className="nav-link" onClick={() => setMobileOpen(false)}>
-          Cloud
-        </NavLink>
-        <NavLink to="/use-cases" className="nav-link" onClick={() => setMobileOpen(false)}>
+        <span className="nav-mobile-header">Solutions</span>
+        <NavLink to="/solutions/use-cases" className="nav-link nav-mobile-indent" onClick={closeMobile}>
           Use Cases
         </NavLink>
-        <NavLink to="/demos" className="nav-link" onClick={() => setMobileOpen(false)}>
+        <NavLink to="/solutions/cloud" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Cloud
+        </NavLink>
+        {/*<NavLink to="/pricing" className="nav-link" onClick={closeMobile}>
+          Pricing
+        </NavLink>*/}
+        <span className="nav-mobile-header">Developers</span>
+        <NavLink to="/developers/getting-started" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Getting Started
+        </NavLink>
+        <NavLink to="/developers/demos" className="nav-link nav-mobile-indent" onClick={closeMobile}>
           Demos
         </NavLink>
-        {/*<NavLink to="/benchmarks" className="nav-link" onClick={() => setMobileOpen(false)}>
+        <NavLink to="/developers/benchmarks" className="nav-link nav-mobile-indent" onClick={closeMobile}>
           Benchmarks
-        </NavLink>*/}
-        <a href="/documentation/" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={() => setMobileOpen(false)}>
+        </NavLink>
+        <a href="/documentation/" target="_blank" rel="noopener noreferrer" className="nav-link nav-mobile-indent" onClick={closeMobile}>
           Docs
         </a>
-        <button className="btn btn-primary nav-mobile-cta" onClick={() => { setMobileOpen(false); onGetStarted(); }}>
+        <NavLink to="/company" className="nav-link" onClick={closeMobile}>
+          Company
+        </NavLink>
+        <button className="btn btn-primary nav-mobile-cta" onClick={() => { closeMobile(); onGetStarted(); }}>
           Get Started
         </button>
       </div>
