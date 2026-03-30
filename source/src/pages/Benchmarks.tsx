@@ -51,7 +51,7 @@ export default function Benchmarks() {
                   <th style={{ color: 'var(--color-primary)' }}>{group}</th>
                   {visibleNodes.map(n => (
                     <th key={n} className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>
-                      N={n}
+                      {n === '1' ? 'RPS' : `N=${n}`}
                     </th>
                   ))}
                   <th className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>P95</th>
