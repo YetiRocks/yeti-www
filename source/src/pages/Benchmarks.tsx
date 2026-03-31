@@ -28,6 +28,12 @@ interface TestData {
 
 const tests = benchmarkData.tests as Record<string, TestData>
 const groups = [...new Set(Object.values(tests).map(t => t.group))]
+const allTestEntries = Object.entries(tests)
+
+// Show a node column globally if at least 3 tests have data for it
+const globalVisibleNodes = NODE_COUNTS.filter(n =>
+  allTestEntries.filter(([, t]) => t.nodes[n] != null).length >= 3
+)
 
 export default function Benchmarks() {
   return (
@@ -38,18 +44,13 @@ export default function Benchmarks() {
 
       {groups.map(group => {
         const groupTests = Object.entries(tests).filter(([, t]) => t.group === group)
-        // Only show node columns where every test in the group has data
-        const visibleNodes = NODE_COUNTS.filter(n =>
-          groupTests.every(([, t]) => t.nodes[n] != null)
-        )
-
         return (
           <section className="bench-section" key={group}>
             <table className="bench-perf-table">
               <thead>
                 <tr>
                   <th style={{ color: 'var(--color-primary)' }}>{group}</th>
-                  {visibleNodes.map(n => (
+                  {globalVisibleNodes.map(n => (
                     <th key={n} className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>
                       {n === '1' ? 'RPS' : `N=${n}`}
                     </th>
@@ -62,7 +63,7 @@ export default function Benchmarks() {
                 {groupTests.map(([id, test]) => (
                   <tr key={id}>
                     <td>{test.name}</td>
-                    {visibleNodes.map(n => (
+                    {globalVisibleNodes.map(n => (
                       <td key={n} className="bench-col-num" style={{ whiteSpace: 'nowrap' }}>
                         <span className="bench-highlight">{fmt(test.nodes[n])}</span>
                       </td>

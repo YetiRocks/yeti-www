@@ -18,19 +18,14 @@
 
   "scaling": {
     "measured": [
-      { "tier": "8gb",  "nodes": 1, "read_rps": 25076,  "write_rps": 13678 },
-      { "tier": "8gb",  "nodes": 3, "read_rps": 73281,  "write_rps": 46818,  "read_ratio": 2.92, "write_ratio": 3.42 },
-      { "tier": "16gb", "nodes": 1, "read_rps": 46849,  "write_rps": 26503 },
-      { "tier": "16gb", "nodes": 3, "read_rps": 170853, "write_rps": 84120,  "read_ratio": 3.65, "write_ratio": 3.17 },
-      { "tier": "32gb", "nodes": 1, "read_rps": 52422,  "write_rps": 44167 },
-      { "tier": "32gb", "nodes": 3, "read_rps": 197808, "write_rps": 153418, "read_ratio": 3.77, "write_ratio": 3.47 },
-      { "tier": "64gb", "nodes": 1, "read_rps": 61555,  "write_rps": 52382 },
-      { "tier": "64gb", "nodes": 3, "read_rps": 210028, "write_rps": 172231, "read_ratio": 3.41, "write_ratio": 3.29 }
-    ],
-    "per_core": {
-      "reads": 6200,
-      "writes": 3400,
-      "note": "Consistent across all node sizes. Throughput scales linearly with core count."
-    }
+      { "tier": "8gb",  "nodes": 1, "read_rps": 13077,  "write_rps": 14539 },
+      { "tier": "8gb",  "nodes": 3, "read_rps": 75407,  "write_rps": 42507,  "read_per_node": 25136, "write_per_node": 14169 },
+      { "tier": "16gb", "nodes": 1, "read_rps": 50376,  "write_rps": 25909 },
+      { "tier": "16gb", "nodes": 3, "read_rps": 146839, "write_rps": 72507,  "read_per_node": 48947, "write_per_node": 24169 },
+      { "tier": "32gb", "nodes": 1, "read_rps": 51308,  "write_rps": 15627 },
+      { "tier": "32gb", "nodes": 3, "read_rps": 126042, "write_rps": 120146, "read_per_node": 42014, "write_per_node": 40049 },
+      { "tier": "64gb", "nodes": 1, "read_rps": 60135,  "write_rps": 48269 },
+      { "tier": "64gb", "nodes": 3, "read_rps": 203634, "write_rps": 161691, "read_per_node": 67878, "write_per_node": 53897 }
+    ]
   }
 }
