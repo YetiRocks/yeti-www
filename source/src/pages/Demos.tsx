@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 
-const BASE = import.meta.env.BASE_URL
+const BASE = STATIC_ROUTE
 
 const DEMOS = [
   { path: '/demo-authentication/', name: 'Authentication', img: 'screenshots/auth.png', desc: 'Role-based access control demo with Basic, JWT, and OAuth login. Admin and reader roles see different fields.' },

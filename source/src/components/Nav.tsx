@@ -58,7 +58,7 @@ export default function Nav({ onGetStarted }: NavProps) {
       <nav className="nav">
         <div className="nav-left">
           <Link to="/">
-            <img src={`${import.meta.env.BASE_URL}logo_white.svg`} alt="Yeti" className="nav-logo" />
+            <img src="logo_white.svg" alt="Yeti" className="nav-logo" />
           </Link>
         </div>
         <div className="nav-center">

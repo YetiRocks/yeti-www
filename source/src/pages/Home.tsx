@@ -11,7 +11,7 @@ export default function Home({ onGetStarted }: HomeProps) {
       <div className="container">
         <div className="hero">
           <img
-            src={`${import.meta.env.BASE_URL}logo_white.svg`}
+            src="logo_white.svg"
             alt="Yeti Platform Architecture"
             className="hero-logo"
             fetchPriority="high"

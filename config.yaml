@@ -3,14 +3,14 @@ app_id: "yeti-www"
 customer_id: "yeti"
 version: "1.0.0"
 description: "yetirocks.com marketing site + demos"
-route_prefix: "/"
 
 schemas:
-  - schemas/schema.graphql
+  path: schemas/schema.graphql
 
-static_files:
+static:
   path: web
+  route: /
   spa: true
   build:
-    sourceDir: source
+    source: source
     command: npm run build
