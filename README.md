@@ -63,7 +63,7 @@ The site loads automatically. No plugin compilation needed — yeti-www is a sta
 ### 4. Open in browser
 
 ```
-https://localhost:9996/
+https://localhost/
 ```
 
 The site is served at the root path (`route_prefix: "/"`). Navigate between pages using the top navigation bar.
@@ -226,13 +226,14 @@ description: "yetirocks.com marketing site + demos"
 route_prefix: "/"
 
 schemas:
-  - schemas/schema.graphql
+  path: schemas/schema.graphql
 
-static_files:
+static:
   path: web
+  route: /
   spa: true
   build:
-    sourceDir: source
+    source: source
     command: npm run build
 ```
 
