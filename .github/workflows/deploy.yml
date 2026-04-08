@@ -1,0 +1,190 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download yeti binary
+        run: |
+          curl -sSL -o yeti "https://yeti-releases.us-east-1.linodeobjects.com/latest/yeti-linux-x86_64"
+          chmod +x yeti
+
+      - name: Setup applications
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          mkdir -p applications
+          ROOT_APP=$(grep '^root_app:' yeti-config.yaml 2>/dev/null | sed 's/root_app:\s*//' | tr -d '"' | tr -d "'" | xargs)
+          echo "ROOT_APP=$ROOT_APP" >> $GITHUB_ENV
+
+          # If autoLoad is defined, clone those repos
+          APPS=$(grep -A100 'autoLoad:' yeti-config.yaml 2>/dev/null | grep '^\s*-' | sed 's/^\s*-\s*//')
+          if [ -n "$APPS" ]; then
+            for url in $APPS; do
+              app_name=$(basename "$url" .git)
+              echo "Cloning $app_name..."
+              if [ -n "$GH_PAT" ]; then
+                auth_url=$(echo "$url" | sed "s|https://github.com/|https://x-access-token:${GH_PAT}@github.com/|")
+                GIT_TERMINAL_PROMPT=0 git clone --depth 1 "$auth_url" "applications/$app_name" 2>&1 || echo "ERROR: Failed to clone $app_name"
+              else
+                git clone --depth 1 "$url" "applications/$app_name" || echo "ERROR: Failed to clone $app_name"
+              fi
+            done
+          fi
+
+          # If this repo has a config.yaml (it IS an app), add it too
+          if [ -f "config.yaml" ] && grep -q '^app_id:' config.yaml; then
+            APP_ID=$(grep '^app_id:' config.yaml | sed 's/app_id:\s*//' | tr -d '"' | tr -d "'" | xargs)
+            echo "Adding local app: $APP_ID"
+            rsync -a --exclude='.git' --exclude='yeti-config.yaml' --exclude='.github' --exclude='applications' . "applications/$APP_ID/"
+          fi
+
+          echo "=== Applications ==="
+          ls applications/
+
+      - name: Build application frontends
+        run: |
+          for app_dir in applications/*/; do
+            app_name=$(basename "$app_dir")
+            config="$app_dir/config.yaml"
+            [ -f "$config" ] || continue
+
+            build_cmd=$(grep -A2 'build:' "$config" | grep 'command:' | sed 's/.*command:\s*//')
+            source_dir=$(grep -A2 'build:' "$config" | grep -E 'source:|sourceDir:' | sed 's/.*:\s*//')
+            [ -n "$build_cmd" ] && [ -d "$app_dir/$source_dir" ] || continue
+
+            app_id=$(grep '^app_id:' "$config" | sed 's/app_id:\s*//' | tr -d '"' | tr -d "'" | xargs)
+
+            if [ "$app_id" = "$ROOT_APP" ]; then
+              export RESOURCE_ROUTE="/api"
+              export STATIC_ROUTE="/"
+              export YETI_BASE_PATH="/"
+            else
+              export RESOURCE_ROUTE="/${app_id}/api"
+              export STATIC_ROUTE="/${app_id}/"
+              export YETI_BASE_PATH="/${app_id}/"
+            fi
+
+            echo "Building $app_name (RESOURCE_ROUTE=$RESOURCE_ROUTE)..."
+            cd "$app_dir/$source_dir"
+            if echo "$build_cmd" | grep -q "npm"; then
+              npm ci --silent 2>&1 | tail -1
+            fi
+            $build_cmd 2>&1 | tail -3
+            cd - > /dev/null
+            echo "  ✓ $app_name built"
+          done
+
+      - name: Install build tools
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source "$HOME/.cargo/env"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libclang-dev llvm-dev > /dev/null 2>&1
+
+      - name: Pre-compile plugins
+        run: |
+          source "$HOME/.cargo/env"
+          YETI_HOME=$(mktemp -d)
+          cat > "$YETI_HOME/settings.toml" << EOF
+          version = "1"
+          root_directory = "$(pwd)"
+          agreed_to_terms = true
+          EOF
+          YETI_HOME="$YETI_HOME" ./yeti --buildonly 2>&1 | tail -5
+
+      - name: Package
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+          GH_OAUTH_CLIENT_SECRET: ${{ secrets.GH_OAUTH_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        run: |
+          mkdir -p deploy
+          cp yeti deploy/
+          cp yeti-config.yaml deploy/
+          cat > deploy/.env << EOF
+          JWT_SECRET="${JWT_SECRET}"
+          GITHUB_CLIENT_ID="${GH_OAUTH_CLIENT_ID}"
+          GITHUB_CLIENT_SECRET="${GH_OAUTH_CLIENT_SECRET}"
+          GOOGLE_CLIENT_ID="${GOOGLE_CLIENT_ID}"
+          GOOGLE_CLIENT_SECRET="${GOOGLE_CLIENT_SECRET}"
+          EOF
+          cp -r applications deploy/
+          find deploy/applications -name ".git" -type d -exec rm -rf {} + 2>/dev/null || true
+          find deploy/applications -name "node_modules" -type d -exec rm -rf {} + 2>/dev/null || true
+          find deploy/applications -name "source" -type d -exec rm -rf {} + 2>/dev/null || true
+          find deploy -name "._*" -delete 2>/dev/null || true
+          cp -r cache deploy/ 2>/dev/null || true
+          tar czf deploy.tar.gz -C deploy .
+          echo "Package: $(du -h deploy.tar.gz | cut -f1)"
+
+      - name: Deploy
+        env:
+          DEPLOY_HOST: ${{ secrets.PUBLIC_IPS }}
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          DEPLOY_HOST=$(echo "$DEPLOY_HOST" | cut -d',' -f1 | xargs)
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          SSH="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@$DEPLOY_HOST"
+          SCP="scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no"
+          $SCP deploy.tar.gz "root@$DEPLOY_HOST:/tmp/deploy.tar.gz"
+          $SSH "bash -s" << 'REMOTE'
+            set -e
+            LIVE=/opt/yeti
+            mkdir -p "$LIVE"
+            systemctl stop yeti 2>/dev/null || true
+            rm -rf "$LIVE/cache/builds"
+            tar xzf /tmp/deploy.tar.gz -C "$LIVE"
+            rm /tmp/deploy.tar.gz
+            mkdir -p /root/.yeti
+            cat > /root/.yeti/settings.toml << SETTINGS
+          version = "1"
+          root_directory = "/opt/yeti"
+          agreed_to_terms = true
+          SETTINGS
+            cat > /etc/systemd/system/yeti.service << 'SERVICE'
+          [Unit]
+          Description=Yeti Application Platform
+          After=network.target
+          [Service]
+          Type=simple
+          WorkingDirectory=/opt/yeti
+          EnvironmentFile=-/opt/yeti/.env
+          ExecStart=/opt/yeti/yeti start -f
+          Restart=always
+          RestartSec=5
+          LimitNOFILE=65536
+          AmbientCapabilities=CAP_NET_BIND_SERVICE
+          [Install]
+          WantedBy=multi-user.target
+          SERVICE
+            systemctl daemon-reload
+            systemctl enable yeti
+            systemctl restart yeti
+            for i in $(seq 1 90); do
+              sleep 2
+              if curl -sk https://localhost/health > /dev/null 2>&1; then
+                echo "Yeti is healthy"
+                curl -sk https://localhost/health
+                exit 0
+              fi
+              [ $((i % 15)) -eq 0 ] && echo "  Still waiting... ($((i*2))s)"
+            done
+            echo "Health check failed"
+            journalctl -u yeti --no-pager -n 50
+            exit 1
+          REMOTE

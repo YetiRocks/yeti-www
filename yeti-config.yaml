@@ -1,0 +1,25 @@
+name: yeti-www
+environment: production
+root_app: www
+
+interfaces:
+  port: 443
+
+storage:
+  caching: true
+
+logging:
+  level: info
+
+tls:
+  autoGenerate: true
+
+applications:
+  autoLoad:
+    - https://github.com/yetirocks/yeti-documentation
+    - https://github.com/yetirocks/demo-basic
+    - https://github.com/yetirocks/demo-fiql
+    - https://github.com/yetirocks/demo-graphql
+    - https://github.com/yetirocks/demo-realtime
+    - https://github.com/yetirocks/demo-vector
+    - https://github.com/yetirocks/demo-authentication
