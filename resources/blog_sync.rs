@@ -49,12 +49,13 @@ resource!(BlogSync {
 /// Fetch a URL with optional GitHub PAT authentication.
 /// Reads BLOG_PAT from environment. If not set, fetches without auth (public repos only).
 fn github_fetch(url: &str) -> Result<FetchResponse> {
-    match std::env::var("BLOG_PAT") {
-        Ok(token) if !token.is_empty() => fetch!(url, {
-            "headers": { "Authorization": format!("Bearer {}", token) }
-        }),
-        _ => fetch!(url),
+    let mut req = fetch!(url);
+    if let Ok(token) = std::env::var("BLOG_PAT") {
+        if !token.is_empty() {
+            req = req.header("Authorization", &format!("Bearer {token}"));
+        }
     }
+    req.send()
 }
 
 async fn sync_posts(ctx: &ResourceContext) -> usize {
