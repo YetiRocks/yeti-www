@@ -92,4 +92,5 @@ $USE_SUDO mv "$TMP/yeti" "$INSTALL_DIR/yeti"
 $USE_SUDO chmod +x "$INSTALL_DIR/yeti"
 
 echo "Yeti ${VERSION} installed successfully!"
-echo "Run 'yeti init' to get started."
+echo "Starting Yeti..."
+"$INSTALL_DIR/yeti"

@@ -39,12 +39,12 @@ export default function Pricing({ onGetStarted }: PricingProps) {
           </div>
         </div>
 
-        {/* Cloud Tier */}
+        {/* Fabric Tier */}
         <div className="pricing-card pricing-card-center">
           <div className="pricing-card-header">
             <div className="pricing-tier-label">
               <Icon name="globe" />
-              <span>Cloud</span>
+              <span>Fabric</span>
             </div>
             <div className="pricing-price">
               <span className="pricing-amount">$3,000</span>
@@ -97,8 +97,8 @@ export default function Pricing({ onGetStarted }: PricingProps) {
             </div>
           </div>
           <ul className="pricing-features">
-            <li>Everything in Cloud</li>
-            <li>Private or hybrid cloud</li>
+            <li>Everything in Fabric</li>
+            <li>Private or hybrid deployment</li>
             <li>On-premise installation</li>
             <li>Dedicated support and SLAs</li>
             <li>Custom integrations</li>

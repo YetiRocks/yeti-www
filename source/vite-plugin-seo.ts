@@ -28,8 +28,8 @@ const routes: RouteMeta[] = [
     description: 'Zero to production in four steps. Define a schema, configure extensions, add custom logic, and deploy. No boilerplate.',
   },
   {
-    path: '/solutions/cloud',
-    title: 'Cloud | Yeti',
+    path: '/solutions/fabric',
+    title: 'Fabric | Yeti',
     description: 'Push to main. Deploy globally. Multi-region hosting across Linode, GCP, AWS, and Azure with automatic scaling and replication.',
   },
   {
@@ -40,7 +40,7 @@ const routes: RouteMeta[] = [
   {
     path: '/pricing',
     title: 'Pricing | Yeti',
-    description: 'Simple, honest pricing. Start free with the full platform. Scale to global multi-cloud with Yeti Cloud. Enterprise options for private and hybrid deployments.',
+    description: 'Simple, honest pricing. Start free with the full platform. Scale to global multi-cloud with Yeti Fabric. Enterprise options for private and hybrid deployments.',
   },
   {
     path: '/developers/demos',
@@ -60,7 +60,7 @@ const routes: RouteMeta[] = [
   {
     path: '/legal',
     title: 'Legal | Yeti',
-    description: 'Policies and legal documents for Yeti software and Yeti Cloud, including terms of service, privacy policy, and software license.',
+    description: 'Policies and legal documents for Yeti software and Yeti Fabric, including terms of service, privacy policy, and software license.',
   },
   {
     path: '/blog',

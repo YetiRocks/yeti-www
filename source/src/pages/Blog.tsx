@@ -31,54 +31,39 @@ export default function Blog() {
     fetchPosts().then(p => { setPosts(p); setLoading(false) })
   }, [])
 
-  if (loading) {
-    return (
-      <div className="container">
-        <div className="page-header">
-          <h1 className="page-title">Blog</h1>
-          <p className="page-subtitle">Loading posts...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (posts.length === 0) {
-    return (
-      <div className="container" style={{ textAlign: 'center' }}>
-        <div className="page-header" style={{ paddingBottom: 0 }}>
-          <img
-            src={`${STATIC_ROUTE}favicon.png`}
-            alt="Yeti"
-            style={{ width: 120, height: 120, margin: '0 auto var(--space-6)', display: 'block', opacity: 0.8 }}
-          />
-          <h1 className="page-title">No posts yet!</h1>
-          <p className="page-subtitle" style={{ maxWidth: 500 }}>
-            We're working on something great. In the meantime, here's a fun fact about Samoyeds:
-          </p>
-        </div>
-        <div className="section" style={{ borderTop: 'none', maxWidth: 600, margin: '0 auto' }}>
-          <p className="section-desc" style={{ fontSize: 'var(--font-size-lg)', lineHeight: 1.8, maxWidth: 'none' }}>
-            "{fact}"
-          </p>
-          <div style={{ marginTop: 'var(--space-6)', display: 'flex', gap: 'var(--space-4)', justifyContent: 'center' }}>
-            <button className="btn" onClick={() => setFact(facts[Math.floor(Math.random() * facts.length)])}>Another fact</button>
-            <Link to="/" className="btn btn-primary">Go home</Link>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="container">
       <div className="page-header">
-        <h1 className="page-title">Blog</h1>
         <p className="page-subtitle">
           Engineering deep-dives, product updates, and the story behind the platform.
         </p>
       </div>
 
       <section className="section">
+        {loading ? (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 180 }}>
+            <p className="page-subtitle">Loading posts...</p>
+          </div>
+        ) : posts.length === 0 ? (
+          <div style={{ textAlign: 'center' }}>
+            <img
+              src={`${STATIC_ROUTE}favicon.png`}
+              alt="Yeti"
+              style={{ width: 120, height: 120, margin: '0 auto var(--space-6)', display: 'block', opacity: 0.8 }}
+            />
+            <h1 className="page-title">No posts yet!</h1>
+            <p className="page-subtitle" style={{ maxWidth: 500, margin: '0 auto' }}>
+              We're working on something great. In the meantime, here's a fun fact about Samoyeds:
+            </p>
+            <p className="section-desc" style={{ fontSize: 'var(--font-size-lg)', lineHeight: 1.8, maxWidth: 600, margin: 'var(--space-6) auto' }}>
+              "{fact}"
+            </p>
+            <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center' }}>
+              <button className="btn" onClick={() => setFact(facts[Math.floor(Math.random() * facts.length)])}>Another fact</button>
+              <Link to="/" className="btn btn-primary">Go home</Link>
+            </div>
+          </div>
+        ) : (
         <div className="blog-list">
           {posts.map(post => (
             <Link
@@ -97,6 +82,7 @@ export default function Blog() {
             </Link>
           ))}
         </div>
+        )}
       </section>
     </div>
   )

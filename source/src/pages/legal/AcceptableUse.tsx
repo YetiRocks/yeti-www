@@ -9,7 +9,7 @@ export default function AcceptableUse() {
       </div>
       <div className="legal-content">
         <p>
-          This Acceptable Use Policy ("AUP") governs your use of the Yeti Cloud platform and
+          This Acceptable Use Policy ("AUP") governs your use of the Yeti Fabric platform and
           related services provided by YetiRocks, LLC ("Yeti", "we", "us", or
           "our"). This AUP is incorporated
           into and forms part of our <Link to="/legal/terms-of-service">Terms of Service</Link>.
@@ -79,7 +79,7 @@ export default function AcceptableUse() {
 
         <h2>4. Resource Limits</h2>
         <p>
-          Yeti Cloud operates on a fair-use model. All customers share underlying infrastructure,
+          Yeti Fabric operates on a fair-use model. All customers share underlying infrastructure,
           and we expect responsible resource consumption:
         </p>
         <ul>

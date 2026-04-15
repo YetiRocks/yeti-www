@@ -17,7 +17,7 @@ export default function SoftwareLicense() {
         </p>
 
         <p>
-          This Agreement governs locally installed copies of the Yeti platform binary. For the hosted cloud
+          This Agreement governs locally installed copies of the Yeti platform binary. For the hosted Yeti Fabric
           service, please refer to our <Link to="/legal/terms-of-service">Terms of Service</Link>.
         </p>
 

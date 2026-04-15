@@ -9,7 +9,8 @@ schemas:
   path: schemas/schema.graphql
 
 resources:
-  - "resources/*.rs"
+  path: "resources/*.rs"
+  route: /api
 
 static:
   path: web

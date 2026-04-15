@@ -8,7 +8,7 @@ export default function PrivacyPolicy() {
       <div className="legal-content">
         <p>
           This Privacy Policy explains how we collect, use, share, and protect your personal data when you
-          use the Yeti Cloud platform, visit our website at yetirocks.com, or interact with our services.
+          use the Yeti Fabric platform, visit our website at yetirocks.com, or interact with our services.
           We comply with applicable U.S. privacy laws and, for users in the European Economic Area (EEA),
           the General Data Protection Regulation (GDPR).
         </p>
@@ -60,7 +60,7 @@ export default function PrivacyPolicy() {
 
         <h3>2.5 Customer Data</h3>
         <p>
-          Data you store on Yeti Cloud belongs to you. We process it only to deliver the Services
+          Data you store on Yeti Fabric belongs to you. We process it only to deliver the Services
           and never access it except for service delivery, troubleshooting, or as required by law.
         </p>
         <p className="legal-tip">
@@ -71,7 +71,7 @@ export default function PrivacyPolicy() {
         <h2>3. How We Use It</h2>
         <p>We use the information we collect to:</p>
         <ul>
-          <li>Provide, operate, and maintain Yeti Cloud and related services</li>
+          <li>Provide, operate, and maintain Yeti Fabric and related services</li>
           <li>Process transactions and send billing communications</li>
           <li>Respond to support requests and communicate with you about your account</li>
           <li>Monitor and analyze usage trends to improve the platform</li>
@@ -230,7 +230,7 @@ export default function PrivacyPolicy() {
 
         <h2>10. Children</h2>
         <p>
-          Yeti Cloud is not directed to individuals under the age of 16. We do not knowingly collect
+          Yeti Fabric is not directed to individuals under the age of 16. We do not knowingly collect
           personal data from children under 16. If we become aware that we have collected data from a
           child under 16, we will delete it promptly. If you believe we have inadvertently collected
           such data, please contact us at{' '}

@@ -15,7 +15,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LegalIndexRouteImport } from './routes/legal/index'
 import { Route as SolutionsUseCasesRouteImport } from './routes/solutions/use-cases'
-import { Route as SolutionsCloudRouteImport } from './routes/solutions/cloud'
+import { Route as SolutionsFabricRouteImport } from './routes/solutions/fabric'
 import { Route as SolutionsAiRouteImport } from './routes/solutions/ai'
 import { Route as LegalTermsOfServiceRouteImport } from './routes/legal/terms-of-service'
 import { Route as LegalSupportPolicyRouteImport } from './routes/legal/support-policy'
@@ -58,9 +58,9 @@ const SolutionsUseCasesRoute = SolutionsUseCasesRouteImport.update({
   path: '/solutions/use-cases',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolutionsCloudRoute = SolutionsCloudRouteImport.update({
-  id: '/solutions/cloud',
-  path: '/solutions/cloud',
+const SolutionsFabricRoute = SolutionsFabricRouteImport.update({
+  id: '/solutions/fabric',
+  path: '/solutions/fabric',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SolutionsAiRoute = SolutionsAiRouteImport.update({
@@ -136,7 +136,7 @@ export interface FileRoutesByFullPath {
   '/legal/support-policy': typeof LegalSupportPolicyRoute
   '/legal/terms-of-service': typeof LegalTermsOfServiceRoute
   '/solutions/ai': typeof SolutionsAiRoute
-  '/solutions/cloud': typeof SolutionsCloudRoute
+  '/solutions/fabric': typeof SolutionsFabricRoute
   '/solutions/use-cases': typeof SolutionsUseCasesRoute
   '/legal/': typeof LegalIndexRoute
 }
@@ -156,7 +156,7 @@ export interface FileRoutesByTo {
   '/legal/support-policy': typeof LegalSupportPolicyRoute
   '/legal/terms-of-service': typeof LegalTermsOfServiceRoute
   '/solutions/ai': typeof SolutionsAiRoute
-  '/solutions/cloud': typeof SolutionsCloudRoute
+  '/solutions/fabric': typeof SolutionsFabricRoute
   '/solutions/use-cases': typeof SolutionsUseCasesRoute
   '/legal': typeof LegalIndexRoute
 }
@@ -177,7 +177,7 @@ export interface FileRoutesById {
   '/legal/support-policy': typeof LegalSupportPolicyRoute
   '/legal/terms-of-service': typeof LegalTermsOfServiceRoute
   '/solutions/ai': typeof SolutionsAiRoute
-  '/solutions/cloud': typeof SolutionsCloudRoute
+  '/solutions/fabric': typeof SolutionsFabricRoute
   '/solutions/use-cases': typeof SolutionsUseCasesRoute
   '/legal/': typeof LegalIndexRoute
 }
@@ -199,7 +199,7 @@ export interface FileRouteTypes {
     | '/legal/support-policy'
     | '/legal/terms-of-service'
     | '/solutions/ai'
-    | '/solutions/cloud'
+    | '/solutions/fabric'
     | '/solutions/use-cases'
     | '/legal/'
   fileRoutesByTo: FileRoutesByTo
@@ -219,7 +219,7 @@ export interface FileRouteTypes {
     | '/legal/support-policy'
     | '/legal/terms-of-service'
     | '/solutions/ai'
-    | '/solutions/cloud'
+    | '/solutions/fabric'
     | '/solutions/use-cases'
     | '/legal'
   id:
@@ -239,7 +239,7 @@ export interface FileRouteTypes {
     | '/legal/support-policy'
     | '/legal/terms-of-service'
     | '/solutions/ai'
-    | '/solutions/cloud'
+    | '/solutions/fabric'
     | '/solutions/use-cases'
     | '/legal/'
   fileRoutesById: FileRoutesById
@@ -259,7 +259,7 @@ export interface RootRouteChildren {
   LegalSupportPolicyRoute: typeof LegalSupportPolicyRoute
   LegalTermsOfServiceRoute: typeof LegalTermsOfServiceRoute
   SolutionsAiRoute: typeof SolutionsAiRoute
-  SolutionsCloudRoute: typeof SolutionsCloudRoute
+  SolutionsFabricRoute: typeof SolutionsFabricRoute
   SolutionsUseCasesRoute: typeof SolutionsUseCasesRoute
   LegalIndexRoute: typeof LegalIndexRoute
 }
@@ -308,11 +308,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsUseCasesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/solutions/cloud': {
-      id: '/solutions/cloud'
-      path: '/solutions/cloud'
-      fullPath: '/solutions/cloud'
-      preLoaderRoute: typeof SolutionsCloudRouteImport
+    '/solutions/fabric': {
+      id: '/solutions/fabric'
+      path: '/solutions/fabric'
+      fullPath: '/solutions/fabric'
+      preLoaderRoute: typeof SolutionsFabricRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/solutions/ai': {
@@ -420,7 +420,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalSupportPolicyRoute: LegalSupportPolicyRoute,
   LegalTermsOfServiceRoute: LegalTermsOfServiceRoute,
   SolutionsAiRoute: SolutionsAiRoute,
-  SolutionsCloudRoute: SolutionsCloudRoute,
+  SolutionsFabricRoute: SolutionsFabricRoute,
   SolutionsUseCasesRoute: SolutionsUseCasesRoute,
   LegalIndexRoute: LegalIndexRoute,
 }

@@ -92,7 +92,7 @@ Browser (yetirocks.com)
          +-- /              Home
          +-- /platform      Platform architecture
          +-- /applications  Code examples
-         +-- /cloud         Hosting & pricing
+         +-- /fabric         Hosting & pricing
          +-- /use-cases     Use case gallery
          +-- /demos         Live demos
          +-- /benchmarks    Performance data
@@ -137,9 +137,9 @@ Interactive code examples with syntax highlighting demonstrating:
 2. **Authentication** — yeti-auth config.yaml with OAuth providers and role mapping
 3. **Vector Search** — schema with `@indexed(type: "HNSW")` and text search curl examples
 
-### Cloud (/cloud)
+### Fabric (/fabric)
 
-Yeti Cloud hosting and pricing information. Infrastructure details, deployment options, and scaling narrative.
+Yeti Fabric hosting and pricing information. Infrastructure details, deployment options, and scaling narrative.
 
 ### Use Cases (/use-cases)
 
@@ -313,7 +313,7 @@ yeti-www/
 │           ├── Home.tsx         # Homepage (hero, building blocks, value props)
 │           ├── Platform.tsx     # Platform architecture deep-dive
 │           ├── Applications.tsx # Code examples (schema, auth, vectors)
-│           ├── Hosting.tsx      # Yeti Cloud hosting (/cloud route)
+│           ├── Hosting.tsx      # Yeti Fabric hosting (/fabric route)
 │           ├── UseCases.tsx     # Use case gallery
 │           ├── Demos.tsx        # Live demos
 │           ├── Benchmarks.tsx   # Performance data with charts

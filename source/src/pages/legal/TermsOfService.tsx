@@ -14,11 +14,11 @@ export default function TermsOfService() {
           These Terms of Service ("Agreement") are entered into by and between YetiRocks, LLC
           ("Yeti", "we", "us", or "our"), a Wyoming limited liability company, and the entity or
           individual ("Customer", "you", or "your") who accesses or uses the Yeti platform or
-          Yeti Cloud services. By accessing or using the Services, you agree to be bound by this
+          Yeti Fabric services. By accessing or using the Services, you agree to be bound by this
           Agreement. If you do not agree, do not use the Services.
         </p>
         <p>
-          This Agreement applies to both the Yeti Cloud hosted platform and the locally installed
+          This Agreement applies to both the Yeti Fabric hosted platform and the locally installed
           Yeti software. Separate license terms may apply to the locally installed Software as
           specified in your Order and the{' '}
           <Link to="/legal/software-license">Software License Agreement</Link>.
@@ -35,7 +35,7 @@ export default function TermsOfService() {
           <li><strong>"Documentation"</strong> means the user guides and online documentation at <a href="https://docs.yetirocks.com">docs.yetirocks.com</a>, as updated from time to time.</li>
           <li><strong>"Effective Date"</strong> means the date you first access the Services or the date an Order is signed, whichever is earlier.</li>
           <li><strong>"Order"</strong> means an ordering document or online subscription specifying the Services, fees, and term agreed upon by the parties.</li>
-          <li><strong>"Platform"</strong> means the Yeti Cloud hosted application platform, including all associated infrastructure, APIs, and tools.</li>
+          <li><strong>"Platform"</strong> means the Yeti Fabric hosted application platform, including all associated infrastructure, APIs, and tools.</li>
           <li><strong>"Services"</strong> means the Platform, Support Services, Software, and any other services Yeti provides under this Agreement.</li>
           <li><strong>"Software"</strong> means the proprietary Yeti application platform binary made available for local installation under a separate <Link to="/legal/software-license">Software License</Link>.</li>
           <li><strong>"Usage Data"</strong> means data Yeti collects about your use of the Services, including performance metrics and aggregated usage statistics, but excluding Customer Data.</li>

@@ -89,7 +89,7 @@ resource!(Featured {
         <div className="section-label">Step 4</div>
         <h2 className="section-title">Drop it in and go</h2>
         <p className="section-desc">
-          Put your application directory in the Yeti applications folder. Yeti detects it, compiles any resources, builds your frontend, and starts serving. Push to GitHub and Yeti Cloud deploys it globally.
+          Put your application directory in the Yeti applications folder. Yeti detects it, compiles any resources, builds your frontend, and starts serving. Push to GitHub and Yeti Fabric deploys it globally.
         </p>
 
         <div className="features-grid">

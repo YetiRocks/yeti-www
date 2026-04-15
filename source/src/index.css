@@ -220,13 +220,15 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-10);
-  flex-wrap: wrap;
+  max-width: 33.333%;
+  margin: 0 auto;
+  gap: var(--space-8);
 }
 
 .logo-strip-img {
-  height: 32px;
+  height: 28px;
   width: auto;
+  flex-shrink: 0;
   opacity: 0.7;
   filter: brightness(0) invert(1);
   transition: opacity 0.2s;
@@ -234,6 +236,14 @@ a:hover {
 
 .logo-strip-img:hover {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .logo-strip-row {
+    max-width: 100%;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
 }
 
 /* ===== Sections ===== */
@@ -509,7 +519,6 @@ code {
 .page-subtitle {
   font-size: var(--font-size-lg);
   color: var(--color-grey);
-  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -1039,7 +1048,7 @@ code {
 }
 
 .blog-card-category {
-  color: var(--color-accent);
+  color: var(--color-primary);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1069,16 +1078,49 @@ code {
   padding-bottom: var(--space-16);
 }
 
-.blog-article-header {
+.blog-post-byline {
+  text-align: center;
+  padding: var(--space-8) 0 var(--space-4);
+}
+
+.blog-post-byline .blog-article-meta {
   margin-bottom: var(--space-8);
+}
+
+.blog-post-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-grey);
+  text-align: center;
+  margin: 0 auto var(--space-8);
+}
+
+.blog-divider {
+  border: none;
+  border-top: 1px solid var(--color-border-primary);
+  margin: 0 0 var(--space-8);
 }
 
 .blog-article-meta {
   display: flex;
+  align-items: center;
   gap: var(--space-3);
   font-size: var(--font-size-sm);
   color: var(--color-grey);
   margin-bottom: var(--space-4);
+}
+
+.blog-meta-sep {
+  color: var(--color-border-primary);
+}
+
+.blog-meta-back {
+  color: var(--color-white);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.blog-meta-back:hover {
+  text-decoration: underline;
 }
 
 .blog-back-link {
@@ -1098,7 +1140,7 @@ code {
   aspect-ratio: 3 / 1;
   object-fit: cover;
   border-radius: var(--radius);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-4);
 }
 
 .blog-article figure {
@@ -1157,4 +1199,13 @@ code {
 .blog-article pre code {
   background: none;
   padding: 0;
+}
+
+/* Inline code in blog articles */
+.blog-article > div > code,
+.blog-article p code,
+.blog-article li code,
+.blog-article h2 code,
+.blog-article h3 code {
+  color: var(--color-primary);
 }

@@ -36,11 +36,11 @@ resource!(BlogImage {
                     Err(_) => return error_response(500, "Image decode failed"),
                 };
 
-                Ok(http::Response::builder()
+                Ok(Response::builder()
                     .status(200)
                     .header("content-type", content_type)
                     .header("cache-control", "public, max-age=86400")
-                    .body(ResponseBody::Complete(bytes))?)
+                    .body(ResponseBody::complete(bytes))?)
             },
             Ok(None) => error_response(404, "Image not found"),
             Err(e) => error_response(500, &format!("Storage error: {}", e)),

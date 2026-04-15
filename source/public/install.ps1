@@ -66,7 +66,8 @@ try {
     }
 
     Write-Host "Yeti $Version installed successfully!"
-    Write-Host "Run 'yeti init' to get started."
+    Write-Host "Starting Yeti..."
+    & (Join-Path $InstallDir "yeti.exe")
 } finally {
     if (Test-Path $TmpDir) { Remove-Item $TmpDir -Recurse -Force -ErrorAction SilentlyContinue }
 }

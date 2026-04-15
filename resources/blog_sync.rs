@@ -21,8 +21,8 @@ use yeti_sdk::prelude::*;
 const REPO: &str = "YetiRocks/blog";
 const BRANCH: &str = "main";
 const POSTS_DIR: &str = "posts";
-const RAW_BASE: &str = "https://raw.githubusercontent.com/YetiRocks/blog/main/posts";
-const IMAGE_API: &str = "/www/api/blogimage";
+const API_RAW_BASE: &str = "https://api.github.com/repos/YetiRocks/blog/contents/posts";
+const IMAGE_API: &str = "/api/blogimage";
 
 // TODO: Uncomment when schedule bridge is implemented (schedule-bridge.md)
 // schedule!("sync-blog", sync_posts_scheduled, "*/5 * * * *");
@@ -49,16 +49,30 @@ resource!(BlogSync {
 /// Fetch with auth from BLOG_PAT env var (if set).
 
 fn authed_fetch(url: &str) -> Result<FetchResponse> {
-    let mut req = fetch!(url);
+    let mut req = fetch!(url).header("User-Agent", "yeti-www");
     if let Ok(token) = std::env::var("BLOG_PAT") {
         if !token.is_empty() {
-            req = req.header("Authorization", &format!("Bearer {token}"));
+            req = req.header("Authorization", &format!("token {token}"));
         }
     }
     req.send()
 }
 
-async fn sync_posts(ctx: &ResourceContext) -> usize {
+/// Fetch raw file content via GitHub API (no CDN cache).
+fn fetch_raw(path: &str) -> Result<FetchResponse> {
+    let url = format!("{}/{}?ref={}", API_RAW_BASE, path, BRANCH);
+    let mut req = fetch!(&url)
+        .header("User-Agent", "yeti-www")
+        .header("Accept", "application/vnd.github.raw");
+    if let Ok(token) = std::env::var("BLOG_PAT") {
+        if !token.is_empty() {
+            req = req.header("Authorization", &format!("token {token}"));
+        }
+    }
+    req.send()
+}
+
+async fn sync_posts(ctx: &Context) -> usize {
     let post_table = match ctx.get_table("BlogPost") {
         Ok(t) => t,
         Err(e) => {
@@ -95,7 +109,11 @@ async fn sync_posts(ctx: &ResourceContext) -> usize {
     }
 
     let entries: Vec<Value> = match response.json() {
-        Ok(v) => v,
+        Ok(Value::Array(arr)) => arr,
+        Ok(_) => {
+            yeti_log!(warn, "BlogSync: expected array from GitHub API");
+            return 0;
+        }
         Err(e) => {
             yeti_log!(warn, "BlogSync: parse failed: {}", e);
             return 0;
@@ -103,6 +121,13 @@ async fn sync_posts(ctx: &ResourceContext) -> usize {
     };
 
     let mut synced = 0usize;
+
+    // Collect repo slugs for cleanup pass
+    let repo_slugs: std::collections::HashSet<String> = entries
+        .iter()
+        .filter(|e| e.get("type").and_then(|v| v.as_str()) == Some("dir"))
+        .filter_map(|e| e.get("name").and_then(|v| v.as_str()).map(|s| s.to_string()))
+        .collect();
 
     for entry in &entries {
         if entry.get("type").and_then(|v| v.as_str()) != Some("dir") {
@@ -114,13 +139,9 @@ async fn sync_posts(ctx: &ResourceContext) -> usize {
             None => continue,
         };
 
-        // Fetch index.md
-        let md_url = format!("{}/{}/index.md", RAW_BASE, slug);
-        let raw = match authed_fetch(&md_url) {
-            Ok(r) if r.ok() => match r.text() {
-                Ok(t) => t,
-                Err(_) => continue,
-            },
+        // Fetch index.md via API (no CDN cache)
+        let raw = match fetch_raw(&format!("{}/index.md", slug)) {
+            Ok(r) if r.ok() => r.text().to_string(),
             _ => continue,
         };
 
@@ -137,7 +158,10 @@ async fn sync_posts(ctx: &ResourceContext) -> usize {
         );
         let image_files: Vec<String> = match authed_fetch(&folder_api) {
             Ok(r) if r.ok() => {
-                let files: Vec<Value> = r.json().unwrap_or_default();
+                let files: Vec<Value> = match r.json() {
+                    Ok(Value::Array(a)) => a,
+                    _ => Vec::new(),
+                };
                 files
                     .iter()
                     .filter_map(|f| {
@@ -162,39 +186,38 @@ async fn sync_posts(ctx: &ResourceContext) -> usize {
         // Download and store each image
         let mut has_hero = false;
         for filename in &image_files {
-            let img_url = format!("{}/{}/{}", RAW_BASE, slug, filename);
-            if let Ok(img_resp) = authed_fetch(&img_url) {
+            let img_path = format!("{}/{}", slug, filename);
+            if let Ok(img_resp) = fetch_raw(&img_path) {
                 if img_resp.ok() {
-                    if let Ok(bytes) = img_resp.bytes() {
-                        let content_type = if filename.ends_with(".jpg") || filename.ends_with(".jpeg") {
-                            "image/jpeg"
-                        } else if filename.ends_with(".gif") {
-                            "image/gif"
-                        } else if filename.ends_with(".webp") {
-                            "image/webp"
-                        } else if filename.ends_with(".avif") {
-                            "image/avif"
-                        } else {
-                            "image/png"
-                        };
+                    let bytes = img_resp.bytes();
+                    let content_type = if filename.ends_with(".jpg") || filename.ends_with(".jpeg") {
+                        "image/jpeg"
+                    } else if filename.ends_with(".gif") {
+                        "image/gif"
+                    } else if filename.ends_with(".webp") {
+                        "image/webp"
+                    } else if filename.ends_with(".avif") {
+                        "image/avif"
+                    } else {
+                        "image/png"
+                    };
 
-                        let image_id = format!("{}/{}", slug, filename);
-                        let record = json!({
-                            "id": image_id,
-                            "contentType": content_type,
-                            "data": base64_encode(&bytes),
-                        });
+                    let image_id = format!("{}/{}", slug, filename);
+                    let record = json!({
+                        "id": image_id,
+                        "contentType": content_type,
+                        "data": base64_encode(bytes),
+                    });
 
-                        if let Err(e) = image_table.put(&image_id, record).await {
-                            yeti_log!(warn, "BlogSync: image store failed for {}/{}: {}", slug, filename, e);
-                        }
+                    if let Err(e) = image_table.put(&image_id, record).await {
+                        yeti_log!(warn, "BlogSync: image store failed for {}/{}: {}", slug, filename, e);
+                    }
 
-                        if filename == "hero_image.png"
-                            || filename == "hero_image.jpg"
-                            || filename == "hero_image.jpeg"
-                        {
-                            has_hero = true;
-                        }
+                    if filename == "hero_image.png"
+                        || filename == "hero_image.jpg"
+                        || filename == "hero_image.jpeg"
+                    {
+                        has_hero = true;
                     }
                 }
             }
@@ -229,8 +252,33 @@ async fn sync_posts(ctx: &ResourceContext) -> usize {
         }
     }
 
-    if synced > 0 {
-        yeti_log!(info, "BlogSync: synced {} posts + images from {}", synced, REPO);
+    // Remove posts that no longer exist in the repo
+    let mut removed = 0usize;
+    let existing = post_table.get_all().await.unwrap_or_default();
+    for record in &existing {
+        if let Some(id) = record.get("id").and_then(|v| v.as_str()) {
+            if !repo_slugs.contains(id) {
+                if let Err(e) = post_table.delete(id).await {
+                    yeti_log!(warn, "BlogSync: failed to remove '{}': {}", id, e);
+                } else {
+                    // Also clean up associated images
+                    let prefix = format!("{}/", id);
+                    let images = image_table.get_all().await.unwrap_or_default();
+                    for img in &images {
+                        if let Some(img_id) = img.get("id").and_then(|v| v.as_str()) {
+                            if img_id.starts_with(&prefix) {
+                                let _ = image_table.delete(img_id).await;
+                            }
+                        }
+                    }
+                    removed += 1;
+                }
+            }
+        }
+    }
+
+    if synced > 0 || removed > 0 {
+        yeti_log!(info, "BlogSync: synced {} posts, removed {} from {}", synced, removed, REPO);
     }
 
     synced
@@ -269,7 +317,11 @@ fn markdown_to_html(md: &str, slug: &str) -> String {
     for line in md.lines() {
         if line.starts_with("```") {
             if in_code_block {
-                html.push_str("<code>");
+                if code_lang.is_empty() {
+                    html.push_str("<code>");
+                } else {
+                    html.push_str(&format!("<code class=\"language-{}\">", code_lang));
+                }
                 html.push_str(&html_escape(&code_buf));
                 html.push_str("</code></pre>\n");
                 code_buf.clear();
@@ -278,11 +330,7 @@ fn markdown_to_html(md: &str, slug: &str) -> String {
                 if in_paragraph { html.push_str("</p>\n"); in_paragraph = false; }
                 if in_list { html.push_str("</ul>\n"); in_list = false; }
                 code_lang = line[3..].trim().to_string();
-                html.push_str(if code_lang.is_empty() {
-                    "<pre>".to_string()
-                } else {
-                    format!("<pre class=\"language-{}\">", code_lang)
-                }.as_str());
+                html.push_str("<pre>");
                 in_code_block = true;
             }
             continue;

@@ -6,7 +6,7 @@ export default function Hosting() {
       <div className="page-header">
         <h1 className="page-title">Push to main. Deploy globally.</h1>
         <p className="page-subtitle">
-          Yeti Cloud runs your applications across Linode, GCP, AWS, and Azure. You push code. We handle servers, scaling, replication, monitoring, and billing. Whether you're processing 50,000 ad impressions per second or ingesting telemetry from factory floor sensors, the same deploy workflow applies.
+          Yeti Fabric runs your applications across Linode, GCP, AWS, and Azure. You push code. We handle servers, scaling, replication, monitoring, and billing. Whether you're processing 50,000 ad impressions per second or ingesting telemetry from factory floor sensors, the same deploy workflow applies.
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export default function Hosting() {
         <div className="section-label">Architecture</div>
         <h2 className="section-title">Built with Yeti, for Yeti</h2>
         <p className="section-desc">
-          Yeti Cloud runs on the same platform you use. Four applications on every server handle routing, process management, builds, and orchestration. The same SDK, the same plugin system, the same config files. No Kubernetes. No containers.
+          Yeti Fabric runs on the same platform you use. Four applications on every server handle routing, process management, builds, and orchestration. The same SDK, the same plugin system, the same config files. No Kubernetes. No containers.
         </p>
         <div className="features-grid">
           <div className="feature-card">

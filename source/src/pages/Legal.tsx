@@ -5,7 +5,7 @@ const POLICIES = [
   {
     icon: 'file-text' as const,
     title: 'Terms of Service',
-    desc: 'Governs use of the Yeti Cloud platform, outlining rights, responsibilities, fees, data policies, and legal obligations.',
+    desc: 'Governs use of the Yeti Fabric platform, outlining rights, responsibilities, fees, data policies, and legal obligations.',
     href: '/legal/terms-of-service',
   },
   {
@@ -23,19 +23,19 @@ const POLICIES = [
   {
     icon: 'browser' as const,
     title: 'Cookie Policy',
-    desc: 'Details how yetirocks.com and Yeti Cloud use cookies, the types employed, your choices, and how cookie data is handled.',
+    desc: 'Details how yetirocks.com and Yeti Fabric use cookies, the types employed, your choices, and how cookie data is handled.',
     href: '/legal/cookie-policy',
   },
   {
     icon: 'clipboard' as const,
     title: 'Acceptable Use Policy',
-    desc: 'Defines what you can and cannot run on Yeti Cloud. Covers prohibited content, resource limits, and enforcement actions.',
+    desc: 'Defines what you can and cannot run on Yeti Fabric. Covers prohibited content, resource limits, and enforcement actions.',
     href: '/legal/acceptable-use',
   },
   {
     icon: 'wrench' as const,
     title: 'Support Policy',
-    desc: 'Service levels, response times, uptime guarantees, and remedies for Yeti Cloud and licensed software support.',
+    desc: 'Service levels, response times, uptime guarantees, and remedies for Yeti Fabric and licensed software support.',
     href: '/legal/support-policy',
   },
 ]
@@ -46,7 +46,7 @@ export default function Legal() {
       <div className="page-header">
         <h1 className="page-title">Legal</h1>
         <p className="page-subtitle">
-          Policies and legal documents for Yeti software and Yeti Cloud.
+          Policies and legal documents for Yeti software and Yeti Fabric.
         </p>
       </div>
 

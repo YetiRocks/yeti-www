@@ -115,8 +115,8 @@ export default function Nav({ onGetStarted }: NavProps) {
             <Link to="/solutions/use-cases" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
               Use Cases
             </Link>
-            <Link to="/solutions/cloud" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
-              Cloud
+            <Link to="/solutions/fabric" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Fabric
             </Link>
           </>}
           {isDevelopersActive && <>
@@ -147,8 +147,8 @@ export default function Nav({ onGetStarted }: NavProps) {
         <Link to="/solutions/use-cases" className="nav-link nav-mobile-indent" onClick={closeMobile}>
           Use Cases
         </Link>
-        <Link to="/solutions/cloud" className="nav-link nav-mobile-indent" onClick={closeMobile}>
-          Cloud
+        <Link to="/solutions/fabric" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Fabric
         </Link>
         <span className="nav-mobile-header">Developers</span>
         <Link to="/developers/getting-started" className="nav-link nav-mobile-indent" onClick={closeMobile}>

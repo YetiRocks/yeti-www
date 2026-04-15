@@ -10,7 +10,7 @@ export default function SupportPolicy() {
       <div className="legal-content">
         <p>
           This Support Policy describes the support services provided by YetiRocks, LLC
-          ("Yeti", "we", "us", or "our") to customers of the Yeti Cloud platform.
+          ("Yeti", "we", "us", or "our") to customers of the Yeti Fabric platform.
           This policy is incorporated into and forms part of
           our <Link to="/legal/terms-of-service">Terms of Service</Link>.
         </p>
@@ -101,7 +101,7 @@ export default function SupportPolicy() {
 
         <h3>4.1 What's Covered</h3>
         <ul>
-          <li>Yeti Cloud platform issues, outages, and errors</li>
+          <li>Yeti Fabric platform issues, outages, and errors</li>
           <li>Configuration and deployment assistance</li>
           <li>Yeti SDK and API questions</li>
           <li>Account and billing inquiries</li>
@@ -121,7 +121,7 @@ export default function SupportPolicy() {
         <h2>5. Uptime SLA</h2>
         <p>
           For customers on paid plans (Pro and Enterprise), Yeti commits to a monthly uptime target
-          of <strong>99.9%</strong> for the Yeti Cloud platform, measured as the percentage of total
+          of <strong>99.9%</strong> for the Yeti Fabric platform, measured as the percentage of total
           minutes in a calendar month during which the platform is available.
         </p>
         <ul>

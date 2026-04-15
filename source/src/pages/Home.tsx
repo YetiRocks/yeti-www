@@ -135,7 +135,7 @@ export default function Home({ onGetStarted }: HomeProps) {
               <Icon name="globe" />
               <div className="feature-title">Your Bill Tracks Your Revenue</div>
               <div className="feature-text">
-                Yeti Cloud charges for the compute and storage you actually use. No reserved instances, no minimum commits, no surprise egress fees. Start on a single region for pennies. Scale to multi-cloud global deployment as traffic grows.
+                Yeti Fabric charges for the compute and storage you actually use. No reserved instances, no minimum commits, no surprise egress fees. Start on a single region for pennies. Scale to multi-cloud global deployment as traffic grows.
               </div>
             </div>
           </div>
