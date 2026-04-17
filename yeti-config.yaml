@@ -1,12 +1,5 @@
-name: yeti-www
 environment: production
-root_app: www
-
-interfaces:
-  port: 443
-
-storage:
-  caching: true
+port: 443
 
 logging:
   level: info
@@ -15,6 +8,7 @@ tls:
   autoGenerate: true
 
 applications:
+  root_app: www
   autoLoad:
     - https://github.com/yetirocks/yeti-documentation
     - https://github.com/yetirocks/demo-basic

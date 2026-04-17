@@ -47,7 +47,7 @@ export default function Blog() {
         ) : posts.length === 0 ? (
           <div style={{ textAlign: 'center' }}>
             <img
-              src={`${STATIC_ROUTE}favicon.png`}
+              src={"/icon.svg"}
               alt="Yeti"
               style={{ width: 120, height: 120, margin: '0 auto var(--space-6)', display: 'block', opacity: 0.8 }}
             />

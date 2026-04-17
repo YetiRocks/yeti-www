@@ -43,7 +43,7 @@ export default function NotFound() {
     <div className="container" style={{ textAlign: 'center' }}>
       <div className="page-header" style={{ paddingBottom: 0 }}>
         <img
-          src={`${STATIC_ROUTE}favicon.png`}
+          src={"/icon.svg"}
           alt="Yeti"
           style={{ width: 120, height: 120, margin: '0 auto var(--space-6)', display: 'block', opacity: 0.8 }}
         />

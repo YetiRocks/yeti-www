@@ -13,7 +13,7 @@ export interface Post {
   heroImage?: string
 }
 
-const API_BASE = `${STATIC_ROUTE}../api`
+const API_BASE = `${__STATIC_ROOT__}/${__RESOURCES_ROOT__}`
 const PREVIEW_COOKIE = 'blog_preview_date'
 
 let postsCache: Post[] | null = null
