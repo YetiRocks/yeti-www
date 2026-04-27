@@ -8,12 +8,17 @@ name: Deploy
 # autoLoad bundle → npm-build every frontend → `yeti --buildonly` to
 # scaffold + production-profile compile → scp + systemd restart.
 #
-# - push to main → real deploy
-# - PR opened → dry_run: true (build + package + artifact upload, no
-#   scp). Catches build / route-conflict / package-size regressions
-#   on every PR with zero prod risk.
-# - workflow_dispatch defaults to a real deploy; toggle `dry_run: true`
-#   from the Actions UI to force dry-run on demand.
+# SAFETY GATE — DRY-RUN IS DEFAULT (temporary):
+# Until the new yeti binary is published to Linode + the unified
+# pipeline is verified end-to-end, every trigger defaults to dry-run.
+# Real deploys require explicit `workflow_dispatch` with
+# `dry_run: false` from the Actions UI. Flip the input default + the
+# expression below back to "push deploys real" once the gate clears.
+#
+# - push to main → dry_run: true (was: real deploy)
+# - PR opened → dry_run: true
+# - workflow_dispatch with no override → dry_run: true (was: real deploy)
+# - workflow_dispatch with dry_run: false → real deploy (only path)
 
 on:
   push:
@@ -22,9 +27,9 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Build + package only; skip scp + systemd restart"
+        description: "Build + package only; skip scp + systemd restart. Default true while the safety gate is on."
         type: boolean
-        default: false
+        default: true
 
 jobs:
   deploy:
@@ -32,5 +37,5 @@ jobs:
     with:
       service_name: yeti
       service_description: "Yeti Application Platform (yeti-www aggregator)"
-      dry_run: ${{ github.event_name == 'pull_request' || inputs.dry_run == true }}
+      dry_run: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != false }}
     secrets: inherit
