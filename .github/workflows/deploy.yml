@@ -3,15 +3,28 @@ name: Deploy
 # yeti-www is the canonical aggregator deploy: root_app `www` plus the
 # autoLoad bundle declared in yeti-config.yaml (yeti-documentation +
 # the demo-* sites). The unified workflow at
-# YetiRocks/yeti-workflows/.github/workflows/yeti-app-deploy.yml handles the
-# whole pipeline: download yeti CLI → mirror this repo + clone the
+# YetiRocks/yeti-workflows/.github/workflows/yeti-app-deploy.yml handles
+# the whole pipeline: download yeti CLI → mirror this repo + clone the
 # autoLoad bundle → npm-build every frontend → `yeti --buildonly` to
 # scaffold + production-profile compile → scp + systemd restart.
+#
+# - push to main → real deploy
+# - PR opened → dry_run: true (build + package + artifact upload, no
+#   scp). Catches build / route-conflict / package-size regressions
+#   on every PR with zero prod risk.
+# - workflow_dispatch defaults to a real deploy; toggle `dry_run: true`
+#   from the Actions UI to force dry-run on demand.
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build + package only; skip scp + systemd restart"
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -19,4 +32,5 @@ jobs:
     with:
       service_name: yeti
       service_description: "Yeti Application Platform (yeti-www aggregator)"
+      dry_run: ${{ github.event_name == 'pull_request' || inputs.dry_run == true }}
     secrets: inherit
