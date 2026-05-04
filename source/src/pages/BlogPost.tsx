@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { fetchPost, type Post } from '../data/posts'
 import { useSEO } from '../hooks/useSEO'
-import Code from '../components/Code'
+import CodeBlock from '../components/CodeBlock'
 
 interface BlogPostProps {
   slug: string
@@ -104,7 +104,7 @@ export default function BlogPost({ slug }: BlogPostProps) {
         <div className="blog-content">
           {segments.map((seg, i) =>
             seg.type === 'code' ? (
-              <Code key={i} label={seg.lang || 'code'} language={seg.lang}>{seg.value}</Code>
+              <CodeBlock key={i} label={seg.lang || 'code'} language={seg.lang}>{seg.value}</CodeBlock>
             ) : (
               <div key={i} dangerouslySetInnerHTML={{ __html: seg.value }} />
             )

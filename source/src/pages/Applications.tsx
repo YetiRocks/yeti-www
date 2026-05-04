@@ -1,4 +1,4 @@
-import Code from '../components/Code'
+import CodeBlock from '../components/CodeBlock'
 import Icon from '../components/Icon'
 import { Link } from '@tanstack/react-router'
 
@@ -19,7 +19,7 @@ export default function Applications() {
           Write a GraphQL schema. Each type with <code>@table</code> becomes a stored table. Add <code>@export</code> and Yeti generates REST, GraphQL, and SSE endpoints automatically. Indexes, relationships, and vector fields are all declared inline.
         </p>
 
-        <Code label="schemas/schema.graphql">{`type Product @table @export {
+        <CodeBlock label="schemas/schema.graphql">{`type Product @table @export {
     id: ID! @primaryKey
     name: String!
     price: Float!
@@ -34,7 +34,7 @@ type Review @table @export {
     rating: Int!
     body: String!
     embedding: Vector @indexed(source: "body")
-}`}</Code>
+}`}</CodeBlock>
       </section>
 
       <section className="section">
@@ -44,7 +44,7 @@ type Review @table @export {
           A YAML file names the app, points to the schema, and declares which extensions to use. Auth, vector search, telemetry - each one is a few lines of config. No code to write for any of it.
         </p>
 
-        <Code label="config.yaml">{`name: "Product Catalog"
+        <CodeBlock label="config.yaml">{`name: "Product Catalog"
 app_id: "catalog"
 version: "1.0.0"
 route_prefix: /catalog
@@ -63,7 +63,7 @@ static_files:
   spa: true
   build:
     source_dir: frontend
-    command: npm run build`}</Code>
+    command: npm run build`}</CodeBlock>
       </section>
 
       <section className="section">
@@ -73,7 +73,7 @@ static_files:
           Most apps don't need custom code - the schema and config handle CRUD, auth, search, and streaming. When you do need business logic, write a resource file. It compiles to native Rust and hot-reloads on save.
         </p>
 
-        <Code label="resources/featured.rs">{`use yeti_sdk::prelude::*;
+        <CodeBlock label="resources/featured.rs">{`use yeti_sdk::prelude::*;
 
 resource!(Featured {
     get(request, ctx) => {
@@ -82,7 +82,7 @@ resource!(Featured {
             .await?;
         json!({"featured": featured, "count": featured.len()})
     }
-});`}</Code>
+});`}</CodeBlock>
       </section>
 
       <section className="section">

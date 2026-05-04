@@ -66,7 +66,7 @@ export default function Nav({ onGetStarted }: NavProps) {
             Home
           </Link>
           <Link to="/platform" className="nav-link" activeProps={{ className: 'nav-link active' }}>
-            Product
+            Platform
           </Link>
           <Link to="/solutions/ai" className={`nav-link${isSolutionsActive ? ' active' : ''}`}>
             Solutions
@@ -144,7 +144,7 @@ export default function Nav({ onGetStarted }: NavProps) {
           Home
         </Link>
         <Link to="/platform" className="nav-link" onClick={closeMobile}>
-          Product
+          Platform
         </Link>
         <span className="nav-mobile-header">Solutions</span>
         <Link to="/solutions/ai" className="nav-link nav-mobile-indent" onClick={closeMobile}>

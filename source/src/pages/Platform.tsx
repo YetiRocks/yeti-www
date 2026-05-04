@@ -1,5 +1,5 @@
 import Icon from '../components/Icon'
-import Code from '../components/Code'
+import CodeBlock from '../components/CodeBlock'
 
 export default function Platform() {
   return (
@@ -48,7 +48,7 @@ export default function Platform() {
             <div className="feature-text">
               Define your data model in GraphQL with custom directives for tables, indexes, relationships, and exports. Yeti generates CRUD operations, query filtering, pagination, and real-time subscriptions from that schema.
             </div>
-            <Code label="schema.graphql">{`type Product @table(database: "store")
+            <CodeBlock label="schema.graphql">{`type Product @table(database: "store")
   @export(rest: true, mqtt: true, public: [read])
   @distribute(residency: "full", replicationFactor: 3)
   @audit(retention: 365) {
@@ -57,7 +57,7 @@ export default function Platform() {
     price: Float!
     category: String! @indexed
     inStock: Boolean!
-}`}</Code>
+}`}</CodeBlock>
             <div className="feature-text" style={{ marginTop: 'var(--space-3)', fontSize: 'var(--font-size-sm)', color: 'var(--color-grey)' }}>
               Four directives, four concerns. <code>@table</code> for storage, <code>@export</code> for interfaces, <code>@distribute</code> for topology, <code>@audit</code> for compliance — each declared independently.
             </div>
@@ -68,13 +68,13 @@ export default function Platform() {
             <div className="feature-text">
               When you need logic beyond CRUD, add a resource file. Yeti compiles it to a native dynamic library and hot-reloads on every save. Full access to the request context, storage backends, and extension APIs.
             </div>
-            <Code label="greeting.rs">{`/// Import Yeti's JS-like abstractions (!)
+            <CodeBlock label="greeting.rs">{`/// Import Yeti's JS-like abstractions (!)
 use yeti_sdk::prelude::*;
 
 /// Simple custom resource using concise syntax
 resource!(Greeting {
   get => json!({"greeting": "Hello, World!"})
-});`}</Code>
+});`}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="shield" />
@@ -82,13 +82,13 @@ resource!(Greeting {
             <div className="feature-text">
               Pre-request validation, post-request audit, failure alerting — shell commands that run at the resource boundary without touching handler code.
             </div>
-            <Code label="config.yaml">{`hooks:
+            <CodeBlock label="config.yaml">{`hooks:
   pre_request:
     - "./hooks/validate.sh"
   post_request:
     - "./hooks/audit-log.sh"
   post_request_failure:
-    - "./hooks/alert.sh"`}</Code>
+    - "./hooks/alert.sh"`}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="browser" />
@@ -96,12 +96,12 @@ resource!(Greeting {
             <div className="feature-text">
               Bundle a React, Vue, or any frontend alongside your API. Point Yeti at a directory and it serves with proper caching headers and SPA fallback.
             </div>
-            <Code label="config.yaml">{`static_files:
+            <CodeBlock label="config.yaml">{`static_files:
   path: web
   spa: true
   build:
     source_dir: source
-    command: npm run build`}</Code>
+    command: npm run build`}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="layers" />
@@ -109,7 +109,7 @@ resource!(Greeting {
             <div className="feature-text">
               Each app runs in its own namespace with isolated storage, routing, and permissions. A single Yeti instance hosts dozens of applications, each scaling independently.
             </div>
-            <Code label="config.yaml">{`environment: production
+            <CodeBlock label="config.yaml">{`environment: production
 rootDirectory: /opt/yeti
 http:
   port: 443
@@ -119,7 +119,7 @@ applications:
   - https://github.com/yetirocks/www
   - https://github.com/yetirocks/documentation
   - https://github.com/yetirocks/demos
-`}</Code>
+`}</CodeBlock>
           </div>
         </div>
       </section>
@@ -162,7 +162,7 @@ applications:
               Define relationships with <code>@relationship</code> directives - Yeti
               resolves joins automatically in REST and GraphQL.
 
-              <Code label="schema.graphql">{`type Author @table @export {
+              <CodeBlock label="schema.graphql">{`type Author @table @export {
     id: ID! @primaryKey
     name: String!
     bio: String
@@ -174,7 +174,7 @@ type Book @table @export {
     title: String!
     authorId: ID! @indexed
     author: Author @relationship(from: "authorId")
-}`}</Code>
+}`}</CodeBlock>
             </div>
           </div>
           <div className="feature-card">
@@ -183,15 +183,15 @@ type Book @table @export {
             <div className="feature-text">
               Filter, sort, select, order. Key-value, full-text, vector. URL-safe, composable, and auto-generated from your schema.
             </div>
-            <Code label="query.graphql">{`{
+            <CodeBlock label="query.graphql">{`{
   Author(id: "author-1") {
     name
     books {
       title
     }
   }
-}`}</Code>
-            <Code label="query.fiql">{` GET /Author/author-1?select=name,books{title} `}</Code>
+}`}</CodeBlock>
+            <CodeBlock label="query.fiql">{` GET /Author/author-1?select=name,books{title} `}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="link" />
@@ -199,7 +199,7 @@ type Book @table @export {
             <div className="feature-text">
               Mark a field as <code>Vector @indexed</code> to generate and search using default or custom embedding models.
             </div>
-            <Code label="schema.graphql">{`type Article @table @export {
+            <CodeBlock label="schema.graphql">{`type Article @table @export {
   id: ID! @primaryKey
   title: String!
   author: String!
@@ -207,7 +207,7 @@ type Book @table @export {
   tags: String
   text: String!
   embedding: Vector @indexed(source: "text")
-}`}</Code>
+}`}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="search" />
@@ -215,7 +215,7 @@ type Book @table @export {
             <div className="feature-text">
               Query with FIQL or JSON. Combine with other logical operators for better precision.
 
-              <Code label="query.json">{`{
+              <CodeBlock label="query.json">{`{
   "table": "Article",
   "conditions": [
     {
@@ -224,7 +224,7 @@ type Book @table @export {
       "value": "african swallow airspeed"
     }
   ]
-}`}</Code>
+}`}</CodeBlock>
             </div>
           </div>
         </div>
@@ -291,7 +291,7 @@ type Book @table @export {
               password hashing, configurable token TTLs, email-pattern role mapping, CSRF
               protection, and per-attribute field-level permissions.
             </div>
-            <Code label="config.yaml">{`auth:
+            <CodeBlock label="config.yaml">{`auth:
   methods: [oauth, basic]
   oauth:
     google:
@@ -303,7 +303,7 @@ type Book @table @export {
         role: admin
       - strategy: email
         pattern: "*"
-        role: standard`}</Code>
+        role: standard`}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="trending-up" />
@@ -313,11 +313,11 @@ type Book @table @export {
               Grafana, Datadog, or any OpenTelemetry collector. File rotation, real-time
               SSE streaming, and REST query API.
             </div>
-            <Code label="yeti-config.yaml">{`telemetry:
+            <CodeBlock label="yeti-config.yaml">{`telemetry:
   metrics: true
   serviceName: my-service
   otlpEndpoint: "http://otel-collector:4317"
-  metricsIntervalSecs: 10`}</Code>
+  metricsIntervalSecs: 10`}</CodeBlock>
           </div>
           <div className="feature-card">
             <Icon name="brain" />
