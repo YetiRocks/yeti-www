@@ -18,7 +18,7 @@ export default function Home({ onGetStarted }: HomeProps) {
           />
           <h1 className="hero-title">Faster Applications, Faster.</h1>
           <p className="hero-subtitle">
-            The distributed application platform that ships as a single binary. Database, APIs, streaming, auth, AI — one runtime, one deploy, one bill. <span className="nowrap">Move faster with Yeti.</span>
+            A Distributed Application Platform providing developers (and their robots) a secure, composable toolkit to reduce drift, improve quality, and deliver production-hardened binaries in minutes, not months. <span className="nowrap">Build Faster With Yeti.</span>
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary btn-lg" onClick={onGetStarted}>
