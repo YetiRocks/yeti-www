@@ -9,14 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PlatformRouteImport } from './routes/platform'
-import { Route as CompanyRouteImport } from './routes/company'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LegalIndexRouteImport } from './routes/legal/index'
-import { Route as SolutionsUseCasesRouteImport } from './routes/solutions/use-cases'
-import { Route as SolutionsFabricRouteImport } from './routes/solutions/fabric'
-import { Route as SolutionsAiRouteImport } from './routes/solutions/ai'
+import { Route as SolutionsMediaSecurityRouteImport } from './routes/solutions/media-security'
+import { Route as SolutionsLlmOptimizationRouteImport } from './routes/solutions/llm-optimization'
+import { Route as SolutionsAgenticHarnessRouteImport } from './routes/solutions/agentic-harness'
+import { Route as PlatformPluginsRouteImport } from './routes/platform/plugins'
+import { Route as PlatformInterfacesRouteImport } from './routes/platform/interfaces'
+import { Route as PlatformFabricRouteImport } from './routes/platform/fabric'
+import { Route as PlatformDatabasesRouteImport } from './routes/platform/databases'
+import { Route as PlatformApplicationsRouteImport } from './routes/platform/applications'
 import { Route as LegalTermsOfServiceRouteImport } from './routes/legal/terms-of-service'
 import { Route as LegalSupportPolicyRouteImport } from './routes/legal/support-policy'
 import { Route as LegalSoftwareLicenseRouteImport } from './routes/legal/software-license'
@@ -28,14 +33,14 @@ import { Route as DevelopersDemosRouteImport } from './routes/developers/demos'
 import { Route as DevelopersBenchmarksRouteImport } from './routes/developers/benchmarks'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompanyRoute = CompanyRouteImport.update({
-  id: '/company',
-  path: '/company',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -53,20 +58,46 @@ const LegalIndexRoute = LegalIndexRouteImport.update({
   path: '/legal/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolutionsUseCasesRoute = SolutionsUseCasesRouteImport.update({
-  id: '/solutions/use-cases',
-  path: '/solutions/use-cases',
+const SolutionsMediaSecurityRoute = SolutionsMediaSecurityRouteImport.update({
+  id: '/solutions/media-security',
+  path: '/solutions/media-security',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolutionsFabricRoute = SolutionsFabricRouteImport.update({
-  id: '/solutions/fabric',
-  path: '/solutions/fabric',
+const SolutionsLlmOptimizationRoute =
+  SolutionsLlmOptimizationRouteImport.update({
+    id: '/solutions/llm-optimization',
+    path: '/solutions/llm-optimization',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SolutionsAgenticHarnessRoute = SolutionsAgenticHarnessRouteImport.update({
+  id: '/solutions/agentic-harness',
+  path: '/solutions/agentic-harness',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolutionsAiRoute = SolutionsAiRouteImport.update({
-  id: '/solutions/ai',
-  path: '/solutions/ai',
-  getParentRoute: () => rootRouteImport,
+const PlatformPluginsRoute = PlatformPluginsRouteImport.update({
+  id: '/plugins',
+  path: '/plugins',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformInterfacesRoute = PlatformInterfacesRouteImport.update({
+  id: '/interfaces',
+  path: '/interfaces',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformFabricRoute = PlatformFabricRouteImport.update({
+  id: '/fabric',
+  path: '/fabric',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformDatabasesRoute = PlatformDatabasesRouteImport.update({
+  id: '/databases',
+  path: '/databases',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformApplicationsRoute = PlatformApplicationsRouteImport.update({
+  id: '/applications',
+  path: '/applications',
+  getParentRoute: () => PlatformRoute,
 } as any)
 const LegalTermsOfServiceRoute = LegalTermsOfServiceRouteImport.update({
   id: '/legal/terms-of-service',
@@ -123,8 +154,8 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
-  '/company': typeof CompanyRoute
-  '/platform': typeof PlatformRoute
+  '/platform': typeof PlatformRouteWithChildren
+  '/pricing': typeof PricingRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/developers/benchmarks': typeof DevelopersBenchmarksRoute
   '/developers/demos': typeof DevelopersDemosRoute
@@ -135,16 +166,21 @@ export interface FileRoutesByFullPath {
   '/legal/software-license': typeof LegalSoftwareLicenseRoute
   '/legal/support-policy': typeof LegalSupportPolicyRoute
   '/legal/terms-of-service': typeof LegalTermsOfServiceRoute
-  '/solutions/ai': typeof SolutionsAiRoute
-  '/solutions/fabric': typeof SolutionsFabricRoute
-  '/solutions/use-cases': typeof SolutionsUseCasesRoute
+  '/platform/applications': typeof PlatformApplicationsRoute
+  '/platform/databases': typeof PlatformDatabasesRoute
+  '/platform/fabric': typeof PlatformFabricRoute
+  '/platform/interfaces': typeof PlatformInterfacesRoute
+  '/platform/plugins': typeof PlatformPluginsRoute
+  '/solutions/agentic-harness': typeof SolutionsAgenticHarnessRoute
+  '/solutions/llm-optimization': typeof SolutionsLlmOptimizationRoute
+  '/solutions/media-security': typeof SolutionsMediaSecurityRoute
   '/legal/': typeof LegalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
-  '/company': typeof CompanyRoute
-  '/platform': typeof PlatformRoute
+  '/platform': typeof PlatformRouteWithChildren
+  '/pricing': typeof PricingRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/developers/benchmarks': typeof DevelopersBenchmarksRoute
   '/developers/demos': typeof DevelopersDemosRoute
@@ -155,17 +191,22 @@ export interface FileRoutesByTo {
   '/legal/software-license': typeof LegalSoftwareLicenseRoute
   '/legal/support-policy': typeof LegalSupportPolicyRoute
   '/legal/terms-of-service': typeof LegalTermsOfServiceRoute
-  '/solutions/ai': typeof SolutionsAiRoute
-  '/solutions/fabric': typeof SolutionsFabricRoute
-  '/solutions/use-cases': typeof SolutionsUseCasesRoute
+  '/platform/applications': typeof PlatformApplicationsRoute
+  '/platform/databases': typeof PlatformDatabasesRoute
+  '/platform/fabric': typeof PlatformFabricRoute
+  '/platform/interfaces': typeof PlatformInterfacesRoute
+  '/platform/plugins': typeof PlatformPluginsRoute
+  '/solutions/agentic-harness': typeof SolutionsAgenticHarnessRoute
+  '/solutions/llm-optimization': typeof SolutionsLlmOptimizationRoute
+  '/solutions/media-security': typeof SolutionsMediaSecurityRoute
   '/legal': typeof LegalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
-  '/company': typeof CompanyRoute
-  '/platform': typeof PlatformRoute
+  '/platform': typeof PlatformRouteWithChildren
+  '/pricing': typeof PricingRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/developers/benchmarks': typeof DevelopersBenchmarksRoute
   '/developers/demos': typeof DevelopersDemosRoute
@@ -176,9 +217,14 @@ export interface FileRoutesById {
   '/legal/software-license': typeof LegalSoftwareLicenseRoute
   '/legal/support-policy': typeof LegalSupportPolicyRoute
   '/legal/terms-of-service': typeof LegalTermsOfServiceRoute
-  '/solutions/ai': typeof SolutionsAiRoute
-  '/solutions/fabric': typeof SolutionsFabricRoute
-  '/solutions/use-cases': typeof SolutionsUseCasesRoute
+  '/platform/applications': typeof PlatformApplicationsRoute
+  '/platform/databases': typeof PlatformDatabasesRoute
+  '/platform/fabric': typeof PlatformFabricRoute
+  '/platform/interfaces': typeof PlatformInterfacesRoute
+  '/platform/plugins': typeof PlatformPluginsRoute
+  '/solutions/agentic-harness': typeof SolutionsAgenticHarnessRoute
+  '/solutions/llm-optimization': typeof SolutionsLlmOptimizationRoute
+  '/solutions/media-security': typeof SolutionsMediaSecurityRoute
   '/legal/': typeof LegalIndexRoute
 }
 export interface FileRouteTypes {
@@ -186,8 +232,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
-    | '/company'
     | '/platform'
+    | '/pricing'
     | '/blog/$slug'
     | '/developers/benchmarks'
     | '/developers/demos'
@@ -198,16 +244,21 @@ export interface FileRouteTypes {
     | '/legal/software-license'
     | '/legal/support-policy'
     | '/legal/terms-of-service'
-    | '/solutions/ai'
-    | '/solutions/fabric'
-    | '/solutions/use-cases'
+    | '/platform/applications'
+    | '/platform/databases'
+    | '/platform/fabric'
+    | '/platform/interfaces'
+    | '/platform/plugins'
+    | '/solutions/agentic-harness'
+    | '/solutions/llm-optimization'
+    | '/solutions/media-security'
     | '/legal/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blog'
-    | '/company'
     | '/platform'
+    | '/pricing'
     | '/blog/$slug'
     | '/developers/benchmarks'
     | '/developers/demos'
@@ -218,16 +269,21 @@ export interface FileRouteTypes {
     | '/legal/software-license'
     | '/legal/support-policy'
     | '/legal/terms-of-service'
-    | '/solutions/ai'
-    | '/solutions/fabric'
-    | '/solutions/use-cases'
+    | '/platform/applications'
+    | '/platform/databases'
+    | '/platform/fabric'
+    | '/platform/interfaces'
+    | '/platform/plugins'
+    | '/solutions/agentic-harness'
+    | '/solutions/llm-optimization'
+    | '/solutions/media-security'
     | '/legal'
   id:
     | '__root__'
     | '/'
     | '/blog'
-    | '/company'
     | '/platform'
+    | '/pricing'
     | '/blog/$slug'
     | '/developers/benchmarks'
     | '/developers/demos'
@@ -238,17 +294,22 @@ export interface FileRouteTypes {
     | '/legal/software-license'
     | '/legal/support-policy'
     | '/legal/terms-of-service'
-    | '/solutions/ai'
-    | '/solutions/fabric'
-    | '/solutions/use-cases'
+    | '/platform/applications'
+    | '/platform/databases'
+    | '/platform/fabric'
+    | '/platform/interfaces'
+    | '/platform/plugins'
+    | '/solutions/agentic-harness'
+    | '/solutions/llm-optimization'
+    | '/solutions/media-security'
     | '/legal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogRoute: typeof BlogRouteWithChildren
-  CompanyRoute: typeof CompanyRoute
-  PlatformRoute: typeof PlatformRoute
+  PlatformRoute: typeof PlatformRouteWithChildren
+  PricingRoute: typeof PricingRoute
   DevelopersBenchmarksRoute: typeof DevelopersBenchmarksRoute
   DevelopersDemosRoute: typeof DevelopersDemosRoute
   DevelopersGettingStartedRoute: typeof DevelopersGettingStartedRoute
@@ -258,26 +319,26 @@ export interface RootRouteChildren {
   LegalSoftwareLicenseRoute: typeof LegalSoftwareLicenseRoute
   LegalSupportPolicyRoute: typeof LegalSupportPolicyRoute
   LegalTermsOfServiceRoute: typeof LegalTermsOfServiceRoute
-  SolutionsAiRoute: typeof SolutionsAiRoute
-  SolutionsFabricRoute: typeof SolutionsFabricRoute
-  SolutionsUseCasesRoute: typeof SolutionsUseCasesRoute
+  SolutionsAgenticHarnessRoute: typeof SolutionsAgenticHarnessRoute
+  SolutionsLlmOptimizationRoute: typeof SolutionsLlmOptimizationRoute
+  SolutionsMediaSecurityRoute: typeof SolutionsMediaSecurityRoute
   LegalIndexRoute: typeof LegalIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/platform': {
       id: '/platform'
       path: '/platform'
       fullPath: '/platform'
       preLoaderRoute: typeof PlatformRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/company': {
-      id: '/company'
-      path: '/company'
-      fullPath: '/company'
-      preLoaderRoute: typeof CompanyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -301,26 +362,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/solutions/use-cases': {
-      id: '/solutions/use-cases'
-      path: '/solutions/use-cases'
-      fullPath: '/solutions/use-cases'
-      preLoaderRoute: typeof SolutionsUseCasesRouteImport
+    '/solutions/media-security': {
+      id: '/solutions/media-security'
+      path: '/solutions/media-security'
+      fullPath: '/solutions/media-security'
+      preLoaderRoute: typeof SolutionsMediaSecurityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/solutions/fabric': {
-      id: '/solutions/fabric'
-      path: '/solutions/fabric'
-      fullPath: '/solutions/fabric'
-      preLoaderRoute: typeof SolutionsFabricRouteImport
+    '/solutions/llm-optimization': {
+      id: '/solutions/llm-optimization'
+      path: '/solutions/llm-optimization'
+      fullPath: '/solutions/llm-optimization'
+      preLoaderRoute: typeof SolutionsLlmOptimizationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/solutions/ai': {
-      id: '/solutions/ai'
-      path: '/solutions/ai'
-      fullPath: '/solutions/ai'
-      preLoaderRoute: typeof SolutionsAiRouteImport
+    '/solutions/agentic-harness': {
+      id: '/solutions/agentic-harness'
+      path: '/solutions/agentic-harness'
+      fullPath: '/solutions/agentic-harness'
+      preLoaderRoute: typeof SolutionsAgenticHarnessRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/platform/plugins': {
+      id: '/platform/plugins'
+      path: '/plugins'
+      fullPath: '/platform/plugins'
+      preLoaderRoute: typeof PlatformPluginsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/interfaces': {
+      id: '/platform/interfaces'
+      path: '/interfaces'
+      fullPath: '/platform/interfaces'
+      preLoaderRoute: typeof PlatformInterfacesRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/fabric': {
+      id: '/platform/fabric'
+      path: '/fabric'
+      fullPath: '/platform/fabric'
+      preLoaderRoute: typeof PlatformFabricRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/databases': {
+      id: '/platform/databases'
+      path: '/databases'
+      fullPath: '/platform/databases'
+      preLoaderRoute: typeof PlatformDatabasesRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/applications': {
+      id: '/platform/applications'
+      path: '/applications'
+      fullPath: '/platform/applications'
+      preLoaderRoute: typeof PlatformApplicationsRouteImport
+      parentRoute: typeof PlatformRoute
     }
     '/legal/terms-of-service': {
       id: '/legal/terms-of-service'
@@ -405,11 +501,31 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
+interface PlatformRouteChildren {
+  PlatformApplicationsRoute: typeof PlatformApplicationsRoute
+  PlatformDatabasesRoute: typeof PlatformDatabasesRoute
+  PlatformFabricRoute: typeof PlatformFabricRoute
+  PlatformInterfacesRoute: typeof PlatformInterfacesRoute
+  PlatformPluginsRoute: typeof PlatformPluginsRoute
+}
+
+const PlatformRouteChildren: PlatformRouteChildren = {
+  PlatformApplicationsRoute: PlatformApplicationsRoute,
+  PlatformDatabasesRoute: PlatformDatabasesRoute,
+  PlatformFabricRoute: PlatformFabricRoute,
+  PlatformInterfacesRoute: PlatformInterfacesRoute,
+  PlatformPluginsRoute: PlatformPluginsRoute,
+}
+
+const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
+  PlatformRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRoute: BlogRouteWithChildren,
-  CompanyRoute: CompanyRoute,
-  PlatformRoute: PlatformRoute,
+  PlatformRoute: PlatformRouteWithChildren,
+  PricingRoute: PricingRoute,
   DevelopersBenchmarksRoute: DevelopersBenchmarksRoute,
   DevelopersDemosRoute: DevelopersDemosRoute,
   DevelopersGettingStartedRoute: DevelopersGettingStartedRoute,
@@ -419,9 +535,9 @@ const rootRouteChildren: RootRouteChildren = {
   LegalSoftwareLicenseRoute: LegalSoftwareLicenseRoute,
   LegalSupportPolicyRoute: LegalSupportPolicyRoute,
   LegalTermsOfServiceRoute: LegalTermsOfServiceRoute,
-  SolutionsAiRoute: SolutionsAiRoute,
-  SolutionsFabricRoute: SolutionsFabricRoute,
-  SolutionsUseCasesRoute: SolutionsUseCasesRoute,
+  SolutionsAgenticHarnessRoute: SolutionsAgenticHarnessRoute,
+  SolutionsLlmOptimizationRoute: SolutionsLlmOptimizationRoute,
+  SolutionsMediaSecurityRoute: SolutionsMediaSecurityRoute,
   LegalIndexRoute: LegalIndexRoute,
 }
 export const routeTree = rootRouteImport

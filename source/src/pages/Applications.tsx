@@ -1,86 +1,118 @@
-import CodeBlock from '../components/CodeBlock'
-import Icon from '../components/Icon'
 import { Link } from '@tanstack/react-router'
+import Icon from '../components/Icon'
+import CodeBlock from '../components/CodeBlock'
 
 export default function Applications() {
   return (
     <div className="container">
       <div className="page-header">
-        <h1 className="page-title">Zero to production in four steps.</h1>
+        <h1 className="page-title">A composable toolkit for agent-assisted, agent-driven, and autonomous development.</h1>
         <p className="page-subtitle">
-          A schema, a config file, and optionally some Rust. That's the whole application. Here's how it works from first file to live API.
+          Yeti gives developers — and their robots — every primitive they need to ship a production-hardened backend in one binary. The MCP server and knowledge base teach the agent. The seven-directive matrix removes most boilerplate. The compiled Rust SDK keeps the hot path fast.
         </p>
       </div>
 
       <section className="section">
-        <div className="section-label">Step 1</div>
-        <h2 className="section-title">Define your data model</h2>
+        <div className="section-label">Three modes of building</div>
+        <h2 className="section-title">Pick how much your agent does</h2>
         <p className="section-desc">
-          Write a GraphQL schema. Each type with <code>@table</code> becomes a stored table. Add <code>@export</code> and Yeti generates REST, GraphQL, and SSE endpoints automatically. Indexes, relationships, and vector fields are all declared inline.
+          Yeti's MCP surface is the same in every mode. What changes is how much of the loop your agent owns.
         </p>
+        <div className="features-grid">
+          <div className="feature-card">
+            <Icon name="brain" />
+            <div className="feature-title">Agent-Assisted</div>
+            <div className="feature-text">
+              You drive. Cursor or Claude completes against the MCP knowledge base — schema scaffolds, directive options, FIQL syntax, plugin config. You merge every change.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="layers" />
+            <div className="feature-title">Agent-Driven</div>
+            <div className="feature-text">
+              Agent scaffolds the whole feature: schema, resources, tests. You review the diff, request edits, merge. The MCP server prevents the agent from inventing APIs that don't exist.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="cpu" />
+            <div className="feature-title">Autonomous</div>
+            <div className="feature-text">
+              Agent owns the repo. Issues come in, schema and resources go out, deploys ship. The knowledge base + audit log keep the loop honest. Humans review weekly, not per-PR.
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <CodeBlock label="schemas/schema.graphql">{`type Product @table @export {
+      <section className="section">
+        <div className="section-label">Step 1</div>
+        <h2 className="section-title">Define the data model</h2>
+        <p className="section-desc">
+          Drop a GraphQL schema in <code>schemas/schema.graphql</code>. Annotate each table with whichever directives apply — most apps need only a subset.
+        </p>
+        <CodeBlock label="schemas/schema.graphql">{`type Product
+  @table(database: "store")
+  @store(durability: "soft", evictAfter: "30d")
+  @distribute(replicationFactor: 3, residency: "full")
+  @export(rest: true, graphql: true, sse: true)
+  @access(roles: { read: ["*"], write: ["admin"] })
+  @audit(operations: ["write", "delete"], retention: 365, state: true) {
     id: ID! @primaryKey
     name: String!
     price: Float!
     category: String! @indexed
     inStock: Boolean!
-}
-
-type Review @table @export {
-    id: ID! @primaryKey
-    productId: ID! @indexed
-    product: Product @relationship(from: "productId")
-    rating: Int!
-    body: String!
-    embedding: Vector @indexed(source: "body")
 }`}</CodeBlock>
       </section>
 
       <section className="section">
         <div className="section-label">Step 2</div>
-        <h2 className="section-title">Configure your app</h2>
+        <h2 className="section-title">Configure the app</h2>
         <p className="section-desc">
-          A YAML file names the app, points to the schema, and declares which extensions to use. Auth, vector search, telemetry - each one is a few lines of config. No code to write for any of it.
+          The app manifest lives in <code>Cargo.toml</code> under <code>[package.metadata.app]</code>. Pick the runtime profile, opt in to plugins, declare the static-file pipeline, register hooks. The compiler reads it.
         </p>
+        <CodeBlock label="Cargo.toml">{`[package]
+name = "store"
+version = "0.1.0"
+edition = "2024"
 
-        <CodeBlock label="config.yaml">{`name: "Product Catalog"
-app_id: "catalog"
-version: "1.0.0"
-route_prefix: /catalog
+[package.metadata.app]
+enabled = true
+runtime = "production"
+plugins = ["yeti-auth", "yeti-telemetry", "yeti-ai", "yeti-jobs"]
+static = { path = "web", source = "source", spa = true, build = "npm install && npm run build" }
 
-schemas:
-  - schemas/schema.graphql
+[package.metadata.app.hooks]
+pre_request = ["./hooks/validate.sh"]
+post_request = ["./hooks/audit-log.sh"]
+post_request_failure = ["./hooks/alert.sh"]
 
-auth:
-  methods: [jwt, basic]
-
-vectors:
-  model: "BAAI/bge-small-en-v1.5"
-
-static_files:
-  path: web
-  spa: true
-  build:
-    source_dir: frontend
-    command: npm run build`}</CodeBlock>
+[dependencies]
+yeti-sdk = "0.49"
+serde = { version = "1.0", features = ["derive"] }`}</CodeBlock>
       </section>
 
       <section className="section">
         <div className="section-label">Step 3</div>
-        <h2 className="section-title">Add custom logic where you need it</h2>
+        <h2 className="section-title">Add custom logic only when you need it</h2>
         <p className="section-desc">
-          Most apps don't need custom code - the schema and config handle CRUD, auth, search, and streaming. When you do need business logic, write a resource file. It compiles to native Rust and hot-reloads on save.
+          With the seven-directive matrix, you rarely have to write a custom resource at all — CRUD, joins, filters, vector search, RBAC, and audit are all data, not code. When you do need behavior beyond the schema, drop a Rust file in <code>resources/</code>. The <code>resource!()</code> macro registers handlers; the platform compiles them to a native dylib and hot-reloads on save.
         </p>
-
         <CodeBlock label="resources/featured.rs">{`use yeti_sdk::prelude::*;
 
 resource!(Featured {
-    get(request, ctx) => {
-        let products = ctx.get_table("Product")?;
-        let featured = products.query("inStock==true;price=gt=50")
+    name = "featured",
+    get(ctx) => {
+        let products = ctx.table("Product")
+            .filter("inStock=eq=true,category=eq=highlight")
+            .limit(10)
+            .fetch().await?;
+        ok(json!({ "products": products }))
+    },
+    post(ctx, body: FeaturedRequest) => {
+        ctx.table("Product")
+            .update(&body.id, &json!({ "category": "highlight" }))
             .await?;
-        json!({"featured": featured, "count": featured.len()})
+        no_content()
     }
 });`}</CodeBlock>
       </section>
@@ -89,32 +121,69 @@ resource!(Featured {
         <div className="section-label">Step 4</div>
         <h2 className="section-title">Drop it in and go</h2>
         <p className="section-desc">
-          Put your application directory in the Yeti applications folder. Yeti detects it, compiles any resources, builds your frontend, and starts serving. Push to GitHub and Yeti Fabric deploys it globally.
+          Put the application directory under <code>~/yeti/applications/</code> (or auto-load it from a git URL in <code>yeti.toml</code>). Run <code>yeti start</code>. The platform discovers the app, compiles resources, applies schema directives, and serves the API.
         </p>
-
         <div className="features-grid">
           <div className="feature-card">
             <Icon name="bolt" />
             <div className="feature-title">What you get</div>
             <div className="feature-text">
-              REST CRUD for every table. GraphQL with queries, mutations, and subscriptions. SSE streams for real-time updates. FIQL filtering, pagination, field selection, and relationship joins. JWT and basic auth with RBAC. Vector search with auto-embedding. Telemetry with OTLP export. A built frontend served with SPA fallback. All from a schema, a config, and one resource file.
+              REST + FIQL + GraphQL + WebSocket + SSE on every <code>@export</code>'d table. RBAC enforced from <code>@access</code>. Audit captured per <code>@audit</code>'s retention policy. Replication shaped by <code>@distribute</code>. Hot reload on every save.
             </div>
           </div>
           <div className="feature-card">
             <Icon name="layers" />
             <div className="feature-title">What you didn't write</div>
             <div className="feature-text">
-              No ORM. No migration scripts. No auth middleware. No WebSocket server. No search index. No build pipeline config. No Dockerfile. No Kubernetes manifest. No CI/CD workflow. No monitoring agent. Yeti handles all of it so you can focus on what makes your app different.
+              No router. No ORM. No migration scripts. No auth middleware. No message broker. No vector database. No workflow engine. No deployment YAML. Each one is a directive or a plugin opt-in.
             </div>
           </div>
         </div>
       </section>
 
-      <div className="section" style={{ textAlign: 'center', paddingBottom: '4rem' }}>
+      <section className="section">
+        <div className="section-label">Built-in toolkit</div>
+        <h2 className="section-title">Why agents get it right the first time</h2>
         <p className="section-desc">
-          See the full list of platform capabilities on the <Link to="/platform">platform page</Link>, or try the <Link to="/developers/demos">interactive demos</Link>.
+          Every Yeti instance ships with the agent infrastructure built in. No custom integrations. No API wrappers. The agent connects, queries, and codes.
         </p>
-      </div>
+        <div className="features-grid">
+          <div className="feature-card">
+            <Icon name="brain" />
+            <div className="feature-title">MCP server</div>
+            <div className="feature-text">
+              Standard Model Context Protocol surface over your schemas, tables, resources, and configuration. Connect any MCP-compatible agent.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="search" />
+            <div className="feature-title">Vector knowledge base</div>
+            <div className="feature-text">
+              Every doc page, every example, every directive option — pre-embedded at build time. Agents query before generating code.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="bolt" />
+            <div className="feature-title">Compiled Rust dylibs</div>
+            <div className="feature-text">
+              Custom logic compiles to a native dylib and hot-swaps in under a second. Native speed, no warmup, no GC pause.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="layers" />
+            <div className="feature-title">Comprehensive SDK</div>
+            <div className="feature-text">
+              <code>yeti_sdk::prelude::*</code> exports <code>resource!</code>, <code>queue!</code>, <code>Context</code>, table abstractions, JSON helpers, and platform error types. One import covers most handlers.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ textAlign: 'center', paddingBottom: '4rem' }}>
+        <p className="section-desc">
+          See it in action — <Link to="/developers/demos">interactive demos</Link>, or dig into the building blocks on the <Link to="/platform">platform overview</Link>.
+        </p>
+      </section>
     </div>
   )
 }

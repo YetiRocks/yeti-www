@@ -15,32 +15,62 @@ const routes: RouteMeta[] = [
   {
     path: '/',
     title: 'Yeti | Faster Applications, Faster',
-    description: 'API server, message broker, vector database, auth service, monitoring stack - Yeti replaces all of them with a single binary.',
+    description: 'A distributed application platform that ships as a single binary. Database, APIs, streaming, auth, AI, durable functions — one runtime. Build faster with Yeti.',
   },
   {
     path: '/platform',
     title: 'Platform | Yeti',
-    description: 'Stack in a box. REST, GraphQL, WebSocket, SSE, MQTT, MCP, gRPC, embedded storage, auth, vector search, and observability in one runtime.',
+    description: 'Stack in a box. Five layers — Applications, Databases, Interfaces, Plugins, Fabric — in one binary. Pick a layer to dive in.',
+  },
+  {
+    path: '/platform/applications',
+    title: 'Applications | Yeti',
+    description: 'A Yeti app is three files: Cargo.toml manifest, GraphQL schema, optional Rust resources. Drop it in, hot-reload on save.',
+  },
+  {
+    path: '/platform/databases',
+    title: 'Databases | Yeti',
+    description: 'RocksDB-backed tables shaped by the seven-directive matrix — @table, @store, @source, @distribute, @export, @access, @audit.',
+  },
+  {
+    path: '/platform/interfaces',
+    title: 'Interfaces | Yeti',
+    description: 'REST, GraphQL, WebSocket, SSE, MQTT, MCP, gRPC, Kafka bridge — auto-generated from your schema.',
+  },
+  {
+    path: '/platform/plugins',
+    title: 'Plugins | Yeti',
+    description: 'Auth, telemetry, AI, durable functions, admin — first-party plugins in the binary. Plugin SDK for custom extensions.',
+  },
+  {
+    path: '/platform/fabric',
+    title: 'Fabric | Yeti',
+    description: 'Managed multi-region deployment with mTLS replication mesh, per-deployment encryption, centralized placement, and agentic monitoring.',
   },
   {
     path: '/developers/getting-started',
     title: 'Getting Started | Yeti',
-    description: 'Zero to production in four steps. Define a schema, configure extensions, add custom logic, and deploy. No boilerplate.',
+    description: 'A composable toolkit for agent-assisted, agent-driven, and autonomous development. Schema, manifest, optional Rust — ship in minutes.',
   },
   {
-    path: '/solutions/fabric',
-    title: 'Fabric | Yeti',
-    description: 'Push to main. Deploy globally. Multi-region hosting across Linode, GCP, AWS, and Azure with automatic scaling and replication.',
+    path: '/solutions/media-security',
+    title: 'Media Security | Yeti',
+    description: 'Millions of access decisions per second. License verification, geo-restriction, real-time audit streams — all in one binary.',
   },
   {
-    path: '/solutions/use-cases',
-    title: 'Use Cases | Yeti',
-    description: 'High-throughput workloads: media security, ad networks, and industrial IoT. One server where ten used to be.',
+    path: '/solutions/agentic-harness',
+    title: 'Agentic Harness | Yeti',
+    description: 'A safe runtime for autonomous agents. Per-agent database isolation, capability manifests, MCP-driven tool discovery.',
+  },
+  {
+    path: '/solutions/llm-optimization',
+    title: 'LLM Optimization | Yeti',
+    description: 'Semantic cache + durable inference pipeline + LoRA hat fine-tuning. Pay your LLM bill once.',
   },
   {
     path: '/pricing',
     title: 'Pricing | Yeti',
-    description: 'Simple, honest pricing. Start free with the full platform. Scale to global multi-cloud with Yeti Fabric. Enterprise options for private and hybrid deployments.',
+    description: 'Self-hosted free forever. Yeti Fabric pay-as-you-go from $1,000/mo with auto-scaling, global replication, and agentic monitoring.',
   },
   {
     path: '/developers/demos',
@@ -51,11 +81,6 @@ const routes: RouteMeta[] = [
     path: '/developers/benchmarks',
     title: 'Benchmarks | Yeti',
     description: 'Performance benchmarks: 77K req/s REST, sub-millisecond p50 latency, 3ms vector search across Yeti\'s API surface.',
-  },
-  {
-    path: '/company',
-    title: 'Company | Yeti',
-    description: 'About Yeti — our mission, what we build, and how to reach us.',
   },
   {
     path: '/legal',

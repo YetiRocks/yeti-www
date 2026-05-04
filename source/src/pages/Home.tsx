@@ -18,7 +18,8 @@ export default function Home({ onGetStarted }: HomeProps) {
           />
           <h1 className="hero-title">Faster Applications, Faster.</h1>
           <p className="hero-subtitle">
-            A Distributed Application Platform providing developers (and their robots) a secure, composable toolkit to reduce drift, improve quality, and deliver production-hardened binaries in minutes, not months. <span className="nowrap">Build Faster With Yeti.</span>
+            An agent-friendly performance application toolkit for Rust that improves velocity, reduces drift, and lowers costs.<br />
+            <p className="feature-list"><span className="text-white">Applications</span> | <span className="text-white">Databases</span> | <span className="text-white">Interfaces</span> |  <span className="text-white">Auth</span> | <span className="text-white">Plugins</span></p>
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary btn-lg" onClick={onGetStarted}>
@@ -42,100 +43,128 @@ export default function Home({ onGetStarted }: HomeProps) {
         </div>
       </section>
 
-      <section className="section" id="building-blocks">
+      <section className="section">
         <div className="container">
-          <h2 className="section-title">From schema to production API in minutes</h2>
+          <h2 className="section-title">Schema, config, ship.</h2>
           <p className="section-desc">
-            Most teams start with SQLite, rewrite to Postgres, bolt on Redis, add Kafka, then hire two people to run Kubernetes. That's six months gone before you ship anything real. Yeti skips the whole cycle. Your prototype and your production deployment run on the same compiled Rust runtime and the same embedded storage. No rewrites. No migration weekends. Same codebase from week one through year three.
+            A Yeti application is a directory: a <code>Cargo.toml</code> manifest, a GraphQL schema, and optional Rust resource files. Drop it into the <code>applications/</code> folder and Yeti picks it up. Schema directives generate every endpoint, choose the storage tier, declare replication, set RBAC, capture audits — all without writing infrastructure code.
           </p>
-          <div className="features-grid">
+          <div className="features-grid features-grid-3">
             <div className="feature-card">
               <Icon name="bolt" />
               <div className="feature-title">Same Runtime, Every Stage</div>
               <div className="feature-text">
-                Your local dev environment runs the same compiled Rust and RocksDB storage as production. Sub-millisecond p95 latency on day one. No "it was fast in dev" surprises when you ship.
+                Local dev runs the same compiled Rust + RocksDB as production. Sub-millisecond p95 on day one. No "fast in dev, slow in prod" surprises.
               </div>
             </div>
             <div className="feature-card">
               <Icon name="clipboard" />
-              <div className="feature-title">Schema + Config = Application</div>
+              <div className="feature-title">Schema Is the Application</div>
               <div className="feature-text">
-                A GraphQL schema defines your data model. A YAML config declares auth, permissions, and extensions. That's it. No framework boilerplate, no ORM, no migration scripts. Need custom logic? Write it in Rust and it hot-reloads on save.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="faster">
-        <div className="container">
-          <h2 className="section-title">Rust speed without writing Rust</h2>
-          <p className="section-desc">
-            Yeti's SDK gives you high-level abstractions that look like JavaScript but compile to native Rust. No lifetimes, no borrow checker fights. If you can write Express, you can write Yeti. Connect Claude, Cursor, or Copilot through the built-in MCP server and let your AI agent build entire applications while you focus on the product.
-          </p>
-          <div className="features-grid">
-            <div className="feature-card">
-              <Icon name="brain" />
-              <div className="feature-title">Your AI Agent's Favorite Backend</div>
-              <div className="feature-text">
-                Every Yeti instance ships with an MCP server that understands the platform deeply. Agents introspect schemas, query live data, and generate correct code on the first try. Not just an API to hit - a system that agents can reason about.
-              </div>
-            </div>
-            <div className="feature-card">
-              <Icon name="bolt" />
-              <div className="feature-title">One Instance, Fleet-Level Throughput</div>
-              <div className="feature-text">
-                90,000+ requests per second on a single core. That's not a cluster. That's one process. Native Rust compilation, RocksDB 11 storage, and parallel query execution — no GC pauses, no cold starts, no surprises under load.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="easier">
-        <div className="container">
-          <h2 className="section-title">Auth, streaming, search - one config line each</h2>
-          <p className="section-desc">
-            No API gateway. No message broker. No separate search cluster. JWT, OAuth, and RBAC auth. Logs, spans, metrics, and OTLP export. Vector search with auto-embedding. Native MQTT broker. Each one is a single line in config.yaml, runs in-process, and shares the same performance profile. No external services. No integration weekends.
-          </p>
-          <div className="features-grid">
-            <div className="feature-card">
-              <Icon name="clipboard" />
-              <div className="feature-title">Everything Ships in the Binary</div>
-              <div className="feature-text">
-                Authentication, telemetry, vector search, MQTT, per-table audit trails — they're not plugins you install or services you connect. They ship with Yeti and run in-process. Add <code>@audit</code> to a table for compliance logging with before/after state capture. Zero latency impact. No separate deployment, no separate failure mode.
+                Seven directives (<code>@table</code>, <code>@store</code>, <code>@source</code>, <code>@distribute</code>, <code>@export</code>, <code>@access</code>, <code>@audit</code>) cover storage, replication, protocols, auth, and compliance. No ORM, no migrations, no boilerplate.
               </div>
             </div>
             <div className="feature-card">
               <Icon name="wrench" />
-              <div className="feature-title">Five Lines to a Production Endpoint</div>
+              <div className="feature-title">Custom Logic Hot-Reloads</div>
               <div className="feature-text">
-                <code>resource!()</code> macros, <code>json!()</code> responses, <code>ctx.get_table()</code> data access. A complete REST endpoint is five lines of code. Custom business logic hot-reloads on save. You write the interesting parts. Yeti handles the plumbing.
+                Need behavior beyond CRUD? Drop a Rust resource file in. Yeti compiles it to a native dylib and reloads on save. Five-line endpoints. Native speed.
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section" id="cheaper">
+      <section className="section">
+        <div className="container">
+          <h2 className="section-title">Your AI agent's favorite backend</h2>
+          <p className="section-desc">
+            Every Yeti instance ships with an MCP server and a vector-indexed knowledge base. Claude, Cursor, Copilot, and Windsurf connect, introspect schemas, query live data, and generate correct code on the first try. Whether your agent assists, drives, or runs autonomously, it has full context on the platform.
+          </p>
+          <div className="features-grid features-grid-3">
+            <div className="feature-card">
+              <Icon name="brain" />
+              <div className="feature-title">Built-In MCP Server</div>
+              <div className="feature-text">
+                Standard Model Context Protocol surface over your schemas, tables, resources, and configuration. No custom integrations. Connect any MCP-compatible agent and it understands the platform.
+              </div>
+            </div>
+            <div className="feature-card">
+              <Icon name="search" />
+              <div className="feature-title">Knowledge Base, Pre-Embedded</div>
+              <div className="feature-text">
+                Every doc page, every example, every directive option — vector-indexed at build time. Agents query before generating code, not after.
+              </div>
+            </div>
+            <div className="feature-card">
+              <Icon name="layers" />
+              <div className="feature-title">Composable Toolkit</div>
+              <div className="feature-text">
+                Agent-assisted development (you drive, agent completes). Agent-driven (agent scaffolds, you review the diff). Autonomous (agent owns the repo and ships). Same MCP surface, three modes.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <h2 className="section-title">Auth, streaming, search, durable functions — one binary</h2>
+          <p className="section-desc">
+            No API gateway. No message broker. No separate workflow engine. RBAC and OAuth, OTLP telemetry, vector search with auto-embedding, native MQTT broker, durable functions with heartbeat leases — every piece runs in-process and shares the same performance profile.
+          </p>
+          <div className="features-grid features-grid-3">
+            <div className="feature-card">
+              <Icon name="lock" />
+              <div className="feature-title">Auth + RBAC, Schema-Driven</div>
+              <div className="feature-text">
+                Add <code>@access(roles:&#123; ... &#125;)</code> to a table. JWT, OAuth, and per-operation gating wired up. No middleware to install, no auth code to write.
+              </div>
+            </div>
+            <div className="feature-card">
+              <Icon name="radio" />
+              <div className="feature-title">Real-Time Built In</div>
+              <div className="feature-text">
+                Every table fires PubSub events. Subscribe via SSE, WebSocket, MQTT, or MCP. Kafka bridge for external streams. Zero config.
+              </div>
+            </div>
+            <div className="feature-card">
+              <Icon name="refresh" />
+              <div className="feature-title">Durable Functions</div>
+              <div className="feature-text">
+                <code>queue!()</code> macro registers a workflow. Heartbeat leases prove worker liveness. Queryable request IDs. Crashes resume from journal. Temporal patterns, in-process.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
         <div className="container">
           <h2 className="section-title">One binary runs what used to take a cluster</h2>
           <p className="section-desc">
-            A 49MB binary replaces your API server, database, cache, message broker, and background workers. One process to deploy, monitor, and scale. Your infrastructure bill drops by an order of magnitude.
+            A 49 MB binary replaces your API server, database, cache, message broker, and background workers. Run it free on a laptop. Run it managed on Yeti Fabric across a global mesh — same binary, same code path. Your infrastructure bill drops by an order of magnitude.
           </p>
-          <div className="features-grid">
+          <div className="features-grid features-grid-3">
             <div className="feature-card">
               <Icon name="trending-up" />
               <div className="feature-title">Fewer Servers, Fewer 3am Pages</div>
               <div className="feature-text">
-                Rust's efficiency means one Yeti instance replaces a cluster of application servers. Fewer moving parts means fewer things that break. When something does go wrong, there's one process to investigate, not seven.
+                One Yeti instance replaces a cluster of application servers. Fewer moving parts. Fewer failure modes. When something does go wrong, there's one process to investigate.
               </div>
             </div>
             <div className="feature-card">
               <Icon name="globe" />
-              <div className="feature-title">Your Bill Tracks Your Revenue</div>
+              <div className="feature-title">Pay-As-You-Go Fabric</div>
               <div className="feature-text">
-                Yeti Fabric charges for the compute and storage you actually use. No reserved instances, no minimum commits, no surprise egress fees. Start on a single region for pennies. Scale to multi-cloud global deployment as traffic grows.
+                Yeti Fabric charges per transaction. No reserved instances. No minimum commits. No surprise egress fees. <Link to="/pricing">See pricing →</Link>
+              </div>
+            </div>
+            <div className="feature-card">
+              <Icon name="bolt" />
+              <div className="feature-title">Same Binary, Self-Host or Managed</div>
+              <div className="feature-text">
+                Run free on a laptop, then run the exact same binary on Yeti Fabric across a global mesh. No rewrites, no migrations, no surprises when you scale.
               </div>
             </div>
           </div>

@@ -28,6 +28,7 @@ function applyTheme(index: number) {
 // Apply saved theme immediately to avoid flash
 applyTheme(getSavedTheme())
 
+const platformPrefix = '/platform'
 const solutionsPrefix = '/solutions'
 const developersPrefix = '/developers'
 
@@ -40,9 +41,10 @@ export default function Nav({ onGetStarted }: NavProps) {
   const [themeIndex, setThemeIndex] = useState(getSavedTheme)
   const pathname = useRouterState({ select: s => s.location.pathname })
 
+  const isPlatformActive = pathname.startsWith(platformPrefix)
   const isSolutionsActive = pathname.startsWith(solutionsPrefix)
   const isDevelopersActive = pathname.startsWith(developersPrefix)
-  const hasSubnav = isSolutionsActive || isDevelopersActive
+  const hasSubnav = isPlatformActive || isSolutionsActive || isDevelopersActive
 
   const cycleTheme = useCallback(() => {
     const next = (themeIndex + 1) % themes.length
@@ -65,17 +67,17 @@ export default function Nav({ onGetStarted }: NavProps) {
           <Link to="/" className="nav-link" activeProps={{ className: 'nav-link active' }} activeOptions={{ exact: true }}>
             Home
           </Link>
-          <Link to="/platform" className="nav-link" activeProps={{ className: 'nav-link active' }}>
+          <Link to="/platform" className={`nav-link${isPlatformActive ? ' active' : ''}`}>
             Platform
           </Link>
-          <Link to="/solutions/ai" className={`nav-link${isSolutionsActive ? ' active' : ''}`}>
+          <Link to="/solutions/media-security" className={`nav-link${isSolutionsActive ? ' active' : ''}`}>
             Solutions
           </Link>
           <Link to="/developers/getting-started" className={`nav-link${isDevelopersActive ? ' active' : ''}`}>
             Developers
           </Link>
-          <Link to="/company" className="nav-link" activeProps={{ className: 'nav-link active' }}>
-            Company
+          <Link to="/pricing" className="nav-link" activeProps={{ className: 'nav-link active' }}>
+            Pricing
           </Link>
           <Link to="/blog" className="nav-link" activeProps={{ className: 'nav-link active' }}>
             Blog
@@ -111,15 +113,32 @@ export default function Nav({ onGetStarted }: NavProps) {
 
       {hasSubnav && (
         <div className="www-subnav">
-          {isSolutionsActive && <>
-            <Link to="/solutions/ai" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
-              AI
+          {isPlatformActive && <>
+            <Link to="/platform/applications" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Applications
             </Link>
-            <Link to="/solutions/use-cases" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
-              Use Cases
+            <Link to="/platform/databases" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Databases
             </Link>
-            <Link to="/solutions/fabric" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+            <Link to="/platform/interfaces" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Interfaces
+            </Link>
+            <Link to="/platform/plugins" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Plugins
+            </Link>
+            <Link to="/platform/fabric" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
               Fabric
+            </Link>
+          </>}
+          {isSolutionsActive && <>
+            <Link to="/solutions/media-security" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Media Security
+            </Link>
+            <Link to="/solutions/agentic-harness" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              Agentic Harness
+            </Link>
+            <Link to="/solutions/llm-optimization" className="subnav-link" activeProps={{ className: 'subnav-link active' }}>
+              LLM Optimization
             </Link>
           </>}
           {isDevelopersActive && <>
@@ -143,18 +162,31 @@ export default function Nav({ onGetStarted }: NavProps) {
         <Link to="/" className="nav-link" onClick={closeMobile}>
           Home
         </Link>
-        <Link to="/platform" className="nav-link" onClick={closeMobile}>
-          Platform
+        <span className="nav-mobile-header">Platform</span>
+        <Link to="/platform/applications" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Applications
+        </Link>
+        <Link to="/platform/databases" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Databases
+        </Link>
+        <Link to="/platform/interfaces" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Interfaces
+        </Link>
+        <Link to="/platform/plugins" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Plugins
+        </Link>
+        <Link to="/platform/fabric" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Fabric
         </Link>
         <span className="nav-mobile-header">Solutions</span>
-        <Link to="/solutions/ai" className="nav-link nav-mobile-indent" onClick={closeMobile}>
-          AI
+        <Link to="/solutions/media-security" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Media Security
         </Link>
-        <Link to="/solutions/use-cases" className="nav-link nav-mobile-indent" onClick={closeMobile}>
-          Use Cases
+        <Link to="/solutions/agentic-harness" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          Agentic Harness
         </Link>
-        <Link to="/solutions/fabric" className="nav-link nav-mobile-indent" onClick={closeMobile}>
-          Fabric
+        <Link to="/solutions/llm-optimization" className="nav-link nav-mobile-indent" onClick={closeMobile}>
+          LLM Optimization
         </Link>
         <span className="nav-mobile-header">Developers</span>
         <Link to="/developers/getting-started" className="nav-link nav-mobile-indent" onClick={closeMobile}>
@@ -169,8 +201,8 @@ export default function Nav({ onGetStarted }: NavProps) {
         <a href="/documentation/" target="_blank" rel="noopener noreferrer" className="nav-link nav-mobile-indent" onClick={closeMobile}>
           Docs
         </a>
-        <Link to="/company" className="nav-link" onClick={closeMobile}>
-          Company
+        <Link to="/pricing" className="nav-link" onClick={closeMobile}>
+          Pricing
         </Link>
         <Link to="/blog" className="nav-link" onClick={closeMobile}>
           Blog

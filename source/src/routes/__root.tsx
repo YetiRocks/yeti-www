@@ -4,7 +4,7 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import BetaModal from '../components/BetaModal'
 
-const subnavPrefixes = ['/solutions', '/developers']
+const subnavPrefixes = ['/platform', '/solutions', '/developers']
 
 export const Route = createRootRoute({
   component: RootLayout,
