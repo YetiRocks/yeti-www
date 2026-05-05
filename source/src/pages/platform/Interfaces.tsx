@@ -1,15 +1,58 @@
-import Icon from '../components/Icon'
-import CodeBlock from '../components/CodeBlock'
+import Icon from '../../components/Icon'
+import CodeBlock from '../../components/CodeBlock'
 
-export default function PlatformInterfaces() {
+export default function Interfaces() {
   return (
     <div className="container">
       <div className="page-header">
-        <h1 className="page-title">Every protocol your clients (and agents) speak.</h1>
+        <h1 className="page-title">The Right Messenger For Every Message.</h1>
         <p className="page-subtitle">
           REST, GraphQL, WebSocket, SSE, MQTT, MCP, gRPC, Kafka bridge. Auto-generated from your schema. Toggle protocols per table with the <code>@export</code> directive — the binary regenerates the surface on hot-reload.
         </p>
       </div>
+
+      <section className="section">
+        <div className="section-label">The schema is the contract</div>
+        <h2 className="section-title">Eight protocols. Same schema. Toggled per table.</h2>
+        <p className="section-desc">
+          A traditional service picks a protocol up front, builds the framework around it, ships an SDK, then writes a translator the day a second client needs a different protocol. Yeti generates every protocol from the schema and toggles them per table. You don't decide REST-or-GraphQL on day one; you flip a boolean on day eighty when an agent shows up wanting MCP.
+        </p>
+        <div className="features-grid">
+          <div className="feature-card">
+            <Icon name="link" />
+            <div className="feature-title">REST + FIQL aren't a framework</div>
+            <div className="feature-text">
+              Auto-generated CRUD on every <code>@export(rest: true)</code> table. URL-safe filter DSL with eq, gt, ct, in, vector. Pageable, sortable, composable. Add a column to the schema; the endpoint refreshes. No Express scaffolding, no <code>express-validator</code> middleware, no OpenAPI-spec drift.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="radio" />
+            <div className="feature-title">Real-time isn't an architecture</div>
+            <div className="feature-text">
+              The PubSub bus runs in-process. <code>?stream=sse</code> on any endpoint streams live updates with last-event-ID resumption. WebSocket fanout costs a function call, not a broker hop. There's no Socket.io service, no Ably bill, no "real-time architecture" review.
+            </div>
+          </div>
+          <div className="feature-card">
+            <Icon name="brain" />
+            <div className="feature-title">MCP is your agent's native tongue</div>
+            <div className="feature-text">
+              Every Yeti instance ships an MCP server. Schemas, exports, RBAC, and audit policy are introspectable as MCP tools. Claude, Cursor, Copilot, and Windsurf all connect with zero custom integration. The protocol your agent already speaks is a first-class output, not an afterthought.
+            </div>
+          </div>
+        </div>
+        <CodeBlock label="schemas/schema.graphql">{`type Telemetry
+  @table(database: "fleet")
+  @store(durability: "lossy", evictAfter: "30d")
+  @distribute(replicationFactor: 1, residency: "regional")
+  @export(rest: true, graphql: true, sse: true, ws: true, mqtt: true, mcp: true, grpc: true, kafka: true)
+  @access(roles: { read: ["operator", "admin"], write: ["device"] }) {
+    id: ID! @primaryKey
+    deviceId: ID! @indexed
+    metric: String! @indexed
+    value: Float!
+    recordedAt: Int! @indexed
+}`}</CodeBlock>
+      </section>
 
       <section className="section">
         <div className="section-label">Synchronous</div>
@@ -118,13 +161,15 @@ export default function PlatformInterfaces() {
           Protocol exposure is data, not code. Toggle per table. The binary regenerates routes, subscriptions, and broker bindings on save.
         </p>
         <div className="features-grid">
-          <div className="feature-card has-code">
+          <div className="feature-card">
             <Icon name="clipboard" />
             <div className="feature-title">Toggle protocols per table</div>
             <div className="feature-text">
               Public read-only resource? <code>rest: true, graphql: true</code>. IoT telemetry? Add <code>mqtt: true, sse: true</code>. Internal compute table? Omit <code>@export</code> entirely — no surface, no leakage.
             </div>
-            <CodeBlock label="schemas/schema.graphql">{`type Order
+          </div>
+        </div>
+        <CodeBlock label="schemas/schema.graphql">{`type Order
   @table(database: "store")
   @store(durability: "strong")
   @distribute(replicationFactor: 3)
@@ -137,8 +182,6 @@ export default function PlatformInterfaces() {
     status: String! @indexed
     placedAt: Int!
 }`}</CodeBlock>
-          </div>
-        </div>
       </section>
     </div>
   )

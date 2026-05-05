@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import PlatformDatabases from '../../pages/PlatformDatabases'
+import Databases from '../../pages/platform/Databases'
 
 export const Route = createFileRoute('/platform/databases')({
-  component: PlatformDatabases,
+  component: Databases,
 })

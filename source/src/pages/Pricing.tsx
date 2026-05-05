@@ -8,9 +8,9 @@ export default function Pricing({ onGetStarted }: PricingProps) {
   return (
     <div className="container">
       <div className="page-header">
-        <h1 className="page-title">Run it free, run it global, same binary.</h1>
+        <h1 className="page-title">Free Self-Hosted. Pay-As-You-Go Cloud..</h1>
         <p className="page-subtitle">
-          The full Yeti platform is free to download and run. When you're ready to scale across regions, Yeti Fabric runs the same binary as a managed multi-tenant deployment with auto-scaling, agentic monitoring, and pay-as-you-go pricing.
+          Yeti's compiled binary nd open source SDK is free to download and run on your hardware. When you're ready to scale, Yeti Fabric offers the exact same binary as a managed deployment. Yeti Sovereign allows you to extend Yeti Cloud into your VPC.
         </p>
       </div>
 
@@ -27,13 +27,13 @@ export default function Pricing({ onGetStarted }: PricingProps) {
             </div>
           </div>
           <ul className="pricing-features">
-            <li>Single-binary download — Linux, macOS, Windows</li>
-            <li>Every plugin: auth, telemetry, AI, durable functions, admin UI</li>
-            <li>All client interfaces: REST, GraphQL, WebSocket, SSE, MQTT, MCP, gRPC</li>
-            <li>Embedded RocksDB storage with the seven-directive matrix</li>
-            <li>Built-in MCP server + vector-indexed knowledge base</li>
-            <li>Local development + production deployment, same binary</li>
-            <li>Self-hosted on your infrastructure</li>
+            <li>Compiled binary — Linux, macOS, Windows</li>
+            <li>Open-source SDK</li>
+            <li>Auth, telemetry, AI, queues, admin</li>
+            <li>REST, GraphQL, WS, SSE, MQTT, gRPC</li>
+            <li>RocksDB storage, seven-directive matrix</li>
+            <li>MCP server + vector knowledge base</li>
+            <li>Run on your hardware</li>
           </ul>
           <div className="pricing-cta">
             <button className="btn btn-lg pricing-btn pricing-btn-outline" onClick={onGetStarted}>Download</button>
@@ -47,15 +47,15 @@ export default function Pricing({ onGetStarted }: PricingProps) {
               <span>Yeti Fabric</span>
             </div>
             <div className="pricing-price">
-              <span className="pricing-amount">From $1,000</span>
+              <span className="pricing-amount">$1,000</span>
               <span className="pricing-period">/ month</span>
             </div>
           </div>
           <table className="pricing-scale">
             <thead>
               <tr>
-                <th>Sustained throughput</th>
-                <th>Monthly minimum</th>
+                <th>Throughput</th>
+                <th>Monthly</th>
               </tr>
             </thead>
             <tbody>
@@ -74,24 +74,50 @@ export default function Pricing({ onGetStarted }: PricingProps) {
             </tbody>
           </table>
           <ul className="pricing-features">
-            <li>Everything in Self-Hosted</li>
-            <li>Auto-scaling — placement service responds to telemetry in seconds</li>
-            <li>Global data replication via <code>@distribute</code> (full / shard / geo-subset)</li>
-            <li>Dynamic application placement managed by yeti-admin</li>
-            <li>Agentic monitoring — MCP-driven incident detection + remediation proposals</li>
-            <li>GitHub App-driven deploys with branch previews</li>
-            <li>mTLS replication mesh + per-deployment encryption keys</li>
-            <li>Replicated S3-compatible blob storage per deployment</li>
+            <li>Same binary, managed for you</li>
+            <li>Geo, Load, and Predictive Scaling</li>
+            <li>Configurable global replication</li>
+            <li>Live updates with zero downtime</li>
+            <li>Agentic monitoring/remediation feed</li>
+            <li>GitHub deploys with branch previews</li>
+            <li>Deployment-specific encryption</li>
+            <li>S3-compatible blob storage, replicated</li>
           </ul>
           <div className="pricing-cta">
             <button className="btn btn-primary btn-lg pricing-btn" onClick={onGetStarted}>Get Started</button>
           </div>
         </div>
+
+        <div className="pricing-card">
+          <div className="pricing-card-header">
+            <div className="pricing-tier-label">
+              <Icon name="shield" />
+              <span>Yeti Sovereign</span>
+            </div>
+            <div className="pricing-price">
+              <span className="pricing-amount">Custom</span>
+              <span className="pricing-period">/ call for pricing</span>
+            </div>
+          </div>
+          <ul className="pricing-features">
+            <li>Yeti Cloud, in your environment</li>
+            <li>Private cloud in your VPC, any provider</li>
+            <li>On-prem or air-gapped data center</li>
+            <li>White-label "cloud in a box"</li>
+            <li>Dedicated implementation team</li>
+            <li>Custom SLA, contract, and support hours</li>
+            <li>Direct line to Yeti engineering</li>
+            <li>Roadmap input on the features you need</li>
+          </ul>
+          <div className="pricing-cta">
+            <a href="mailto:sales@yetirocks.com" className="btn btn-lg pricing-btn pricing-btn-outline">Talk to Sales</a>
+          </div>
+        </div>
       </div>
 
       <p className="pricing-footnote">
-        * Capacity scales linearly. No reserved instances. No minimum commits beyond the tier minimum. No surprise egress fees. Cancel anytime.<br />
-        Enterprise SLAs, private deployment, and dedicated support — <a href="mailto:sales@yetirocks.com">sales@yetirocks.com</a>.
+        * Fabric capacity scales linearly. No reserved instances. No minimum commits beyond the tier minimum. No surprise egress fees. Cancel anytime.<br />
+        Sovereign deployments, custom SLAs, and partner programs — <a href="mailto:sales@yetirocks.com">sales@yetirocks.com</a>.
       </p>
 
       <section className="section">
@@ -99,23 +125,23 @@ export default function Pricing({ onGetStarted }: PricingProps) {
         <div className="features-grid">
           <div className="feature-card">
             <Icon name="layers" />
-            <div className="feature-title">What's the difference between Self-Hosted and Fabric?</div>
+            <div className="feature-title">What's the difference between the three tiers?</div>
             <div className="feature-text">
-              Same binary, different operator. Self-Hosted means you run the binary on your hardware (or VM, or Kubernetes pod). Fabric is the same binary running on YetiRocks-managed infrastructure with multi-region replication and centralized placement.
+              Same binary, different operator. Self-Hosted means you run the binary on your hardware. Fabric is the same binary running on YetiRocks-managed infrastructure with auto-scaling and global replication. Sovereign is the same binary deployed inside your environment — your VPC, your data center, or shipped to your customers under your brand.
             </div>
           </div>
           <div className="feature-card">
             <Icon name="refresh" />
-            <div className="feature-title">Can I move from Self-Hosted to Fabric?</div>
+            <div className="feature-title">Can I move between tiers?</div>
             <div className="feature-text">
-              Yes. Your <code>Cargo.toml</code> manifest and schema work as-is. Point your repo at the Yeti GitHub App or call the deploy workflow from your existing CI. The runtime profile changes; the application doesn't.
+              Yes. Your <code>Cargo.toml</code> manifest and schema work as-is. Self-Hosted apps deploy to Fabric by pointing at the Yeti GitHub App. Fabric customers move to Sovereign with the same artifact and a different operating environment. The runtime profile changes; the application doesn't.
             </div>
           </div>
           <div className="feature-card">
             <Icon name="key" />
-            <div className="feature-title">Do agents have access to my data on Fabric?</div>
+            <div className="feature-title">How is my data isolated on Fabric?</div>
             <div className="feature-text">
-              Agents query through MCP, scoped to your tenancy. Per-deployment encryption (HKDF + AES-256-GCM) keeps tenants opaque on the wire even though replication multiplexes across a shared mTLS channel. Your data never decrypts in another tenant's process.
+              Each deployment runs behind its own keys. Replication traffic is encrypted between authenticated nodes — nothing else on the wire can read it. The platform manages the keys for you; your team never touches a key vault or rotation runbook. Agents query through MCP, scoped to your deployment's role context.
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
-import { fetchPost, type Post } from '../data/posts'
-import { useSEO } from '../hooks/useSEO'
-import CodeBlock from '../components/CodeBlock'
+import { fetchPost, type Post } from '../../data/posts'
+import { useSEO } from '../../hooks/useSEO'
+import CodeBlock from '../../components/CodeBlock'
 
 interface BlogPostProps {
   slug: string

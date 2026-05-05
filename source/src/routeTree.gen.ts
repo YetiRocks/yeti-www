@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LegalIndexRouteImport } from './routes/legal/index'
@@ -36,11 +35,6 @@ import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlatformRoute = PlatformRouteImport.update({
-  id: '/platform',
-  path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -75,29 +69,29 @@ const SolutionsAgenticHarnessRoute = SolutionsAgenticHarnessRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlatformPluginsRoute = PlatformPluginsRouteImport.update({
-  id: '/plugins',
-  path: '/plugins',
-  getParentRoute: () => PlatformRoute,
+  id: '/platform/plugins',
+  path: '/platform/plugins',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PlatformInterfacesRoute = PlatformInterfacesRouteImport.update({
-  id: '/interfaces',
-  path: '/interfaces',
-  getParentRoute: () => PlatformRoute,
+  id: '/platform/interfaces',
+  path: '/platform/interfaces',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PlatformFabricRoute = PlatformFabricRouteImport.update({
-  id: '/fabric',
-  path: '/fabric',
-  getParentRoute: () => PlatformRoute,
+  id: '/platform/fabric',
+  path: '/platform/fabric',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PlatformDatabasesRoute = PlatformDatabasesRouteImport.update({
-  id: '/databases',
-  path: '/databases',
-  getParentRoute: () => PlatformRoute,
+  id: '/platform/databases',
+  path: '/platform/databases',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PlatformApplicationsRoute = PlatformApplicationsRouteImport.update({
-  id: '/applications',
-  path: '/applications',
-  getParentRoute: () => PlatformRoute,
+  id: '/platform/applications',
+  path: '/platform/applications',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTermsOfServiceRoute = LegalTermsOfServiceRouteImport.update({
   id: '/legal/terms-of-service',
@@ -154,7 +148,6 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
-  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/developers/benchmarks': typeof DevelopersBenchmarksRoute
@@ -179,7 +172,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
-  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/developers/benchmarks': typeof DevelopersBenchmarksRoute
@@ -205,7 +197,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
-  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/developers/benchmarks': typeof DevelopersBenchmarksRoute
@@ -232,7 +223,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
-    | '/platform'
     | '/pricing'
     | '/blog/$slug'
     | '/developers/benchmarks'
@@ -257,7 +247,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/blog'
-    | '/platform'
     | '/pricing'
     | '/blog/$slug'
     | '/developers/benchmarks'
@@ -282,7 +271,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/blog'
-    | '/platform'
     | '/pricing'
     | '/blog/$slug'
     | '/developers/benchmarks'
@@ -308,7 +296,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogRoute: typeof BlogRouteWithChildren
-  PlatformRoute: typeof PlatformRouteWithChildren
   PricingRoute: typeof PricingRoute
   DevelopersBenchmarksRoute: typeof DevelopersBenchmarksRoute
   DevelopersDemosRoute: typeof DevelopersDemosRoute
@@ -319,6 +306,11 @@ export interface RootRouteChildren {
   LegalSoftwareLicenseRoute: typeof LegalSoftwareLicenseRoute
   LegalSupportPolicyRoute: typeof LegalSupportPolicyRoute
   LegalTermsOfServiceRoute: typeof LegalTermsOfServiceRoute
+  PlatformApplicationsRoute: typeof PlatformApplicationsRoute
+  PlatformDatabasesRoute: typeof PlatformDatabasesRoute
+  PlatformFabricRoute: typeof PlatformFabricRoute
+  PlatformInterfacesRoute: typeof PlatformInterfacesRoute
+  PlatformPluginsRoute: typeof PlatformPluginsRoute
   SolutionsAgenticHarnessRoute: typeof SolutionsAgenticHarnessRoute
   SolutionsLlmOptimizationRoute: typeof SolutionsLlmOptimizationRoute
   SolutionsMediaSecurityRoute: typeof SolutionsMediaSecurityRoute
@@ -332,13 +324,6 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/platform': {
-      id: '/platform'
-      path: '/platform'
-      fullPath: '/platform'
-      preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -385,38 +370,38 @@ declare module '@tanstack/react-router' {
     }
     '/platform/plugins': {
       id: '/platform/plugins'
-      path: '/plugins'
+      path: '/platform/plugins'
       fullPath: '/platform/plugins'
       preLoaderRoute: typeof PlatformPluginsRouteImport
-      parentRoute: typeof PlatformRoute
+      parentRoute: typeof rootRouteImport
     }
     '/platform/interfaces': {
       id: '/platform/interfaces'
-      path: '/interfaces'
+      path: '/platform/interfaces'
       fullPath: '/platform/interfaces'
       preLoaderRoute: typeof PlatformInterfacesRouteImport
-      parentRoute: typeof PlatformRoute
+      parentRoute: typeof rootRouteImport
     }
     '/platform/fabric': {
       id: '/platform/fabric'
-      path: '/fabric'
+      path: '/platform/fabric'
       fullPath: '/platform/fabric'
       preLoaderRoute: typeof PlatformFabricRouteImport
-      parentRoute: typeof PlatformRoute
+      parentRoute: typeof rootRouteImport
     }
     '/platform/databases': {
       id: '/platform/databases'
-      path: '/databases'
+      path: '/platform/databases'
       fullPath: '/platform/databases'
       preLoaderRoute: typeof PlatformDatabasesRouteImport
-      parentRoute: typeof PlatformRoute
+      parentRoute: typeof rootRouteImport
     }
     '/platform/applications': {
       id: '/platform/applications'
-      path: '/applications'
+      path: '/platform/applications'
       fullPath: '/platform/applications'
       preLoaderRoute: typeof PlatformApplicationsRouteImport
-      parentRoute: typeof PlatformRoute
+      parentRoute: typeof rootRouteImport
     }
     '/legal/terms-of-service': {
       id: '/legal/terms-of-service'
@@ -501,30 +486,9 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
-interface PlatformRouteChildren {
-  PlatformApplicationsRoute: typeof PlatformApplicationsRoute
-  PlatformDatabasesRoute: typeof PlatformDatabasesRoute
-  PlatformFabricRoute: typeof PlatformFabricRoute
-  PlatformInterfacesRoute: typeof PlatformInterfacesRoute
-  PlatformPluginsRoute: typeof PlatformPluginsRoute
-}
-
-const PlatformRouteChildren: PlatformRouteChildren = {
-  PlatformApplicationsRoute: PlatformApplicationsRoute,
-  PlatformDatabasesRoute: PlatformDatabasesRoute,
-  PlatformFabricRoute: PlatformFabricRoute,
-  PlatformInterfacesRoute: PlatformInterfacesRoute,
-  PlatformPluginsRoute: PlatformPluginsRoute,
-}
-
-const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
-  PlatformRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRoute: BlogRouteWithChildren,
-  PlatformRoute: PlatformRouteWithChildren,
   PricingRoute: PricingRoute,
   DevelopersBenchmarksRoute: DevelopersBenchmarksRoute,
   DevelopersDemosRoute: DevelopersDemosRoute,
@@ -535,6 +499,11 @@ const rootRouteChildren: RootRouteChildren = {
   LegalSoftwareLicenseRoute: LegalSoftwareLicenseRoute,
   LegalSupportPolicyRoute: LegalSupportPolicyRoute,
   LegalTermsOfServiceRoute: LegalTermsOfServiceRoute,
+  PlatformApplicationsRoute: PlatformApplicationsRoute,
+  PlatformDatabasesRoute: PlatformDatabasesRoute,
+  PlatformFabricRoute: PlatformFabricRoute,
+  PlatformInterfacesRoute: PlatformInterfacesRoute,
+  PlatformPluginsRoute: PlatformPluginsRoute,
   SolutionsAgenticHarnessRoute: SolutionsAgenticHarnessRoute,
   SolutionsLlmOptimizationRoute: SolutionsLlmOptimizationRoute,
   SolutionsMediaSecurityRoute: SolutionsMediaSecurityRoute,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
-import { fetchPosts, type Post } from '../data/posts'
-import { useSEO } from '../hooks/useSEO'
+import { fetchPosts, type Post } from '../../data/posts'
+import { useSEO } from '../../hooks/useSEO'
 
 const facts = [
   'Samoyeds were bred by the Samoyede people of Siberia to herd reindeer, pull sleds, and keep their owners warm by sleeping on top of them.',

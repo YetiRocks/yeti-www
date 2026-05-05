@@ -18,11 +18,6 @@ const routes: RouteMeta[] = [
     description: 'A distributed application platform that ships as a single binary. Database, APIs, streaming, auth, AI, durable functions — one runtime. Build faster with Yeti.',
   },
   {
-    path: '/platform',
-    title: 'Platform | Yeti',
-    description: 'Stack in a box. Five layers — Applications, Databases, Interfaces, Plugins, Fabric — in one binary. Pick a layer to dive in.',
-  },
-  {
     path: '/platform/applications',
     title: 'Applications | Yeti',
     description: 'A Yeti app is three files: Cargo.toml manifest, GraphQL schema, optional Rust resources. Drop it in, hot-reload on save.',

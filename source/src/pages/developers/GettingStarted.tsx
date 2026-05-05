@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router'
-import Icon from '../components/Icon'
-import CodeBlock from '../components/CodeBlock'
+import Icon from '../../components/Icon'
+import CodeBlock from '../../components/CodeBlock'
 
-export default function Applications() {
+export default function GettingStarted() {
   return (
     <div className="container">
       <div className="page-header">
@@ -181,7 +181,7 @@ resource!(Featured {
 
       <section className="section" style={{ textAlign: 'center', paddingBottom: '4rem' }}>
         <p className="section-desc">
-          See it in action — <Link to="/developers/demos">interactive demos</Link>, or dig into the building blocks on the <Link to="/platform">platform overview</Link>.
+          See it in action — <Link to="/developers/demos">interactive demos</Link>, or dig into the building blocks on the <Link to="/platform/applications">platform overview</Link>.
         </p>
       </section>
     </div>

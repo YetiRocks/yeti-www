@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, useMatch } from '@tanstack/react-router'
-import Blog from '../pages/Blog'
+import Blog from '../pages/blog/Blog'
 
 export const Route = createFileRoute('/blog')({
   component: BlogLayout,

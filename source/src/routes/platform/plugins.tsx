@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import PlatformPlugins from '../../pages/PlatformPlugins'
+import Plugins from '../../pages/platform/Plugins'
 
 export const Route = createFileRoute('/platform/plugins')({
-  component: PlatformPlugins,
+  component: Plugins,
 })

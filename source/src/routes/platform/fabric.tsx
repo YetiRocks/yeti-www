@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import PlatformFabric from '../../pages/PlatformFabric'
+import Fabric from '../../pages/platform/Fabric'
 
 export const Route = createFileRoute('/platform/fabric')({
-  component: PlatformFabric,
+  component: Fabric,
 })

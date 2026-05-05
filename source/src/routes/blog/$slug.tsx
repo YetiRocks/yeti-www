@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import BlogPost from '../../pages/BlogPost'
+import BlogPost from '../../pages/blog/BlogPost'
 
 export const Route = createFileRoute('/blog/$slug')({
   component: () => {

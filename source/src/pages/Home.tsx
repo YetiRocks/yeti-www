@@ -18,8 +18,8 @@ export default function Home({ onGetStarted }: HomeProps) {
           />
           <h1 className="hero-title">Faster Applications, Faster.</h1>
           <p className="hero-subtitle">
-            An agent-friendly performance application toolkit for Rust that improves velocity, reduces drift, and lowers costs.<br />
-            <p className="feature-list"><span className="text-white">Applications</span> | <span className="text-white">Databases</span> | <span className="text-white">Interfaces</span> |  <span className="text-white">Auth</span> | <span className="text-white">Plugins</span></p>
+            An agent-friendly high-performance platform + toolkit for Rust that improves velocity, reduces drift, and lowers costs.<br />
+            <p className="feature-list"><span className="text-white">Application</span> | <span className="text-white">Database</span> | <span className="text-white">Interfaces</span> |  <span className="text-white">Auth</span> | <span className="text-white">Plugins</span></p>
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary btn-lg" onClick={onGetStarted}>

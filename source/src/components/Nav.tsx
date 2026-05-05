@@ -67,7 +67,7 @@ export default function Nav({ onGetStarted }: NavProps) {
           <Link to="/" className="nav-link" activeProps={{ className: 'nav-link active' }} activeOptions={{ exact: true }}>
             Home
           </Link>
-          <Link to="/platform" className={`nav-link${isPlatformActive ? ' active' : ''}`}>
+          <Link to="/platform/applications" className={`nav-link${isPlatformActive ? ' active' : ''}`}>
             Platform
           </Link>
           <Link to="/solutions/media-security" className={`nav-link${isSolutionsActive ? ' active' : ''}`}>
