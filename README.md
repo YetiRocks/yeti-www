@@ -15,18 +15,18 @@
 > **[Yeti](https://yetirocks.com)** - The Performance Platform for Agent-Driven Development.
 > Schema-driven APIs, real-time streaming, and vector search. From prompt to production.
 
-**The marketing website for yetirocks.com.** A React single-page application served by Yeti, showcasing platform features, architecture, application development, hosting, use cases, demos, and benchmark data. Ships with a server-side beta signup table for collecting early access requests.
+**The marketing website for yetirocks.com.** A React multi-page application served by Yeti, showcasing platform features, architecture, application development, hosting tiers, solutions, demos, and benchmark data. Ships with a server-side beta signup table for collecting early access requests.
 
 ---
 
 ## Why yeti-www
 
-Most marketing sites are deployed on a separate CMS or static host, disconnected from the product they describe. yeti-www runs on the same Yeti instance it markets — the site itself is a working demonstration of the platform. A GraphQL schema defines the beta signup table, Yeti serves the SPA with client-side routing, and the Vite build pipeline produces optimized bundles with automatic SEO metadata generation. One `config.yaml`, one schema file, zero external services.
+Most marketing sites are deployed on a separate CMS or static host, disconnected from the product they describe. yeti-www runs on the same Yeti instance it markets — the site itself is a working demonstration of the platform. A GraphQL schema defines the beta signup table, Yeti serves the SPA with client-side routing, and the Vite build pipeline produces optimized bundles with automatic SEO metadata generation. One `Cargo.toml` (`[package.metadata.app]`), one schema file, zero external services.
 
 - **Dogfooding the platform** — the site runs as a yeti application with schema-driven data collection, proving the workflow it describes to visitors.
 - **Single-process deployment** — no separate web server, no CDN configuration, no CMS. Yeti serves the built React app and handles form submissions.
 - **Public beta signup** — the `BetaSignup` table uses `@export(public: [create])` so visitors can submit their information without authentication.
-- **SPA routing** — `spa: true` in config returns `index.html` for all unmatched routes, enabling React Router client-side navigation.
+- **SPA routing** — `spa = true` in the `static = { ... }` table of `[package.metadata.app]` returns `index.html` for all unmatched routes, enabling TanStack Router client-side navigation.
 - **SEO-optimized** — custom Vite plugin generates per-route meta tags, Open Graph images, and a sitemap for search engine indexing.
 - **Responsive design** — mobile-first layouts with hamburger menu, stacked grids, and touch-friendly targets across all pages.
 
@@ -87,19 +87,26 @@ Browser (yetirocks.com)
     |                                +-- Public create (no auth)
     |                                +-- Stored in RocksDB ("www" db)
     |
-    +-- React Router (client-side)
+    +-- TanStack Router (client-side, file-based)
          |
-         +-- /              Home
-         +-- /platform      Platform architecture
-         +-- /applications  Code examples
-         +-- /fabric         Hosting & pricing
-         +-- /use-cases     Use case gallery
-         +-- /demos         Live demos
-         +-- /benchmarks    Performance data
-         +-- /legal/*       Terms, privacy, cookies, etc.
+         +-- /                            Home
+         +-- /pricing                     Self-Hosted / Fabric / Sovereign tiers
+         +-- /platform/applications       Schema-driven apps
+         +-- /platform/databases          Storage + queries + vectors
+         +-- /platform/interfaces         REST/GraphQL/SSE/MQTT
+         +-- /platform/plugins            Auth, telemetry, vectors
+         +-- /platform/fabric             Yeti Fabric managed hosting
+         +-- /solutions/agentic-harness   Agentic compute fabric
+         +-- /solutions/llm-optimization  LLM optimization use case
+         +-- /solutions/media-security    Media + security use case
+         +-- /developers/getting-started  Quickstart
+         +-- /developers/demos            Live demos
+         +-- /developers/benchmarks       Performance data
+         +-- /blog, /blog/$slug           Blog index + posts
+         +-- /legal/*                     Terms, privacy, cookies, etc.
 ```
 
-**Static serving:** Yeti serves pre-built files from the `web/` directory. The `spa: true` config option returns `index.html` for any route that does not match a static file, enabling React Router to handle client-side navigation.
+**Static serving:** Yeti serves pre-built files from the `web/` directory. The `spa = true` flag in `[package.metadata.app]`'s `static = { ... }` table returns `index.html` for any route that does not match a static file, enabling TanStack Router to handle client-side navigation.
 
 **Data collection:** The `BetaSignup` table is the only server-side data model. It accepts public POST requests with name, email, company, title, and idea fields. Records are stored in the embedded RocksDB database under the "www" namespace.
 
@@ -120,36 +127,45 @@ Hero section with the Yeti logo, headline ("Faster Applications, Faster."), subt
 | **Easier** | Auth, streaming, search - one config line each | Everything ships in the binary; five lines to a production endpoint |
 | **Cheaper** | One binary runs what used to take a cluster | Fewer servers, fewer pages; pay-as-you-go pricing |
 
-### Platform (/platform)
+### Platform (/platform/*)
 
-Architecture diagram (SVG) showing the full Yeti stack. Four deep-dive feature sections:
+Architecture diagram (SVG) showing the full Yeti stack. Five deep-dive subpages, one per URL section:
 
-- **Applications** — schema-driven development, hot-reloaded Rust plugins, static file serving
-- **Data** — RocksDB storage, FIQL queries, relationships, HNSW vector search, GraphQL
-- **Streaming** — SSE, WebSocket, PubSub real-time event system
-- **Extensions** — yeti-auth, yeti-telemetry, yeti-vectors, yeti-applications
+- **/platform/applications** — schema-driven development, statically-linked Rust resources, static file serving. Interactive code examples with syntax highlighting (schema → API, auth, vector search).
+- **/platform/databases** — RocksDB storage, FIQL queries, relationships, HNSW vector search, GraphQL
+- **/platform/interfaces** — REST, GraphQL, SSE, MQTT, WebSocket; one schema, every transport
+- **/platform/plugins** — yeti-auth, yeti-telemetry, yeti-vectors, yeti-applications
+- **/platform/fabric** — Yeti Fabric managed hosting overview
 
-### Applications (/applications)
+### Solutions (/solutions/*)
 
-Interactive code examples with syntax highlighting demonstrating:
+Use-case-driven landing pages:
 
-1. **Schema to API** — a GraphQL schema that generates full CRUD REST + GraphQL + SSE endpoints
-2. **Authentication** — yeti-auth config.yaml with OAuth providers and role mapping
-3. **Vector Search** — schema with `@indexed(type: "HNSW")` and text search curl examples
+- **/solutions/agentic-harness** — agent compute fabric powered by Yeti
+- **/solutions/llm-optimization** — LLM cost / latency / quality optimization
+- **/solutions/media-security** — media and security workloads
 
-### Fabric (/fabric)
+### Pricing (/pricing)
 
-Yeti Fabric hosting and pricing information. Infrastructure details, deployment options, and scaling narrative.
+Three tiers covering the full deployment spectrum:
 
-### Use Cases (/use-cases)
+| Tier | Audience | Description |
+|------|----------|-------------|
+| **Self-Hosted** | Free / open source | Run the Yeti binary anywhere — zero cost, full feature set |
+| **Yeti Fabric** | Managed | Yeti-hosted multi-tenant fabric with scaling, telemetry, and SLAs |
+| **Yeti Sovereign** | Enterprise | On-prem, private-cloud, or whitelabel deployments with dedicated support |
 
-Gallery of use case scenarios showing how Yeti applies to different problem domains.
+### Developers (/developers/*)
 
-### Demos (/demos)
+- **/developers/getting-started** — quickstart and onboarding
+- **/developers/demos** — live demo applications running on the Yeti platform
+- **/developers/benchmarks** — comprehensive performance data (see below)
 
-Links to live demo applications running on the Yeti platform.
+### Blog (/blog, /blog/$slug)
 
-### Benchmarks (/benchmarks)
+Blog index plus individual post pages, content sourced from `src/data/posts.ts`.
+
+### Benchmarks (/developers/benchmarks)
 
 Comprehensive performance data from the load-test suite with charts and tables:
 
@@ -215,38 +231,33 @@ Click "Request Early Access" in the navigation or hero section to open the beta 
 
 ## Configuration
 
-### config.yaml
+### Cargo.toml
 
-```yaml
-name: "Website"
-app_id: "yeti-www"
-customer_id: "yeti"
-version: "1.0.0"
-description: "yetirocks.com marketing site + demos"
-route_prefix: "/"
+App configuration lives in the app's `Cargo.toml` under `[package.metadata.app]` — there is no `config.yaml` or `services.yaml`.
 
-schemas:
-  path: schemas/schema.graphql
+```toml
+[package]
+name = "yeti-www"
+version = "1.0.0"
+description = "yetirocks.com marketing site + demos"
 
-static:
-  path: web
-  route: /
-  spa: true
-  build:
-    source: source
-    command: npm run build
+[package.metadata.app]
+customer_id = "yeti"
+route_prefix = "/"
+schemas = "schemas/schema.graphql"
+static = { path = "web", source = "source", spa = true, build = "npm install && npm run build" }
 ```
 
 **Key settings:**
 
 | Field | Value | Purpose |
 |-------|-------|---------|
-| `app_id` | `yeti-www` | Application identifier used in table endpoints |
+| `[package].name` | `yeti-www` | Application identifier used in table endpoints |
 | `route_prefix` | `/` | Serves at the root path (not `/yeti-www/`) |
-| `static_files.path` | `web` | Directory containing built React app |
-| `static_files.spa` | `true` | Returns `index.html` for unmatched routes (SPA mode) |
-| `static_files.build.sourceDir` | `source` | Vite project directory |
-| `static_files.build.command` | `npm run build` | Build command executed by Yeti |
+| `static.path` | `web` | Directory containing built React app |
+| `static.spa` | `true` | Returns `index.html` for unmatched routes (SPA mode) |
+| `static.source` | `source` | Vite project directory |
+| `static.build` | `npm install && npm run build` | Build command executed by Yeti |
 
 ### schema.graphql
 
@@ -268,66 +279,101 @@ No resources, no extensions, no plugins. This is a static-first application with
 
 ## Project Structure
 
+yeti-www is the canonical model for multi-page Yeti UI apps. Pages are organized into subfolders by URL section (`pages/platform/`, `pages/solutions/`, `pages/developers/`, `pages/blog/`, `pages/legal/`). The TanStack Router file tree under `routes/` mirrors the URL paths exactly — each route file is a thin wrapper that imports the corresponding page and sets it as `component`.
+
 ```
 yeti-www/
-├── config.yaml                  # Yeti application configuration
-├── README.md                    # This file
+├── Cargo.toml                  # App config in [package.metadata.app]
+├── README.md                   # This file
 ├── schemas/
-│   └── schema.graphql           # BetaSignup table definition
-├── source/                      # React/Vite source code
-│   ├── package.json             # npm dependencies
-│   ├── package-lock.json        # Lockfile
-│   ├── vite.config.ts           # Vite config (auto-reads base path from config.yaml)
-│   ├── vite-plugin-seo.ts       # Custom SEO plugin (meta tags, sitemap, OG images)
-│   ├── tsconfig.json            # TypeScript configuration
-│   ├── tsconfig.node.json       # TypeScript config for Vite/Node
-│   ├── index.html               # HTML entry point
-│   ├── public/                  # Static assets (copied as-is to build)
-│   │   ├── favicon.png          # Site favicon
-│   │   ├── logo_white.svg       # Yeti logo (white, for dark backgrounds)
-│   │   ├── architecture.svg     # Platform architecture diagram
-│   │   ├── og-image.png         # Open Graph social preview image
-│   │   ├── install.sh           # Unix install script
-│   │   ├── install.ps1          # Windows install script
-│   │   ├── robots.txt           # Search engine crawler rules
-│   │   ├── sitemap.xml          # XML sitemap for search engines
-│   │   └── screenshots/         # Page screenshots for social previews
+│   └── schema.graphql          # BetaSignup table definition
+├── source/                     # React/Vite source code
+│   ├── package.json
+│   ├── vite.config.ts          # Vite config (reads base path from Cargo.toml)
+│   ├── vite-plugin-seo.ts      # Custom SEO plugin (meta tags, sitemap, OG images)
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── index.html
+│   ├── public/                 # Static assets (favicon, logo, architecture.svg, og-image, install.sh,
+│   │                           # install.ps1, robots.txt, sitemap.xml, screenshots/)
 │   └── src/
-│       ├── main.tsx             # React DOM entry point
-│       ├── App.tsx              # Router and layout (BrowserRouter + Routes)
-│       ├── articles.ts          # Article/content data
-│       ├── utils.ts             # Shared utility functions
-│       ├── index.css            # Yeti Studio theme + marketing styles
-│       ├── yeti.css             # Yeti-specific component styles
-│       ├── auth.css             # Auth page styles
-│       ├── legal.css            # Legal page styles
-│       ├── vite-env.d.ts        # Vite type declarations
-│       ├── components/
-│       │   ├── Nav.tsx          # Top navigation bar + hamburger menu
-│       │   ├── Footer.tsx       # Site footer with links
-│       │   ├── BetaModal.tsx    # Early access signup modal
-│       │   ├── BenchmarkChart.tsx  # uPlot chart for benchmark data
-│       │   ├── Code.tsx         # Syntax-highlighted code blocks
-│       │   └── Icon.tsx         # SVG icon component
-│       └── pages/
-│           ├── Home.tsx         # Homepage (hero, building blocks, value props)
-│           ├── Platform.tsx     # Platform architecture deep-dive
-│           ├── Applications.tsx # Code examples (schema, auth, vectors)
-│           ├── Hosting.tsx      # Yeti Fabric hosting (/fabric route)
-│           ├── UseCases.tsx     # Use case gallery
-│           ├── Demos.tsx        # Live demos
-│           ├── Benchmarks.tsx   # Performance data with charts
-│           ├── Legal.tsx        # Legal index page
+│       ├── main.tsx            # React DOM entry point
+│       ├── router.tsx          # TanStack Router setup
+│       ├── routeTree.gen.ts    # Auto-generated by TanStack Router vite plugin
+│       ├── vite-env.d.ts
+│       ├── hooks/
+│       │   └── useSEO.ts       # Per-route SEO meta tags
+│       ├── data/               # Static data modules
+│       │   ├── benchmarks.json
+│       │   ├── bestresults.json
+│       │   └── posts.ts        # Blog post content
+│       ├── components/         # Shared UI (Nav, Footer, BetaModal, BenchmarkChart, Code, Icon, ...)
+│       ├── styles/
+│       │   ├── _vars.css       # Per-app brand colors / CSS variables
+│       │   ├── yeti.css        # Canonical Yeti stylesheet (shared across all apps)
+│       │   └── index.css       # App-specific overrides
+│       ├── pages/              # Page components organized by URL section
+│       │   ├── Home.tsx
+│       │   ├── Pricing.tsx     # Self-Hosted / Fabric / Sovereign tiers
+│       │   ├── NotFound.tsx
+│       │   ├── platform/
+│       │   │   ├── Applications.tsx
+│       │   │   ├── Databases.tsx
+│       │   │   ├── Interfaces.tsx
+│       │   │   ├── Plugins.tsx
+│       │   │   └── Fabric.tsx
+│       │   ├── solutions/
+│       │   │   ├── AgenticHarness.tsx
+│       │   │   ├── LLMOptimization.tsx
+│       │   │   └── MediaSecurity.tsx
+│       │   ├── developers/
+│       │   │   ├── GettingStarted.tsx
+│       │   │   ├── Demos.tsx
+│       │   │   └── Benchmarks.tsx
+│       │   ├── blog/
+│       │   │   ├── Blog.tsx
+│       │   │   └── BlogPost.tsx
+│       │   └── legal/
+│       │       ├── Legal.tsx
+│       │       ├── TermsOfService.tsx
+│       │       ├── PrivacyPolicy.tsx
+│       │       ├── SoftwareLicense.tsx
+│       │       ├── CookiePolicy.tsx
+│       │       ├── AcceptableUse.tsx
+│       │       └── SupportPolicy.tsx
+│       └── routes/             # TanStack Router file-based routes (mirror URL paths)
+│           ├── __root.tsx
+│           ├── index.tsx                       → pages/Home
+│           ├── pricing.tsx                     → pages/Pricing
+│           ├── blog.tsx                        → pages/blog/Blog
+│           ├── blog/$slug.tsx                  → pages/blog/BlogPost
+│           ├── platform/
+│           │   ├── applications.tsx            → pages/platform/Applications
+│           │   ├── databases.tsx               → pages/platform/Databases
+│           │   ├── interfaces.tsx              → pages/platform/Interfaces
+│           │   ├── plugins.tsx                 → pages/platform/Plugins
+│           │   └── fabric.tsx                  → pages/platform/Fabric
+│           ├── solutions/
+│           │   ├── agentic-harness.tsx         → pages/solutions/AgenticHarness
+│           │   ├── llm-optimization.tsx        → pages/solutions/LLMOptimization
+│           │   └── media-security.tsx          → pages/solutions/MediaSecurity
+│           ├── developers/
+│           │   ├── getting-started.tsx
+│           │   ├── demos.tsx
+│           │   └── benchmarks.tsx
 │           └── legal/
-│               ├── TermsOfService.tsx
-│               ├── PrivacyPolicy.tsx
-│               ├── SoftwareLicense.tsx
-│               ├── CookiePolicy.tsx
-│               ├── AcceptableUse.tsx
-│               └── SupportPolicy.tsx
-└── web/                         # Built output (gitignored)
-    └── ...                      # Production-ready static files
+│               ├── index.tsx
+│               ├── terms-of-service.tsx
+│               ├── privacy-policy.tsx
+│               ├── software-license.tsx
+│               ├── cookie-policy.tsx
+│               ├── acceptable-use.tsx
+│               └── support-policy.tsx
+└── web/                        # Built output (gitignored)
+    └── ...                     # Production-ready static files
 ```
+
+**Style conventions (canonical across Yeti apps):** `styles/yeti.css` is the canonical stylesheet that ships unchanged across every Yeti UI app. `styles/_vars.css` holds per-app brand colors. `styles/index.css` holds app-specific overrides. Recent canonical additions include `.directive-header` for inline directive-name layouts (orange via `--color-primary`), a 3-up `features-grid` default, and `.has-code` cards that span full width with responsive breakpoints (2-col at ≤960px, 1-col at ≤600px).
 
 ---
 
@@ -346,7 +392,7 @@ npm run dev
 # Accessible at http://localhost:5180
 ```
 
-The development server reads `route_prefix` from `../config.yaml` to set the correct base path automatically. Override with `YETI_BASE_PATH` environment variable if needed.
+The development server reads `route_prefix` from `../Cargo.toml` (under `[package.metadata.app]`) to set the correct base path automatically. Override with `YETI_BASE_PATH` environment variable if needed.
 
 ### Production Build
 
@@ -367,11 +413,8 @@ Output goes to `../web/` (configured in `vite.config.ts` via `build.outDir`). Vi
 
 ### Adding a New Page
 
-1. Create `source/src/pages/NewPage.tsx`
-2. Add route in `source/src/App.tsx`:
-   ```tsx
-   <Route path="/new-page" element={<NewPage />} />
-   ```
+1. Create the page component in the appropriate section folder, e.g. `source/src/pages/platform/NewPage.tsx`
+2. Create a TanStack Router route file at the matching URL path, e.g. `source/src/routes/platform/new-page.tsx` — import the page and set it as `component`. The TanStack Router vite plugin regenerates `routeTree.gen.ts` automatically.
 3. Add navigation link in `source/src/components/Nav.tsx`
 4. Rebuild: `cd source && npm run build`
 5. Restart Yeti to pick up new static files
@@ -386,7 +429,7 @@ The custom Vite plugin at `source/vite-plugin-seo.ts` runs during the build and 
 
 ### Styling
 
-The site uses the Yeti Studio dark theme:
+The site uses the canonical Yeti dark theme:
 
 | Property | Value |
 |----------|-------|
@@ -395,7 +438,7 @@ The site uses the Yeti Studio dark theme:
 | Layout | CSS Grid + Flexbox |
 | Responsive | Mobile-first breakpoints |
 
-Styles are split across four CSS files: `index.css` (base theme + marketing), `yeti.css` (component styles), `auth.css` (auth page styles), and `legal.css` (legal page styles).
+Styles are split across three CSS files in `src/styles/`: `yeti.css` is the canonical stylesheet shared across every Yeti UI app, `_vars.css` holds the per-app brand colors and CSS variables, and `index.css` holds yeti-www-specific overrides. yeti-www is the canonical model — the same `yeti.css` ships in `yeti-admin`, `yeti-studio`, and `app-agentdaddy`.
 
 ---
 
@@ -405,7 +448,7 @@ yeti-www is deployed as part of any Yeti instance. In production:
 
 1. Build the UI: `cd source && npm run build`
 2. Ensure `web/` directory contains the built output
-3. Start Yeti — the application loads automatically from `config.yaml`
+3. Start Yeti — the application loads automatically from `Cargo.toml` (`[package.metadata.app]`)
 
 The `route_prefix: "/"` means this application claims the root path. Only one application per Yeti instance can use `/` as its prefix.
 
