@@ -33,11 +33,6 @@ export default function Blog() {
 
   return (
     <div className="container">
-      <div className="page-header">
-        <p className="page-subtitle">
-          Engineering deep-dives, product updates, and the story behind the platform.
-        </p>
-      </div>
 
       <section className="section">
         {loading ? (

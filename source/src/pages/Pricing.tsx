@@ -8,9 +8,9 @@ export default function Pricing({ onGetStarted }: PricingProps) {
   return (
     <div className="container">
       <div className="page-header">
-        <h1 className="page-title">Free Self-Hosted. Pay-As-You-Go Cloud..</h1>
+        <h1 className="page-title">Free To Self Host. Pay-As-You-Go Cloud.</h1>
         <p className="page-subtitle">
-          Yeti's compiled binary nd open source SDK is free to download and run on your hardware. When you're ready to scale, Yeti Fabric offers the exact same binary as a managed deployment. Yeti Sovereign allows you to extend Yeti Cloud into your VPC.
+          Yeti's compiled binary with open source SDK is free to download and run on your hardware. When you're ready to scale, Yeti Fabric offers the exact same binary as a managed deployment. Yeti Sovereign allows you to extend Yeti Cloud into your VPC.
         </p>
       </div>
 
