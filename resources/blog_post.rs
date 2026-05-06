@@ -12,7 +12,7 @@ use yeti_sdk::prelude::*;
 extends_table!(BlogPost {
     get(ctx) => {
         let cutoff = cutoff_date(&ctx);
-        if let Some(slug) = ctx.path_id.as_deref() {
+        if !ctx.path_id.is_empty() { let slug = ctx.path_id.as_str();
             return get_post(&ctx, slug, &cutoff).await;
         }
         list_posts(&ctx, &cutoff).await

@@ -12,10 +12,10 @@ resource!(BlogImage {
 
     get(ctx) => {
         // Path: /blogimage/{slug}/{filename} → path_id = "{slug}/{filename}"
-        let path_id = match ctx.path_id.as_deref() {
-            Some(p) => p,
-            None => return error_response(400, "Usage: /blogimage/{slug}/{filename}"),
-        };
+        if ctx.path_id.is_empty() {
+            return error_response(400, "Usage: /blogimage/{slug}/{filename}");
+        }
+        let path_id = ctx.path_id.as_str();
 
         let table = ctx.table("BlogImage")?;
 
