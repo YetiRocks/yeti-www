@@ -4,7 +4,7 @@
 #   or:  curl -fsSL https://yetirocks.com/install.sh | sh -s -- v0.5.0
 set -e
 
-REPO="yetirocks/yeti"
+BUCKET="https://yeti-releases.us-east-1.linodeobjects.com"
 VERSION="${1:-}"
 
 # Cleanup on exit
@@ -30,10 +30,10 @@ esac
 
 TARGET="${ARCH}-${PLATFORM}"
 
-# Resolve version
+# Resolve version from latest/checksums.txt (filenames embed the version)
 if [ -z "$VERSION" ]; then
-  VERSION=$(curl --proto =https --tlsv1.2 -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
-    | grep -m1 '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+  VERSION=$(curl --proto =https --tlsv1.2 -fsSL "${BUCKET}/latest/checksums.txt" \
+    | grep -m1 -oE 'yeti-v[0-9][^[:space:]-]*' | sed 's/^yeti-//')
 fi
 
 if [ -z "$VERSION" ]; then
@@ -41,8 +41,8 @@ if [ -z "$VERSION" ]; then
 fi
 
 BASENAME="yeti-${VERSION}-${TARGET}.tar.gz"
-URL="https://github.com/${REPO}/releases/download/${VERSION}/${BASENAME}"
-CHECKSUM_URL="https://github.com/${REPO}/releases/download/${VERSION}/checksums.txt"
+URL="${BUCKET}/${VERSION}/${BASENAME}"
+CHECKSUM_URL="${BUCKET}/${VERSION}/checksums.txt"
 
 echo "Downloading yeti ${VERSION} for ${TARGET}..."
 curl --proto =https --tlsv1.2 -fsSL "$URL" -o "$TMP/$BASENAME"
