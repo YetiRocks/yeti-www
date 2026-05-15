@@ -140,8 +140,8 @@ export default function AgenticHarness() {
   @table(database: "agentdaddy")
   @store(durability: "strong")
   @export(rest: true, graphql: true, mcp: true)
-  @access(roles: { read: ["operator"], write: ["operator"] })
-  @audit(operations: ["write", "delete"], retention: 365, state: true) {
+  @access(roles: { read: ["operator"], create: ["operator"], update: ["operator"], delete: ["operator"] })
+  @audit(operations: ["create", "update", "delete"], retention: 365, state: true) {
     id: ID! @primaryKey
     slug: String! @indexed
     name: String!
@@ -151,10 +151,10 @@ export default function AgenticHarness() {
 
 type AgentRun
   @table(database: "agentdaddy")
-  @store(durability: "soft", evictAfter: "90d")
+  @store(durability: "soft", evictAfter: 7776000)
   @export(rest: true, sse: true, mcp: true)
-  @access(roles: { read: ["operator", "auditor"], write: ["agent"] })
-  @audit(operations: ["write"], retention: 365) {
+  @access(roles: { read: ["operator", "auditor"], create: ["agent"], update: ["agent"] })
+  @audit(operations: ["create", "update", "delete"], retention: 365) {
     id: ID! @primaryKey
     agentId: ID! @indexed
     status: String! @indexed
@@ -167,8 +167,8 @@ type CapabilityGrant
   @table(database: "agentdaddy")
   @store(durability: "strong")
   @export(rest: true)
-  @access(roles: { read: ["operator", "agent"], write: ["operator"] })
-  @audit(operations: ["write", "delete"], retention: 2555, state: true) {
+  @access(roles: { read: ["operator", "agent"], create: ["operator"], update: ["operator"], delete: ["operator"] })
+  @audit(operations: ["create", "update", "delete"], retention: 2555, state: true) {
     id: ID! @primaryKey
     agentId: ID! @indexed
     capability: String! @indexed
@@ -176,7 +176,7 @@ type CapabilityGrant
     expiresAt: Int
 }`}</CodeBlock>
         <p className="code-caption">
-          The turn handler. <code>queue!()</code> makes it durable; <code>ctx.heartbeat()</code> keeps the lease; the manifest check happens before every tool call. Crashes resume from the journal.
+          The turn handler. <code>queue!()</code> makes it durable — the lease auto-renews while the handler runs, and the manifest check happens before every tool call. Crashes resume from the journal.
         </p>
         <CodeBlock label="resources/run_turn.rs">{`use yeti_sdk::prelude::*;
 
@@ -184,12 +184,18 @@ queue!(RunTurn {
     name = "run_turn",
     timeout = "10m",
     handler(ctx, input: TurnInput) => {
-        let agent = ctx.table("AgentTemplate").get(&input.agent_id).await?;
-        ctx.heartbeat().await?;
+        let agent = ctx.table("AgentTemplate")?.get_or_404(&input.agent_id).await?;
         for capability in &input.required_capabilities {
-            ctx.table("CapabilityGrant")
-                .filter(&format!("agentId=eq={};capability=eq={}", agent.id, capability))
-                .require_one().await?;
+            let grant = ctx.table("CapabilityGrant")?
+                .query()
+                .where_eq("agentId", agent["id"].clone())
+                .where_eq("capability", capability.clone())
+                .first().await?;
+            if grant.is_none() {
+                return Err(YetiError::Forbidden(format!(
+                    "missing capability: {capability}"
+                )));
+            }
         }
         // ... drive the LLM turn ...
         Ok(())

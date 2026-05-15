@@ -51,11 +51,11 @@ export default function GettingStarted() {
         </p>
         <CodeBlock label="schemas/schema.graphql">{`type Product
   @table(database: "store")
-  @store(durability: "soft", evictAfter: "30d")
+  @store(durability: "soft", evictAfter: 2592000)
   @distribute(replicationFactor: 3, residency: "full")
   @export(rest: true, graphql: true, sse: true)
-  @access(roles: { read: ["*"], write: ["admin"] })
-  @audit(operations: ["write", "delete"], retention: 365, state: true) {
+  @access(public: [read], roles: { create: ["admin"], update: ["admin"], delete: ["admin"] })
+  @audit(operations: ["create", "update", "delete"], retention: 365, state: true) {
     id: ID! @primaryKey
     name: String!
     price: Float!
@@ -76,18 +76,22 @@ version = "0.1.0"
 edition = "2024"
 
 [package.metadata.app]
+app_id = "store"
 enabled = true
-runtime = "production"
-plugins = ["yeti-auth", "yeti-telemetry", "yeti-ai", "yeti-jobs"]
 static = { path = "web", source = "source", spa = true, build = "npm install && npm run build" }
 
-[package.metadata.app.hooks]
-pre_request = ["./hooks/validate.sh"]
-post_request = ["./hooks/audit-log.sh"]
-post_request_failure = ["./hooks/alert.sh"]
+# Per-plugin opt-in via sibling tables. yeti-sdk is injected by the
+# scaffolder — never add it to [dependencies] yourself.
+[package.metadata.auth]
+methods = ["oauth", "jwt"]
+
+[package.metadata.telemetry]
+metrics = true
+
+[package.metadata.vectors]
+model = "BAAI/bge-small-en-v1.5"
 
 [dependencies]
-yeti-sdk = "0.49"
 serde = { version = "1.0", features = ["derive"] }`}</CodeBlock>
       </section>
 
@@ -102,15 +106,19 @@ serde = { version = "1.0", features = ["derive"] }`}</CodeBlock>
 resource!(Featured {
     name = "featured",
     get(ctx) => {
-        let products = ctx.table("Product")
-            .filter("inStock=eq=true,category=eq=highlight")
+        let products = ctx.table("Product")?
+            .query()
+            .where_eq("inStock", true)
+            .where_eq("category", "highlight")
             .limit(10)
-            .fetch().await?;
+            .execute().await?;
         ok(json!({ "products": products }))
     },
-    post(ctx, body: FeaturedRequest) => {
-        ctx.table("Product")
-            .update(&body.id, &json!({ "category": "highlight" }))
+    post(ctx) => {
+        let body = ctx.require_json_body()?;
+        let id = body["id"].as_str().ok_or_else(|| YetiError::Validation("id required".into()))?;
+        ctx.table("Product")?
+            .patch(id, json!({ "category": "highlight" }))
             .await?;
         no_content()
     }

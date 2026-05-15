@@ -100,11 +100,11 @@ export default function LLMOptimization() {
         </p>
         <CodeBlock label="schemas/schema.graphql">{`type CachedResponse
   @table(database: "promptresponse")
-  @store(durability: "soft", evictAfter: "30d")
+  @store(durability: "soft", evictAfter: 2592000)
   @distribute(replicationFactor: 3, residency: "full")
   @export(rest: true, graphql: true, mcp: true)
-  @access(roles: { read: ["customer"], write: ["pipeline"] })
-  @audit(operations: ["write"], retention: 90, state: true) {
+  @access(roles: { read: ["customer"], create: ["pipeline"], update: ["pipeline"], delete: ["pipeline"] })
+  @audit(operations: ["create", "update", "delete"], retention: 90, state: true) {
     id: ID! @primaryKey
     customerId: ID! @indexed
     prompt: String!
@@ -116,11 +116,11 @@ export default function LLMOptimization() {
 
 type TrainingPair
   @table(database: "promptresponse")
-  @store(durability: "soft", evictAfter: "365d")
+  @store(durability: "soft", evictAfter: 31536000)
   @distribute(replicationFactor: 2)
   @export(rest: true)
-  @access(roles: { read: ["trainer"], write: ["pipeline"] })
-  @audit(operations: ["write"], retention: 730) {
+  @access(roles: { read: ["trainer"], create: ["pipeline"] })
+  @audit(operations: ["create", "update", "delete"], retention: 730) {
     id: ID! @primaryKey
     customerId: ID! @indexed
     prompt: String!
@@ -138,33 +138,34 @@ queue!(Inference {
     name = "infer",
     timeout = "60s",
     handler(ctx, req: InferRequest) => {
-        // 1. Semantic cache lookup against the customer's vector index.
-        let hit = ctx.table("CachedResponse")
-            .vector_search("embedding", &req.prompt)
-            .filter(&format!("customerId=eq={}", req.customer_id))
-            .min_similarity(0.92)
-            .first().await?;
-        if let Some(c) = hit {
-            return Ok(json!({ "completion": c["completion"], "from": "cache" }));
+        // 1. Semantic cache lookup against the vector index.
+        let hits = ctx.table("CachedResponse")?
+            .vector_search(&req.prompt, 1)
+            .await?;
+        if let Some(c) = hits.into_iter().next() {
+            if c["customerId"].as_str() == Some(&req.customer_id) {
+                return ok(json!({ "completion": c["completion"], "from": "cache" }));
+            }
         }
 
-        // 2. Cache miss — route to frontier API or local LoRA hat.
-        ctx.heartbeat().await?;
-        let completion = match req.tier.as_str() {
-            "lora" => ctx.ai().complete(&req.lora_hat, &req.prompt).await?,
-            _      => ctx.fetch().post_json(&req.frontier_url, &req.payload).await?,
-        };
+        // 2. Cache miss — route to frontier API. Dylib-safe HTTP via the
+        // service-bridge prelude fetch().
+        let completion: String = fetch(&req.frontier_url)
+            .method("POST")
+            .json_body(&req.payload)?
+            .json()?;
 
-        // 3. Write back to cache. Auto-embedding fires on insert; @audit captures the pair.
-        ctx.table("CachedResponse").create(&json!({
-            "customerId": req.customer_id,
-            "prompt": req.prompt,
-            "completion": completion,
-            "model": req.model,
-            "occurredAt": now_secs(),
+        // 3. Write back to cache. Auto-embedding fires on insert;
+        // @audit captures the pair.
+        ctx.table("CachedResponse")?.create(json!({
+            "customerId":   req.customer_id,
+            "prompt":       req.prompt,
+            "completion":   completion,
+            "model":        req.model,
+            "occurredAt":   now_secs(),
         })).await?;
 
-        Ok(json!({ "completion": completion, "from": req.tier }))
+        ok(json!({ "completion": completion, "from": req.tier }))
     }
 });`}</CodeBlock>
       </section>

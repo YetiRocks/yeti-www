@@ -143,7 +143,7 @@ export default function Home({ onGetStarted }: HomeProps) {
         <div className="container">
           <h2 className="section-title">One binary runs what used to take a cluster</h2>
           <p className="section-desc">
-            A 49 MB binary replaces your API server, database, cache, message broker, and background workers. Run it free on a laptop. Run it managed on Yeti Fabric across a global mesh — same binary, same code path. Your infrastructure bill drops by an order of magnitude.
+            One binary replaces your API server, database, cache, message broker, and background workers. Run it free on a laptop. Run it managed on Yeti Fabric across a global mesh — same binary, same code path. Your infrastructure bill drops by an order of magnitude.
           </p>
           <div className="features-grid features-grid-3">
             <div className="feature-card">

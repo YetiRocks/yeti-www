@@ -93,7 +93,7 @@ export default function MediaSecurity() {
             <Icon name="clipboard-check" />
             <div className="feature-title">@audit on every decision</div>
             <div className="feature-text">
-              <code>@audit(operations: ["read", "write"], retention: 2555, state: true)</code> on the License and BannedTokens tables. Every allow, deny, and ban journaled with before/after state for compliance review and forensics.
+              <code>@audit(operations: ["read", "create", "update", "delete"], retention: 2555, state: true)</code> on the License and BannedTokens tables. Every allow, deny, and ban journaled with before/after state for compliance review and forensics.
             </div>
           </div>
           <div className="feature-card">
@@ -107,7 +107,7 @@ export default function MediaSecurity() {
             <Icon name="map" />
             <div className="feature-title">Geo-residency built in</div>
             <div className="feature-text">
-              <code>@distribute(residency: "geo-subset")</code> keeps license tables in the regions where they belong. Reads stay local. Geo-restrictions enforce at the edge without a round-trip to a central database.
+              <code>@distribute(residency: "sharded")</code> with a region-scoped shard key keeps license tables in the regions where they belong. Reads stay local. Geo-restrictions enforce at the edge without a round-trip to a central database.
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function MediaSecurity() {
   @table(database: "streamlock")
   @store(durability: "strong")
   @export(rest: true, graphql: true)
-  @access(roles: { read: ["admin", "evaluator"], write: ["admin"] }) {
+  @access(roles: { read: ["admin", "evaluator"], create: ["admin"], update: ["admin"], delete: ["admin"] }) {
     id: ID! @primaryKey                # "{customerId}|{contentId}" or "{customerId}|*"
     customerId: String! @indexed
     contentId: String                  # null = applies to all content
@@ -137,9 +137,9 @@ export default function MediaSecurity() {
 
 type AggregatedTokens
   @table(database: "streamlock")
-  @store(durability: "soft", evictAfter: "1h")
+  @store(durability: "soft", evictAfter: 3600)
   @export(mqtt: true)
-  @access(roles: { read: ["evaluator"], write: ["aggregator"] }) {
+  @access(roles: { read: ["evaluator"], create: ["aggregator"], update: ["aggregator"] }) {
     id: ID! @primaryKey
     customerId: String! @indexed
     contentId: String @indexed
@@ -154,8 +154,8 @@ type BannedTokens
   @store(durability: "strong")
   @distribute(replicationFactor: 3, residency: "full")
   @export(rest: true, sse: true, mqtt: true)
-  @access(roles: { read: ["edge", "admin"], write: ["evaluator", "admin"] })
-  @audit(operations: ["write"], retention: 365, state: true) {
+  @access(roles: { read: ["edge", "admin"], create: ["evaluator", "admin"], update: ["evaluator", "admin"], delete: ["admin"] })
+  @audit(operations: ["create", "update", "delete"], retention: 365, state: true) {
     id: ID! @primaryKey                # "{customerId}:{tokenId}"
     customerId: String! @indexed
     tokenId: String! @indexed

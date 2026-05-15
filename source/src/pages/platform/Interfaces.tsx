@@ -13,7 +13,7 @@ export default function Interfaces() {
 
       <section className="section">
         <div className="section-label">The schema is the contract</div>
-        <h2 className="section-title">Eight protocols. Same schema. Toggled per table.</h2>
+        <h2 className="section-title">Seven protocols. Same schema. Toggled per table.</h2>
         <p className="section-desc">
           A traditional service picks a protocol up front, builds the framework around it, ships an SDK, then writes a translator the day a second client needs a different protocol. Yeti generates every protocol from the schema and toggles them per table. You don't decide REST-or-GraphQL on day one; you flip a boolean on day eighty when an agent shows up wanting MCP.
         </p>
@@ -42,10 +42,10 @@ export default function Interfaces() {
         </div>
         <CodeBlock label="schemas/schema.graphql">{`type Telemetry
   @table(database: "fleet")
-  @store(durability: "lossy", evictAfter: "30d")
-  @distribute(replicationFactor: 1, residency: "regional")
-  @export(rest: true, graphql: true, sse: true, ws: true, mqtt: true, mcp: true, grpc: true, kafka: true)
-  @access(roles: { read: ["operator", "admin"], write: ["device"] }) {
+  @store(durability: "lossy", evictAfter: 2592000)
+  @distribute(replicationFactor: 1, residency: "sharded")
+  @export(rest: true, graphql: true, sse: true, ws: true, mqtt: true, mcp: true, grpc: true)
+  @access(roles: { read: ["operator", "admin"], create: ["device"] }) {
     id: ID! @primaryKey
     deviceId: ID! @indexed
     metric: String! @indexed
@@ -146,9 +146,9 @@ export default function Interfaces() {
           </div>
           <div className="feature-card">
             <Icon name="layers" />
-            <div className="feature-title">Webhook ingress</div>
+            <div className="feature-title">Bridges, not hops</div>
             <div className="feature-text">
-              Built-in webhook delivery, retries, signature validation. Subscribe other systems to your tables without writing handlers.
+              Pub/Sub fans out to Kafka topics through an in-process bridge — events from your tables reach upstream analytics without a separate broker process or an SDK install.
             </div>
           </div>
         </div>
@@ -174,8 +174,8 @@ export default function Interfaces() {
   @store(durability: "strong")
   @distribute(replicationFactor: 3)
   @export(rest: true, graphql: true, sse: true, mqtt: false)
-  @access(roles: { read: ["customer", "admin"], write: ["admin"] })
-  @audit(operations: ["write", "delete"], retention: 2555, state: true) {
+  @access(roles: { read: ["customer", "admin"], create: ["admin"], update: ["admin"], delete: ["admin"] })
+  @audit(operations: ["create", "update", "delete"], retention: 2555, state: true) {
     id: ID! @primaryKey
     customerId: ID! @indexed
     total: Float!

@@ -40,21 +40,25 @@ export default function Plugins() {
             </div>
           </div>
         </div>
-        <CodeBlock label="yeti.toml">{`[applications.store]
-plugins = ["yeti-auth", "yeti-telemetry", "yeti-ai", "yeti-jobs", "yeti-admin"]
+        <CodeBlock label="applications/store/Cargo.toml">{`[package]
+name = "store"
+edition = "2024"
 
-[plugins.yeti-auth]
+[package.metadata.app]
+app_id = "store"
+
+# Each plugin opts in via its own sibling table on the app manifest.
+[package.metadata.auth]
 methods = ["oauth", "jwt"]
 
-[plugins.yeti-telemetry]
+[package.metadata.telemetry]
 metrics = true
-otlpEndpoint = "http://otel-collector:4317"
 
-[plugins.yeti-ai]
-embeddingModel = "BAAI/bge-small-en-v1.5"
+[package.metadata.vectors]
+model = "BAAI/bge-small-en-v1.5"
 
-[plugins.yeti-jobs]
-workers = 8`}</CodeBlock>
+[package.metadata.audit]
+state = true`}</CodeBlock>
       </section>
 
       <section className="section">
@@ -192,10 +196,10 @@ queue!(ProcessOrder {
     name = "process_order",
     timeout = "5m",
     handler(ctx, input: OrderInput) => {
-        // Persisted input is journal-backed.
-        let order = ctx.table("Order").create(&input).await?;
-        ctx.heartbeat().await?;
-        ctx.queue("ChargeCard").enqueue(order.id).await?;
+        // Persisted input is journal-backed. The lease auto-renews while
+        // the handler is running; if the worker dies, another picks up.
+        let order = ctx.table("Order")?.create(json!(input)).await?;
+        ctx.queue("ChargeCard").enqueue(order["id"].clone()).await?;
         Ok(())
     }
 });`}</CodeBlock>
@@ -212,7 +216,7 @@ queue!(ProcessOrder {
             <Icon name="wrench" />
             <div className="feature-title">Plugin SDK</div>
             <div className="feature-text">
-              <code>yeti_sdk::plugin::*</code> exposes resource registration, hook surfaces, and config validation. Same primitives the built-in plugins use.
+              <code>yeti_sdk::plugins::*</code> exposes the <code>Plugin</code> trait, registration context, and config validation — the same primitives the built-in plugins use.
             </div>
           </div>
           <div className="feature-card">

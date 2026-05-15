@@ -7,7 +7,7 @@ export default function Databases() {
       <div className="page-header">
         <h1 className="page-title">Stop Defining Your Data's Shape.<br />Start Defining Its Life.</h1>
         <p className="page-subtitle">
-          Data is the lifeblood of your application. Yeti makes it easy to define how daat exists, grows, and moves around your topology. Identity, durability, origin, placement, protocol, auth, and audit each get directives to help you craft that lifecycle — orthogonal axes to suit any purpose.
+          Data is the lifeblood of your application. Yeti makes it easy to define how data exists, grows, and moves around your topology. Identity, durability, origin, placement, protocol, auth, and audit each get directives to help you craft that lifecycle — orthogonal axes to suit any purpose.
         </p>
       </div>
 
@@ -29,7 +29,7 @@ export default function Databases() {
             <Icon name="bolt" />
             <div className="feature-title">From RAM to Iceberg</div>
             <div className="feature-text">
-              <code>@store(durability: "memory", evictAfter: "1h")</code>. With Yeti, data stops living in a fragile web of disk and network and cache. Where data resides is a function of how its used — from geo-replication to tiered media, it's exactly where it needs to be.
+              <code>@store(durability: "memory", evictAfter: 3600)</code>. With Yeti, data stops living in a fragile web of disk and network and cache. Where data resides is a function of how it's used — from geo-replication to tiered media, it's exactly where it needs to be.
             </div>
           </div>
           <div className="feature-card">
@@ -42,12 +42,12 @@ export default function Databases() {
         </div>
         <CodeBlock label="schemas/schema.graphql">{`type Order
   @table(database: "store")
-  @store(durability: "strong", evictAfter: "10y")
-  @source(url: "https://erp.example.com/orders/{id}", staleAfter: 30, swr: true)
-  @distribute(replicationFactor: 3, residency: "us")
+  @store(durability: "strong", evictAfter: 315360000)
+  @source(url: "https://erp.example.com/orders/{id}", staleAfter: 30, swr: 30)
+  @distribute(replicationFactor: 3, residency: "full")
   @export(rest: true, graphql: true, sse: true, mqtt: true, mcp: true)
-  @access(roles: { read: ["customer", "admin"], write: ["admin"] })
-  @audit(operations: ["write", "delete"], retention: 2555, state: true) {
+  @access(roles: { read: ["customer", "admin"], create: ["admin"], update: ["admin"], delete: ["admin"] })
+  @audit(operations: ["create", "update", "delete"], retention: 2555, state: true) {
     id: ID! @primaryKey
     customerId: ID! @indexed
     total: Float!
@@ -185,14 +185,14 @@ export default function Databases() {
             <Icon name="refresh" />
             <div className="feature-title">lossy</div>
             <div className="feature-text">
-              RAM with periodic snapshots. Bounded crash-loss. Good for high-volume telemetry where dropping a few seconds is acceptable.
+              RocksDB with WAL off. Memtable-flush-window crash loss (~minutes). Good for high-volume telemetry where dropping a flush window is acceptable.
             </div>
           </div>
           <div className="feature-card">
             <Icon name="archive" />
             <div className="feature-title">soft (default)</div>
             <div className="feature-text">
-              WAL with bounded <code>flushIntervalMs</code>. Crash-safe to within milliseconds. The right choice for most workloads.
+              RocksDB with WAL on, OS-controlled fsync. Seconds-class crash window. The right choice for most workloads. Add <code>flushIntervalMs</code> to bound the window further.
             </div>
           </div>
           <div className="feature-card">
@@ -260,10 +260,10 @@ export default function Databases() {
         </div>
         <CodeBlock label="schemas/schema.graphql">{`type Catalog
   @table(database: "store")
-  @store(durability: "soft", evictAfter: "1h")
-  @source(url: "https://upstream.example.com/products/{id}", staleAfter: 60, swr: true)
+  @store(durability: "soft", evictAfter: 3600)
+  @source(url: "https://upstream.example.com/products/{id}", staleAfter: 60, swr: 30)
   @export(rest: true, graphql: true)
-  @access(roles: { read: ["*"] }) {
+  @access(public: [read]) {
     id: ID! @primaryKey
     name: String!
     description: String!
@@ -296,7 +296,7 @@ export default function Databases() {
   @table(database: "knowledge")
   @store(durability: "soft")
   @export(rest: true)
-  @access(roles: { read: ["*"], write: ["editor"] }) {
+  @access(public: [read], roles: { create: ["editor"], update: ["editor"], delete: ["editor"] }) {
     id: ID! @primaryKey
     title: String!
     content: String!
@@ -344,8 +344,8 @@ export default function Databases() {
     }
   }
 }`}</CodeBlock>
-        <CodeBlock label="query.fiql">{`GET /Author/author-1?select=name,books{title}
-GET /Article?embedding=vector="machine learning";tags=in=("ai","ml")&stream=sse`}</CodeBlock>
+        <CodeBlock label="query.fiql">{`GET /myapp/Author/author-1?select=name,books{title}
+GET /myapp/Article?tags=in=(ai,ml)&limit=20&stream=sse`}</CodeBlock>
       </section>
     </div>
   )

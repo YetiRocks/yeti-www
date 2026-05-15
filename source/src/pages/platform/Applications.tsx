@@ -129,25 +129,22 @@ export default function Applications() {
             <Icon name="shield" />
             <div className="feature-title">Resource hooks</div>
             <div className="feature-text">
-              Pre-request validation, post-request audit, failure alerting — shell commands declared in the manifest run at the resource boundary without touching handler code.
+              Pre-request validation, post-request audit, failure alerting — in-process Rust hooks declared on the <code>Service</code> and <code>Resource</code> traits run at the resource boundary without touching handler code.
             </div>
           </div>
         </div>
-        <CodeBlock label="yeti.toml">{`environment = "production"
-rootDirectory = "/opt/yeti"
+        <CodeBlock label="yeti-config.yaml">{`environment: production
 
-[http]
-port = 443
+http:
+  port: 443
 
-[logging]
-level = "info"
+logging:
+  level: info
 
-[applications]
-autoLoad = [
-    "https://github.com/yetirocks/www",
-    "https://github.com/yetirocks/documentation",
-    "/opt/yeti/applications/store",
-]`}</CodeBlock>
+applications:
+  autoLoad:
+    - "https://github.com/yetirocks/www"
+    - "https://github.com/yetirocks/documentation"`}</CodeBlock>
       </section>
 
       <section className="section">
@@ -185,21 +182,26 @@ version = "0.1.0"
 edition = "2024"
 
 [package.metadata.app]
+app_id = "store"
 enabled = true
-runtime = "production"
-plugins = ["yeti-auth", "yeti-telemetry", "yeti-ai"]
 static = { path = "web", source = "source", spa = true, build = "npm install && npm run build" }
 
-[package.metadata.app.hooks]
-pre_request = ["./hooks/validate.sh"]
-post_request_failure = ["./hooks/alert.sh"]`}</CodeBlock>
+# Per-plugin opt-in via sibling metadata tables
+[package.metadata.auth]
+methods = ["jwt", "oauth"]
+
+[package.metadata.telemetry]
+metrics = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }`}</CodeBlock>
         <CodeBlock label="schemas/schema.graphql">{`type Product
   @table(database: "store")
-  @store(durability: "soft", evictAfter: "30d")
+  @store(durability: "soft", evictAfter: 2592000)
   @distribute(replicationFactor: 3, residency: "full")
   @export(rest: true, graphql: true, sse: true, mqtt: true)
-  @access(roles: { read: ["*"], write: ["admin"] })
-  @audit(operations: ["write", "delete"], retention: 365, state: true) {
+  @access(public: [read], roles: { create: ["admin"], update: ["admin"], delete: ["admin"] })
+  @audit(operations: ["create", "update", "delete"], retention: 365, state: true) {
     id: ID! @primaryKey
     name: String!
     price: Float!
@@ -211,10 +213,12 @@ post_request_failure = ["./hooks/alert.sh"]`}</CodeBlock>
 resource!(Featured {
     name = "featured",
     get(ctx) => {
-        let products = ctx.table("Product")
-            .filter("inStock=eq=true,category=eq=highlight")
+        let products = ctx.table("Product")?
+            .query()
+            .where_eq("inStock", true)
+            .where_eq("category", "highlight")
             .limit(10)
-            .fetch().await?;
+            .execute().await?;
         ok(json!({ "products": products }))
     }
 });`}</CodeBlock>
